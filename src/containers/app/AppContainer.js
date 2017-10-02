@@ -3,15 +3,22 @@ import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
 
 import { connect } from 'react-redux';
+import LoginForm from '../../components/LoginForm'
 
 class AppContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     actions: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    logoHeader1: require('../../images/tradeLeafHeader1.png'),
+    logoHeader2: require('../../images/tradeLeafHeader2.png')
   }
 
   constructor(props) {
@@ -20,17 +27,18 @@ class AppContainer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+      <View>
+        <View style={styles.filler}></View>
+        <View style={styles.logoContainer}>
+          <Image
+            source={this.props.logoHeader1}
+          />
+          <Image
+            source={this.props.logoHeader2}
+            style={styles.logoHeader2}
+          />
+        </View>
+        <LoginForm />
       </View>
     )
   }
@@ -43,16 +51,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  filler: {
+    height: 140
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  logoHeader2: {
+    marginTop: 15,
+    marginLeft: 70
   },
+  logoContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
 });
 
 

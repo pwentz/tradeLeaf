@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  View
+  View,
+  StyleSheet
 } from 'react-native';
 
 import { Provider } from 'react-redux';
@@ -21,7 +22,7 @@ const store = createStore(undefined /*initialState*/, inDev);
 export default class tradeLeaf extends Component {
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Provider store={store}>
           <AppContainer actions={actions} />
         </Provider>
@@ -29,5 +30,13 @@ export default class tradeLeaf extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'white'
+  }
+})
 
 AppRegistry.registerComponent('tradeLeaf', () => tradeLeaf);
