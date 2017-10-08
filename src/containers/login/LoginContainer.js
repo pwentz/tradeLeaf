@@ -12,6 +12,11 @@ import { connect } from 'react-redux'
 import LoginForm from '../../components/login/LoginForm'
 
 class LoginContainer extends Component {
+  static propTypes = {
+    actions: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
+  }
+
   static defaultProps = {
     logoHeader1: require('../../images/tradeLeafHeader1.png'),
     logoHeader2: require('../../images/tradeLeafHeader2.png')
@@ -20,6 +25,18 @@ class LoginContainer extends Component {
   constructor(props) {
     super(props);
   };
+
+  onSubmitLogin = (username, password) => {
+    const { actions, dispatch } = this.props
+
+    dispatch(actions.auth.loginAndStoreToken(username, password))
+      .then(this.handleLoginSuccess)
+      .catch(error => {
+        // TODO!
+      })
+  }
+
+  handleLoginSuccess = () => { /*TODO*/ }
 
   render() {
     return (
@@ -34,7 +51,9 @@ class LoginContainer extends Component {
             style={styles.logoHeader2}
           />
           <View style={{height: 70}}></View>
-          <LoginForm />
+          <LoginForm
+            onSubmitLogin={this.onSubmitLogin}
+          />
         </View>
       </View>
     )
@@ -63,8 +82,8 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state, props) {
-  return props
+function mapStateToProps(state) {
+  return {};
 }
 
 export default connect(mapStateToProps)(LoginContainer)

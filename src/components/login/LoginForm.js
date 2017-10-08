@@ -13,6 +13,10 @@ import {
 import globalStyles, { onAndroid } from '../../styles/index'
 
 class LoginForm extends Component {
+  static propTypes = {
+    onSubmitLogin: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props)
 
@@ -40,8 +44,10 @@ class LoginForm extends Component {
     };
   };
 
-  submitLogin = () => {
+  onSubmitLogin = () => {
+    const { username, password } = this.state
     this.handleFocus(0)
+    this.props.onSubmitLogin(username, password)
   }
 
   render() {
@@ -64,7 +70,7 @@ class LoginForm extends Component {
           style={globalStyles.input}
           ref='input_1'
           onFocus={() => this.handleFocus(1)}
-          onSubmitEditing={this.submitLogin}
+          onSubmitEditing={this.onSubmitLogin}
           returnKeyType='go'
           secureTextEntry={true}
           onChangeText={ text => this.setState({ password: text }) }
@@ -73,7 +79,7 @@ class LoginForm extends Component {
         />
         <TouchableHighlight
           style={globalStyles.actionButton}
-          onPress={this.submitLogin}
+          onPress={this.onSubmitLogin}
         >
           <Text style={globalStyles.actionButtonText}>
             sign in
