@@ -15,9 +15,9 @@ export function createAuthActions(api) {
           dispatch(createAction(authActionTypes.AUTH_LOGIN_SUCCESS, { token: res.token }))
           return res
         })
-        .catch(err => {
-          dispatch(createAction(authActionTypes.AUTH_LOGIN_FAILURE))
-          return err
+        .catch(error => {
+          dispatch(createAction(authActionTypes.AUTH_LOGIN_FAILURE, {error}))
+          throw error
         })
     };
   };

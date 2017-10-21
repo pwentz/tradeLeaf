@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image
-} from 'react-native';
+  handleIfApiError,
+  displayableError
+} from '../../api/utils';
 
 import { connect } from 'react-redux'
 
@@ -17,13 +15,11 @@ class LoginContainer extends Component {
     dispatch: PropTypes.func.isRequired
   }
 
-  static defaultProps = {
-    logoHeader1: require('../../images/tradeLeafHeader1.png'),
-    logoHeader2: require('../../images/tradeLeafHeader2.png')
-  };
-
   constructor(props) {
     super(props);
+    this.state = {
+      error: null
+    }
   };
 
   onSubmitLogin = (username, password) => {
@@ -31,8 +27,10 @@ class LoginContainer extends Component {
 
     dispatch(actions.auth.loginAndStoreToken(username, password))
       .then(this.handleLoginSuccess)
-      .catch(error => {
-        // TODO!
+      .catch(err => {
+        handleIfApiError(err, error => {
+          this.setState({ error })
+        })
       })
   }
 
@@ -40,47 +38,13 @@ class LoginContainer extends Component {
 
   render() {
     return (
-      <View style={styles.overlay}>
-        <View style={styles.filler}></View>
-        <View style={styles.logoContainer}>
-          <Image
-            source={this.props.logoHeader1}
-          />
-          <Image
-            source={this.props.logoHeader2}
-            style={styles.logoHeader2}
-          />
-          <View style={{height: 70}}></View>
-          <LoginForm
-            onSubmitLogin={this.onSubmitLogin}
-          />
-        </View>
-      </View>
+      <LoginForm
+        onSubmitLogin={this.onSubmitLogin}
+        apiError={displayableError(this.state.error)}
+      />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    alignSelf: 'stretch',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    backgroundColor: 'white'
-  },
-  filler: {
-    height: 140
-  },
-  logoHeader2: {
-    marginTop: 15,
-    marginLeft: 70
-  },
-  logoContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
-});
 
 function mapStateToProps(state) {
   return {};

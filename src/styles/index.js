@@ -30,6 +30,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10
   },
+  errorText: {
+    fontSize: 15,
+    color: 'white',
+    textAlign: 'center',
+    backgroundColor: '#e26262',
+    alignSelf: 'stretch'
+  }
 })
 
 export default styles
