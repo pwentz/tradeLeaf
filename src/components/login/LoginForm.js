@@ -11,7 +11,7 @@ import {
   Text
 } from 'react-native'
 
-import globalStyles, { onAndroid } from '../../styles/index'
+import globalStyles, { onAndroid, midGray } from '../../styles/index'
 
 class LoginForm extends Component {
   static propTypes = {
@@ -59,7 +59,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <View style={styles.overlay}>
+      <View style={globalStyles.overlay}>
 
         {!!this.props.apiError &&
           <Text style={globalStyles.errorText}>
@@ -90,6 +90,8 @@ class LoginForm extends Component {
               returnKeyType='next'
               value={this.state.username}
               onChangeText={ text => this.setState({ username: text }) }
+              autoCapitalize='none'
+              autoCorrect={false}
             />
             <TextInput
               style={globalStyles.input}
@@ -101,6 +103,8 @@ class LoginForm extends Component {
               onChangeText={ text => this.setState({ password: text }) }
               value={this.state.password}
               blurOnSubmit={!onAndroid}
+              autoCapitalize='none'
+              autoCorrect={false}
             />
             <TouchableHighlight
               style={globalStyles.actionButton}
@@ -129,15 +133,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   forgotPassword: {
-    color: '#e7e1e1',
+    color: midGray,
     fontSize: 10
-  },
-  overlay: {
-    alignSelf: 'stretch',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    backgroundColor: 'white'
   },
   filler: {
     height: 140

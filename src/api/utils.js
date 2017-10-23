@@ -8,10 +8,10 @@ function processJson(responseJson, response) {
   };
 
   if (!response.ok) {
-    //TODO: pull from somewhere else
-    if (response.url && response.url.includes("localhost")) {
+    if (responseJson.detail) {
       throw new ApiError(responseJson.detail)
     }
+
     throw new Error('Http Error: ' + response.status + ' ' + (response.statusText || ''));
   };
 
@@ -43,7 +43,6 @@ export function fetchRequest(apiUrl, route, request, body, token) {
     .then(processResponse)
     .catch(error => {
       if (error instanceof ApiError) throw error
-      //TODO: ApiError for display
       throw new ApiError(displayableError(error));
     })
 }

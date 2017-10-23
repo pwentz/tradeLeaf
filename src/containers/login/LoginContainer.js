@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { NavigationActions } from 'react-navigation';
 
 import {
   handleIfApiError,
@@ -23,7 +24,7 @@ class LoginContainer extends Component {
   };
 
   onSubmitLogin = (username, password) => {
-    const { actions, dispatch } = this.props
+    const { actions, dispatch, navigation } = this.props
 
     dispatch(actions.auth.loginAndStoreToken(username, password))
       .then(this.handleLoginSuccess)
@@ -34,7 +35,17 @@ class LoginContainer extends Component {
       })
   }
 
-  handleLoginSuccess = () => { /*TODO*/ }
+  handleLoginSuccess = () => {
+    const { navigation } = this.props;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'MatchBoard' })
+      ]
+    });
+
+    navigation.dispatch(resetAction);
+  }
 
   render() {
     return (

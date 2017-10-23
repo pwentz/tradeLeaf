@@ -8,11 +8,19 @@ export const onAndroid = Platform.select({
   android: true
 })
 
+export const blue = '#27496B';
+export const yellow = '#DFBA00';
+export const midGray = '#B8B8B8';
+export const lightWhite = '#F9F9F9';
+export const darkWhite = '#F5F5F5';
+
+
+
 const styles = StyleSheet.create({
   input: {
     marginTop: 15,
     borderRadius: 25,
-    backgroundColor: '#e7e1e1',
+    backgroundColor: midGray,
     height: 40,
     width: 180,
     textAlign: 'center'
@@ -22,21 +30,28 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 40,
     width: 140,
-    backgroundColor: '#DBC81D',
+    backgroundColor: yellow,
     overflow: 'hidden'
   },
   actionButtonText: {
-    color: 'white',
+    color: darkWhite,
     textAlign: 'center',
     marginTop: 10
   },
   errorText: {
     fontSize: 15,
-    color: 'white',
+    color: darkWhite,
     textAlign: 'center',
     backgroundColor: '#e26262',
     alignSelf: 'stretch'
-  }
+  },
+  overlay: {
+    alignSelf: 'stretch',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    backgroundColor: lightWhite
+  },
 })
 
 export default styles
