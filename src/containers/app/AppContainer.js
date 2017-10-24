@@ -16,27 +16,12 @@ import { createStore } from '../../stores/index';
 const inDev = __DEV__;
 const store = createStore(undefined /*initialState*/, inDev);
 
-class AppContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
+const AppContainer = () => {
+  return (
       <Provider store={store}>
         <App />
       </Provider>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'white'
-  }
-})
-
+  );
+};
 
 export default AppContainer
