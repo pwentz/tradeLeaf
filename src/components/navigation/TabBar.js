@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/Octicons';
 
 import {
   Text,
@@ -23,17 +24,22 @@ export default class TabBar extends Component {
         {routes.map((route, idx) => {
           const color = (index == idx) ? yellow : midGray;
           const isActive = index == idx;
+          const tabStyles = isActive ? styles.activeTab : styles.inactiveTab
 
           return (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(route.routeName);
               }}
-              style={[styles.tab]}
+              key={idx}
+              style={[styles.tab, tabStyles]}
             >
-              <Text>
-                Stuff!
-              </Text>
+              <Icon
+                name="home"
+                size={28}
+                color={midGray}
+              >
+              </Icon>
             </TouchableOpacity>
           )
         })}
@@ -48,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width,
     borderBottomWidth: 2,
-    borderBottomColor: yellow
+    borderBottomColor: midGray
   },
   tab: {
     flex: 1,
@@ -56,8 +62,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 48
   },
-  imageIcon: {
-    height: 24,
-    width: 24
+  inactiveTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: midGray
+  },
+  activeTab: {
+    borderBottomWidth: 4,
+    borderBottomColor: yellow
   }
 })
