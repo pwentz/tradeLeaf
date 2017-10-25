@@ -15,7 +15,13 @@ const { width } = Dimensions.get('window');
 
 export default class TabBar extends Component {
   render() {
-    console.log("PROPS!", this.props)
+    const routeIcons = {
+      Index: 'home',
+      Search: 'search',
+      Notifications: 'bell',
+      Inbox: 'mail'
+    }
+
     const { navigation } = this.props;
     const { routes, index } = navigation.state;
 
@@ -35,9 +41,9 @@ export default class TabBar extends Component {
               style={[styles.tab, tabStyles]}
             >
               <Icon
-                name="home"
+                name={routeIcons[route.routeName]}
                 size={28}
-                color={midGray}
+                color={color}
               >
               </Icon>
             </TouchableOpacity>
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     width,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: midGray
   },
   tab: {
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
     height: 48
   },
   inactiveTab: {
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: midGray
   },
   activeTab: {
