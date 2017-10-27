@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   cardActionContainer: {
-    height: (windowHeight * 0.1),
-    width: (windowWidth * 0.85),
+    height: '14.3%',
+    width: '100%',
     borderTopWidth: 1,
     borderTopColor: midGray,
     flexDirection: 'row',
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   tradeContainer: {
-    width: (windowWidth * 0.6375),
-    height: (windowHeight * 0.41),
+    width: '75%',
+    height: '58.5%',
     borderWidth: 2,
     borderColor: blue,
     marginTop: 10,
@@ -136,16 +136,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   needContainer: {
-    width: (windowWidth * 0.6375),
-    height: (windowHeight * 0.105),
-    borderWidth: 2,
-    borderColor: blue
+    width: '100%',
+    height: '25%',
+    borderTopWidth: 2,
+    borderTopColor: blue
   },
   userContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: (windowWidth * 0.695)
+    width: '82%'
   },
   userDataContainer: {
     flexDirection: 'column',
@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 0.85
   }
-})
+});
