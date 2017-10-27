@@ -17,34 +17,66 @@ import globalStyles, {
   windowHeight
 } from '../../styles/index'
 
+import Avatar from '../common/Avatar';
+
 export default class Card extends Component {
   render() {
     return (
       <View style={globalStyles.container}>
+
         <View style={{height: 20}}></View>
+
         <View style={styles.cardContainer}>
+
+          <View style={styles.userContainer}>
+            <Avatar
+              size={90}
+            />
+
+            <View style={styles.userDataContainer}>
+              <Text>
+                @tannerLemon
+              </Text>
+              <Text>
+                Simple Logo
+              </Text>
+              <Text>
+                Icons
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.tradeContainer}>
+            <View style={styles.needContainer}>
+            </View>
+          </View>
+
           <View style={styles.cardActionContainer}>
+
             <View style={styles.mailIconContainer}>
               <TouchableOpacity>
                 <Icon
                   name='mail'
-                  size={26}
+                  size={38}
                   color={midGray}
                 >
                 </Icon>
               </TouchableOpacity>
             </View>
+
             <TouchableOpacity style={styles.mainButton}></TouchableOpacity>
+
             <View style={styles.xIconContainer}>
               <TouchableOpacity>
                 <Icon
                   name='x'
-                  size={30}
+                  size={38}
                   color={blue}
                 >
                 </Icon>
               </TouchableOpacity>
             </View>
+
           </View>
         </View>
       </View>
@@ -54,18 +86,19 @@ export default class Card extends Component {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    height: (windowHeight * 0.6),
-    width: (windowWidth * 0.8),
+    height: (windowHeight * 0.7),
+    width: (windowWidth * 0.85),
     backgroundColor: darkWhite,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: midGray,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   cardActionContainer: {
-    height: 80,
-    width: (windowWidth * 0.8),
+    height: (windowHeight * 0.1),
+    width: (windowWidth * 0.85),
     borderTopWidth: 1,
     borderTopColor: midGray,
     flexDirection: 'row',
@@ -73,24 +106,51 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   mainButton: {
-    // marginTop: 15,
-    height: 40,
-    width: 40,
+    height: 42,
+    width: 42,
     borderRadius: 100,
-    borderWidth: 3,
+    borderWidth: 4,
     borderColor: yellow
   },
   xIconContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-end',
-    marginRight: 25
+    marginRight: 20
   },
   mailIconContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    marginLeft: 25
-    // justifyContent: 'center'
+    marginLeft: 20
+  },
+  tradeContainer: {
+    width: (windowWidth * 0.6375),
+    height: (windowHeight * 0.41),
+    borderWidth: 2,
+    borderColor: blue,
+    marginTop: 10,
+    marginBottom: 10,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
+  needContainer: {
+    width: (windowWidth * 0.6375),
+    height: (windowHeight * 0.105),
+    borderWidth: 2,
+    borderColor: blue
+  },
+  userContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: (windowWidth * 0.695)
+  },
+  userDataContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    flex: 0.85
   }
 })

@@ -34,7 +34,10 @@ const App = StackNavigator({
         swipeEnabled: true
         // animationEnabled: true
       }
-    )
+    ),
+    navigationOptions: ({navigation}) => ({
+      header: null
+    })
   }
 })
 

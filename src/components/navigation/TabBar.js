@@ -10,7 +10,12 @@ import {
   Image
 } from 'react-native';
 
-import globalStyles, { yellow, midGray } from '../../styles/index'
+import globalStyles, {
+  yellow,
+  midGray,
+  windowWidth,
+  windowHeight
+} from '../../styles/index'
 const { width } = Dimensions.get('window');
 
 export default class TabBar extends Component {
@@ -26,29 +31,33 @@ export default class TabBar extends Component {
     const { routes, index } = navigation.state;
 
     return (
-      <View style={styles.tabContainer}>
-        {routes.map((route, idx) => {
-          const color = (index == idx) ? yellow : midGray;
-          const isActive = index == idx;
-          const tabStyles = isActive ? styles.activeTab : styles.inactiveTab
+      <View>
+        <View style={styles.tabHeader}></View>
 
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate(route.routeName);
-              }}
-              key={idx}
-              style={[styles.tab, tabStyles]}
-            >
-              <Icon
-                name={routeIcons[route.routeName]}
-                size={28}
-                color={color}
+        <View style={styles.tabContainer}>
+          {routes.map((route, idx) => {
+            const color = (index == idx) ? yellow : midGray;
+            const isActive = index == idx;
+            const tabStyles = isActive ? styles.activeTab : styles.inactiveTab
+
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(route.routeName);
+                }}
+                key={idx}
+                style={[styles.tab, tabStyles]}
               >
-              </Icon>
-            </TouchableOpacity>
-          )
-        })}
+                <Icon
+                  name={routeIcons[route.routeName]}
+                  size={28}
+                  color={color}
+                >
+                </Icon>
+              </TouchableOpacity>
+            )
+          })}
+        </View>
       </View>
     )
   }
@@ -56,6 +65,10 @@ export default class TabBar extends Component {
 
 
 const styles = StyleSheet.create({
+  tabHeader: {
+    width: windowWidth,
+    height: (windowHeight * 0.15)
+  },
   tabContainer: {
     flexDirection: 'row',
     width,
