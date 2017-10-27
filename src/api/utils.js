@@ -61,3 +61,13 @@ export function displayableError(error) {
   if (!error) return error;
   return error.message ? cappedString(error.message, 150) : JSON.stringify(error);
 };
+
+export function secureImageSource(imageSource) {
+  if (imageSource && imageSource.uri && imageSource.uri.replace) {
+    return {
+      uri: imageSource.uri.replace('http://', 'https://')
+    };
+  };
+
+  return imageSource;
+};

@@ -78,7 +78,7 @@ class LoginForm extends Component {
           />
           <View style={{height: 70}}></View>
           <ScrollView
-            contentContainerStyle={styles.container}
+            contentContainerStyle={globalStyles.container}
             ref='scrollView'
             keyboardDismissMode='on-drag'
           >
@@ -128,10 +128,6 @@ class LoginForm extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   forgotPassword: {
     color: midGray,
     fontSize: 10

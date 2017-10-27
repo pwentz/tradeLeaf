@@ -1,6 +1,7 @@
 import {
   Platform,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
 
 export const onAndroid = Platform.select({
@@ -8,12 +9,14 @@ export const onAndroid = Platform.select({
   android: true
 })
 
+export const windowWidth = Dimensions.get('window').width;
+export const windowHeight = Dimensions.get('window').height;
+
 export const blue = '#27496B';
 export const yellow = '#DFBA00';
 export const midGray = '#B8B8B8';
 export const lightWhite = '#F9F9F9';
 export const darkWhite = '#F5F5F5';
-
 
 
 const styles = StyleSheet.create({
@@ -52,6 +55,10 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     backgroundColor: lightWhite
   },
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 })
 
 export default styles

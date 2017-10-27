@@ -37,14 +37,7 @@ class LoginContainer extends Component {
 
   handleLoginSuccess = () => {
     const { navigation } = this.props;
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'MatchBoard' })
-      ]
-    });
-
-    navigation.dispatch(resetAction);
+    navigation.navigate('MatchBoard')
   }
 
   render() {

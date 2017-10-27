@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import MatchBoard from '../../components/matchboard/MatchBoard';
+import Card from '../../components/matchboard/Card';
 
 class MatchBoardContainer extends Component {
   static propTypes = {
@@ -14,9 +14,7 @@ class MatchBoardContainer extends Component {
 
   render() {
     return (
-      <View style={{flex:1}}>
-        <Text>Cool!</Text>
-      </View>
+      <Card />
     );
   };
 };
