@@ -1,9 +1,12 @@
-import { fetchRequest } from './utils'
+import { fetchRequest } from './utils';
+
+import { createUploader } from './cloudinary/cloudinary';
 
 export default class Api {
-  constructor({apiUrl}) {
+  constructor({apiUrl, cloudinary}) {
     this.apiUrl = apiUrl;
-  }
+    this.cloudinaryUploader = createUploader(cloudinary);
+  };
 
   login(username, password) {
     return fetchRequest(
@@ -11,8 +14,8 @@ export default class Api {
       'login',
       { method: 'POST', credentials: 'include' },
       { authUsername: username, authPassword: password }
-    )
-  }
+    );
+  };
 
   registerUser(username, password, passwordConfirmation) {
     return fetchRequest(
@@ -41,5 +44,18 @@ export default class Api {
       coords,
       authToken
     );
+  };
+
+  createUserProfilePhoto(userId, {cloudinary_id, image_url}) {
+    return fetchRequest(
+      this.apiUrl,
+      `users/${userId}/profilePhoto`,
+      {method: 'POST'},
+      { cloudinary_id, image_url }
+    );
+  };
+
+  uploadToCloudinary(imageResource) {
+    return this.cloudinaryUploader.upload(imageResource);
   };
 };
