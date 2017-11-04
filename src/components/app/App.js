@@ -16,10 +16,12 @@ import MatchBoardContainer from '../../containers/matchboard/MatchBoardContainer
 import SearchContainer from '../../containers/search/SearchContainer';
 import NotificationContainer from '../../containers/notifications/NotificationContainer';
 import InboxContainer from '../../containers/inbox/InboxContainer';
+import RegisterContainer from '../../containers/register/RegisterContainer';
 import TabBar from '../navigation/TabBar'
 
 const App = StackNavigator({
   Home: { screen: props => <LoginContainer {...props} actions={actions} /> },
+  Register: { screen: props => <RegisterContainer {...props} actions={actions} /> },
   MatchBoard: {
     screen: TabNavigator(
       {

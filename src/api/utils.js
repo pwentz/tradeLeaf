@@ -31,12 +31,16 @@ export function handleIfApiError(error, handler) {
 };
 
 export function fetchRequest(apiUrl, route, request, body, token) {
+  const headers = {
+    'Content-Type': 'application/json',
+    Accept: '*/*'
+  }
+
   return fetch(apiUrl + route, {
     body: body ? JSON.stringify(body) : null,
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    }),
+    headers: new Headers(
+      token ? {...headers, 'Authorization': token} : headers
+    ),
     credentials: 'include',
     ...request
   })

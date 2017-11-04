@@ -26,6 +26,11 @@ class LoginContainer extends Component {
   onSubmitLogin = (username, password) => {
     const { actions, dispatch, navigation } = this.props
 
+    // LOGIN:
+    // - go login and get token and userId
+    // - redux store stores login token under auth
+    // - makes request to get session info
+    // - updates user in store to include session info
     dispatch(actions.auth.loginAndStoreToken(username, password))
       .then(this.handleLoginSuccess)
       .catch(err => {
@@ -45,6 +50,7 @@ class LoginContainer extends Component {
       <LoginForm
         onSubmitLogin={this.onSubmitLogin}
         apiError={displayableError(this.state.error)}
+        navigateToRegister={() => this.props.navigation.navigate('Register')}
       />
     )
   }
