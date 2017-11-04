@@ -114,6 +114,16 @@ class LoginForm extends Component {
                 sign in
               </Text>
             </TouchableHighlight>
+
+            <TouchableHighlight
+              style={[globalStyles.actionButton, {marginTop: 10}]}
+              onPress={this.props.navigateToRegister}
+            >
+              <Text style={globalStyles.actionButtonText}>
+                create account
+              </Text>
+            </TouchableHighlight>
+
             <TouchableOpacity style={{marginTop: 10}}>
               <Text style={styles.forgotPassword}>
                 forgot your password?

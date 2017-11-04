@@ -19,24 +19,31 @@ class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null
+      error: null,
+      inProgress: false
     }
   };
 
   onSubmitLogin = (username, password) => {
     const { actions, dispatch, navigation } = this.props
 
-    dispatch(actions.auth.loginAndStoreToken(username, password))
-      .then(this.handleLoginSuccess)
-      .catch(err => {
-        handleIfApiError(err, error => {
-          this.setState({ error })
+    this.setState({ inProgress: true }, () => {
+      dispatch(actions.auth.loginAndStoreToken(username, password))
+        .then(({authUserId, token}) => {
+          dispatch(actions.user.getUser(authUserId, token))
         })
-      })
-  }
+        .then(this.handleLoginSuccess)
+        .catch(err => {
+          handleIfApiError(err, error => {
+            this.setState({ inProgress: false, error });
+          })
+        });
+    });
+  };
 
   handleLoginSuccess = () => {
     const { navigation } = this.props;
+    this.setState({ inProgress: false })
     navigation.navigate('MatchBoard')
   }
 
@@ -45,13 +52,14 @@ class LoginContainer extends Component {
       <LoginForm
         onSubmitLogin={this.onSubmitLogin}
         apiError={displayableError(this.state.error)}
+        navigateToRegister={() => this.props.navigation.navigate('Register')}
       />
     )
   }
 }
 
 function mapStateToProps(state) {
-  return {};
+  return state;
 }
 
 export default connect(mapStateToProps)(LoginContainer)
