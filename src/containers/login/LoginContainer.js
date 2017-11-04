@@ -19,29 +19,31 @@ class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null
+      error: null,
+      inProgress: false
     }
   };
 
   onSubmitLogin = (username, password) => {
     const { actions, dispatch, navigation } = this.props
 
-    // LOGIN:
-    // - go login and get token and userId
-    // - redux store stores login token under auth
-    // - makes request to get session info
-    // - updates user in store to include session info
-    dispatch(actions.auth.loginAndStoreToken(username, password))
-      .then(this.handleLoginSuccess)
-      .catch(err => {
-        handleIfApiError(err, error => {
-          this.setState({ error })
+    this.setState({ inProgress: true }, () => {
+      dispatch(actions.auth.loginAndStoreToken(username, password))
+        .then(({authUserId, token}) => {
+          dispatch(actions.user.getUser(authUserId, token))
         })
-      })
-  }
+        .then(this.handleLoginSuccess)
+        .catch(err => {
+          handleIfApiError(err, error => {
+            this.setState({ inProgress: false, error });
+          })
+        });
+    });
+  };
 
   handleLoginSuccess = () => {
     const { navigation } = this.props;
+    this.setState({ inProgress: false })
     navigation.navigate('MatchBoard')
   }
 
@@ -57,7 +59,7 @@ class LoginContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return state;
 }
 
 export default connect(mapStateToProps)(LoginContainer)

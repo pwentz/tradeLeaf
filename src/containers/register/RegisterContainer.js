@@ -27,26 +27,25 @@ class RegisterContainer extends Component {
     const { dispatch, actions } = this.props;
     const location = { lat: 0, lng: 0 }
 
-    // REGISTER:
-    // - create user and update redux store with userId
-    // - make request to login and update redux store with token (under auth)
-    // - make request to get session info and update redux store with new data
     this.setState({inProgress: true}, () => {
       dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation, location))
         .then(({authUserId, token}) => {
           dispatch(actions.user.getUser(authUserId, token))
-          this.setState({ inProgress: false })
         })
+        .then(this.handleRegisterSuccess)
         .catch((error) => {
           handleIfApiError(error, error => {
             this.setState({inProgress: false, error})
           })
-        })
-    })
-  }
+        });
+    });
+  };
+
+  handleRegisterSuccess = () => {
+    this.setState({ inProgress: false })
+  };
 
   render() {
-    console.log("REGISTER CONTAINER PROPS", this.props)
     return (
       <RegisterForm
         onSubmitRegister={this.onSubmitRegister}
