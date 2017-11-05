@@ -12,7 +12,6 @@ import LoginForm from '../../components/login/LoginForm'
 
 class LoginContainer extends Component {
   static propTypes = {
-    actions: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   }
 
@@ -25,7 +24,8 @@ class LoginContainer extends Component {
   };
 
   onSubmitLogin = (username, password) => {
-    const { actions, dispatch, navigation } = this.props
+    const { screenProps, dispatch, navigation } = this.props
+    const { actions } = screenProps
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.auth.loginAndStoreToken(username, password))
@@ -45,7 +45,6 @@ class LoginContainer extends Component {
   }
 
   render() {
-    console.log("LOGIN PROPS:", this.props)
     return (
       <LoginForm
         onSubmitLogin={this.onSubmitLogin}

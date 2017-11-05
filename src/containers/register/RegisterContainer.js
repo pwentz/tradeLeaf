@@ -11,7 +11,6 @@ import RegisterForm from '../../components/register/RegisterForm';
 
 class RegisterContainer extends Component {
   static propTypes = {
-    actions: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 
@@ -24,7 +23,8 @@ class RegisterContainer extends Component {
   };
 
   onSubmitRegister = (username, password, passwordConfirmation) => {
-    const { dispatch, actions } = this.props;
+    const { dispatch, screenProps } = this.props;
+    const { actions } = screenProps;
 
     this.setState({inProgress: true}, () => {
       dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation))

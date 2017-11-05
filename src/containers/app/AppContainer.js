@@ -11,11 +11,10 @@ import { Provider } from 'react-redux';
 
 import App from '../../components/app/App'
 
+import { createApi } from '../../api/createApi';
 import { createStore } from '../../stores/index';
 import { createActions } from '../../actions/index';
 import { createUserMiddleware } from '../../middleware/userMiddleware';
-import { createApi } from '../../api/createApi';
-
 
 const inDev = __DEV__;
 const api = createApi(inDev)
@@ -25,7 +24,7 @@ const store = createStore(undefined /*initialState*/, createUserMiddleware(actio
 const AppContainer = () => {
   return (
       <Provider store={store}>
-        <App />
+        <App screenProps={{ actions }} />
       </Provider>
   );
 };
