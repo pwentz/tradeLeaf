@@ -30,7 +30,11 @@ class LoginContainer extends Component {
     this.setState({ inProgress: true }, () => {
       dispatch(actions.auth.loginAndStoreToken(username, password))
         .then(({authUserId, token}) => {
-          dispatch(actions.user.getUser(authUserId, token))
+          dispatch(actions.location.getCoordsAndUpdate(authUserId, token))
+        })
+        .then(() => {
+          const { auth } = this.props;
+          dispatch(actions.user.getUser(auth.userId, auth.token))
         })
         .then(this.handleLoginSuccess)
         .catch(err => {
@@ -48,6 +52,7 @@ class LoginContainer extends Component {
   }
 
   render() {
+    console.log("LOGIN PROPS:", this.props)
     return (
       <LoginForm
         onSubmitLogin={this.onSubmitLogin}

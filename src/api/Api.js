@@ -14,12 +14,12 @@ export default class Api {
     )
   }
 
-  registerUser(username, password, passwordConfirmation, location) {
+  registerUser(username, password, passwordConfirmation) {
     return fetchRequest(
       this.apiUrl,
       'users',
       { method: 'POST', credentials: 'include' },
-      { username, password, passwordConfirmation, location }
+      { username, password, passwordConfirmation }
     );
   };
 
@@ -29,6 +29,16 @@ export default class Api {
       `users/${userId}`,
       { method: 'GET', credentials: 'include' },
       null,
+      authToken
+    );
+  };
+
+  updateCoords(userId, authToken, coords) {
+    return fetchRequest(
+      this.apiUrl,
+      `users/${userId}/coordinates`,
+      { method: 'POST', credentials: 'include' },
+      coords,
       authToken
     );
   };

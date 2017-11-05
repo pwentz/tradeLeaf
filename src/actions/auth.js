@@ -26,10 +26,10 @@ export function createAuthActions(api) {
     };
   };
 
-  function registerUser(username, password, passwordConfirmation, location) {
+  function registerUser(username, password, passwordConfirmation) {
     return dispatch => {
       dispatch(createAction(authActionTypes.AUTH_REGISTER, {username}))
-      return api.registerUser(username, password, passwordConfirmation, location)
+      return api.registerUser(username, password, passwordConfirmation)
         .then(userId => {
           dispatch(createAction(authActionTypes.AUTH_REGISTER_SUCCESS, {username}));
           return userId;
@@ -41,9 +41,9 @@ export function createAuthActions(api) {
     };
   };
 
-  function registerUserAndLogin(username, password, passwordConfirmation, location) {
+  function registerUserAndLogin(username, password, passwordConfirmation) {
     return dispatch => {
-      return dispatch(registerUser(username, password, passwordConfirmation, location))
+      return dispatch(registerUser(username, password, passwordConfirmation))
         .then((userId) => {
           return dispatch(loginAndStoreToken(username, password));
         });
