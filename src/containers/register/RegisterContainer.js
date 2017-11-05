@@ -25,12 +25,15 @@ class RegisterContainer extends Component {
 
   onSubmitRegister = (username, password, passwordConfirmation) => {
     const { dispatch, actions } = this.props;
-    const location = { lat: 0, lng: 0 }
 
     this.setState({inProgress: true}, () => {
-      dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation, location))
+      dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation))
         .then(({authUserId, token}) => {
-          dispatch(actions.user.getUser(authUserId, token))
+          dispatch(actions.location.getCoordsAndUpdate(authUserId, token))
+        })
+        .then(() => {
+          const { auth } = this.props;
+          dispatch(actions.user.getUser(auth.userId, auth.token))
         })
         .then(this.handleRegisterSuccess)
         .catch((error) => {

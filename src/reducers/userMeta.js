@@ -1,4 +1,5 @@
 import { userActionTypes } from '../actions/user';
+import { locationActionTypes } from '../actions/location';
 
 const initialState = {};
 
