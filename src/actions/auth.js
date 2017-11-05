@@ -16,8 +16,9 @@ export function createAuthActions(api) {
       dispatch(createAction(authActionTypes.AUTH_LOGIN));
       return api.login(username, password)
         .then(res => {
-          dispatch(createAction(authActionTypes.AUTH_LOGIN_SUCCESS, res))
-          return res
+          const authRes = { userId: res.authUserId, token: res.authToken }
+          dispatch(createAction(authActionTypes.AUTH_LOGIN_SUCCESS, authRes))
+          return authRes
         })
         .catch(error => {
           dispatch(createAction(authActionTypes.AUTH_LOGIN_FAILURE, {error}))
@@ -31,7 +32,7 @@ export function createAuthActions(api) {
       dispatch(createAction(authActionTypes.AUTH_REGISTER, {username}))
       return api.registerUser(username, password, passwordConfirmation)
         .then(userId => {
-          dispatch(createAction(authActionTypes.AUTH_REGISTER_SUCCESS, {username}));
+          dispatch(createAction(authActionTypes.AUTH_REGISTER_SUCCESS, {userId}));
           return userId;
         })
         .catch(error => {

@@ -13,10 +13,10 @@ function loggerMiddleware(store) {
   };
 };
 
-export function createStore(initialState, shouldLog) {
+export function createStore(initialState, userMiddleware, shouldLog) {
   return reduxCreateStore(
     mainReducer,
-    shouldLog ? applyMiddleware(loggerMiddleware, thunk)
-              : applyMiddleware(thunk)
+    shouldLog ? applyMiddleware(loggerMiddleware, userMiddleware, thunk)
+              : applyMiddleware(userMiddleware, thunk)
   );
 };

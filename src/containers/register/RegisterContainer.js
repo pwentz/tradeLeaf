@@ -28,13 +28,6 @@ class RegisterContainer extends Component {
 
     this.setState({inProgress: true}, () => {
       dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation))
-        .then(({authUserId, token}) => {
-          dispatch(actions.location.getCoordsAndUpdate(authUserId, token))
-        })
-        .then(() => {
-          const { auth } = this.props;
-          dispatch(actions.user.getUser(auth.userId, auth.token))
-        })
         .then(this.handleRegisterSuccess)
         .catch((error) => {
           handleIfApiError(error, error => {

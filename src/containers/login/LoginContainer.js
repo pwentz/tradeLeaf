@@ -29,13 +29,6 @@ class LoginContainer extends Component {
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.auth.loginAndStoreToken(username, password))
-        .then(({authUserId, token}) => {
-          dispatch(actions.location.getCoordsAndUpdate(authUserId, token))
-        })
-        .then(() => {
-          const { auth } = this.props;
-          dispatch(actions.user.getUser(auth.userId, auth.token))
-        })
         .then(this.handleLoginSuccess)
         .catch(err => {
           handleIfApiError(err, error => {

@@ -37,7 +37,7 @@ export default class Api {
     return fetchRequest(
       this.apiUrl,
       `users/${userId}/coordinates`,
-      { method: 'POST', credentials: 'include' },
+      { method: 'PUT', credentials: 'include' },
       coords,
       authToken
     );
