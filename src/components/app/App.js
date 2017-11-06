@@ -4,13 +4,6 @@ import {
   TabNavigator
 } from 'react-navigation'
 
-import { createApi } from '../../api/createApi';
-import { createActions } from '../../actions/index';
-
-const inDev = __DEV__;
-const api = createApi(inDev);
-const actions = createActions(api);
-
 import LoginContainer from '../../containers/login/LoginContainer';
 import MatchBoardContainer from '../../containers/matchboard/MatchBoardContainer';
 import SearchContainer from '../../containers/search/SearchContainer';
@@ -20,15 +13,15 @@ import RegisterContainer from '../../containers/register/RegisterContainer';
 import TabBar from '../navigation/TabBar'
 
 const App = StackNavigator({
-  Home: { screen: props => <LoginContainer {...props} actions={actions} /> },
-  Register: { screen: props => <RegisterContainer {...props} actions={actions} /> },
+  Home: { screen: props => <LoginContainer {...props} /> },
+  Register: { screen: props => <RegisterContainer {...props} /> },
   MatchBoard: {
     screen: TabNavigator(
       {
-        Index: { screen: props => <MatchBoardContainer {...props} actions={actions} /> },
-        Search: { screen: props => <SearchContainer {...props} actions={actions} /> },
-        Notifications: { screen: props => <NotificationContainer {...props} actions={actions} /> },
-        Inbox: { screen: props => <InboxContainer {...props} actions={actions} /> }
+        Index: { screen: props => <MatchBoardContainer {...props} /> },
+        Search: { screen: props => <SearchContainer {...props} /> },
+        Notifications: { screen: props => <NotificationContainer {...props} /> },
+        Inbox: { screen: props => <InboxContainer {...props} /> }
       },
       { initialRouteName: 'Index',
         tabBarComponent: TabBar,

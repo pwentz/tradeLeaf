@@ -16,7 +16,7 @@ export function createLocationActions(api) {
       dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS, {userId}))
       return api.updateCoords(userId, authToken, {lat, lng})
         .then(() => {
-          dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS_SUCCESS, {userId, lat, lng}))
+          dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS_SUCCESS, {userId, authToken, lat, lng}))
         })
         .catch(error => {
           dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS_FAILURE, {userId, error}))

@@ -8,7 +8,6 @@ import Card from '../../components/matchboard/Card';
 
 class MatchBoardContainer extends Component {
   static propTypes = {
-    actions: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 

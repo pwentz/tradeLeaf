@@ -7,10 +7,9 @@ const initialState = {
 export default function auth(state = initialState, action) {
   switch(action.type) {
     case authActionTypes.AUTH_LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        token: action.token,
-        userId: action.authUserId
-      });
+      const { userId, token } = action;
+
+      return Object.assign({}, state, { userId, token });
 
     default:
       return state;
