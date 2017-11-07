@@ -46,12 +46,13 @@ export default class Api {
     );
   };
 
-  createUserProfilePhoto(userId, {cloudinary_id, image_url}) {
+  createUserProfilePhoto(userId, authToken, {cloudinary_id, image_url}) {
     return fetchRequest(
       this.apiUrl,
       `users/${userId}/profilePhoto`,
-      {method: 'POST'},
-      { cloudinary_id, image_url }
+      { method: 'POST', credential: 'include' },
+      { cloudinary_id, image_url },
+      authToken
     );
   };
 
