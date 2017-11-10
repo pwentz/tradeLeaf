@@ -13,7 +13,7 @@ export default class Api {
       this.apiUrl,
       'login',
       { method: 'POST', credentials: 'include' },
-      { authUsername: username, authPassword: password }
+      { username, password }
     );
   };
 
@@ -30,29 +30,36 @@ export default class Api {
     return fetchRequest(
       this.apiUrl,
       `users/${userId}`,
-      { method: 'GET', credentials: 'include' },
-      null,
+      { method: 'GET', credentials: 'include' }
+    );
+  };
+
+  updateCoords(userId, authToken, coordinates) {
+    return fetchRequest(
+      this.apiUrl,
+      `users/${userId}`,
+      { method: 'PATCH', credentials: 'include' },
+      { coordinates },
       authToken
     );
   };
 
-  updateCoords(userId, authToken, coords) {
+  updateUserWithPhoto(userId, authToken, photoId) {
     return fetchRequest(
       this.apiUrl,
-      `users/${userId}/coordinates`,
-      { method: 'PUT', credentials: 'include' },
-      coords,
+      `users/${userId}`,
+      { method: 'PATCH', credentials: 'include' },
+      { photoId },
       authToken
-    );
+    )
   };
 
-  createUserProfilePhoto(userId, authToken, {cloudinary_id, image_url}) {
+  createPhoto(photoReq) {
     return fetchRequest(
       this.apiUrl,
-      `users/${userId}/profilePhoto`,
+      `photos`,
       { method: 'POST', credential: 'include' },
-      { cloudinary_id, image_url },
-      authToken
+      photoReq
     );
   };
 

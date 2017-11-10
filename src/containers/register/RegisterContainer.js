@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import { NavigationActions } from 'react-navigation'
+
 import {
   handleIfApiError,
   displayableError
@@ -23,18 +25,20 @@ class RegisterContainer extends Component {
   };
 
   onSubmitRegister = (username, password, passwordConfirmation) => {
-    const { dispatch, screenProps } = this.props;
+    const { dispatch, screenProps, navigation } = this.props;
     const { actions } = screenProps;
 
-    this.setState({inProgress: true}, () => {
-      dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation))
-        .then(this.handleRegisterSuccess)
-        .catch((error) => {
-          handleIfApiError(error, error => {
-            this.setState({inProgress: false, error})
-          })
-        });
-    });
+    navigation.navigate('RegisterFinish');
+    //
+    // this.setState({inProgress: true}, () => {
+    //   dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation))
+    //     .then(this.handleRegisterSuccess)
+    //     .catch((error) => {
+    //       handleIfApiError(error, error => {
+    //         this.setState({inProgress: false, error})
+    //       })
+    //     });
+    // });
   };
 
   handleRegisterSuccess = () => {
@@ -45,6 +49,7 @@ class RegisterContainer extends Component {
     return (
       <RegisterForm
         onSubmitRegister={this.onSubmitRegister}
+        backToLogin={() => this.props.navigation.dispatch(NavigationActions.back())}
         apiError={displayableError(this.state.error)}
       />
     );

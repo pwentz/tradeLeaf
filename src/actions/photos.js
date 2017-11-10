@@ -6,9 +6,13 @@ export const photoActionTypes = {
   PHOTO_UPLOAD_TO_CLOUDINARY_SUCCESS: 'PHOTO_UPLOAD_TO_CLOUDINARY_SUCCESS',
   PHOTO_UPLOAD_TO_CLOUDINARY_FAILURE: 'PHOTO_UPLOAD_TO_CLOUDINARY_FAILURE',
 
-  PHOTO_CREATE_PROFILE: 'PHOTO_CREATE_PROFILE',
-  PHOTO_CREATE_PROFILE_SUCCESS: 'PHOTO_CREATE_PROFILE_SUCCESS',
-  PHOTO_CREATE_PROFILE_FAILURE: 'PHOTO_CREATE_PROFILE_FAILURE'
+  PHOTO_CREATE: 'PHOTO_CREATE',
+  PHOTO_CREATE_SUCCESS: 'PHOTO_CREATE_SUCCESS',
+  PHOTO_CREATE_FAILURE: 'PHOTO_CREATE_FAILURE',
+
+  PHOTO_UPDATE_USER: 'PHOTO_UPDATE_USER',
+  PHOTO_UPDATE_USER_SUCCESS: 'PHOTO_UPDATE_USER_SUCCESS',
+  PHOTO_UPDATE_USER_FAILURE: 'PHOTO_UPDATE_USER_FAILURE'
 }
 
 export function createPhotoActions(api) {
@@ -27,16 +31,30 @@ export function createPhotoActions(api) {
     };
   };
 
-  function createUserProfilePhoto(userId, authToken) {
+  function createPhoto({ cloudinaryId, imageUrl }) {
     return dispatch => {
-      dispatch(createAction(photoActionTypes.PHOTO_CREATE_PROFILE, {userId, photo: {cloudinaryId, imageUrl}}));
-      return api.createUserProfilePhoto(userId, authToken, {cloudinaryId, imageUrl})
-        .then(created => {
-          dispatch(createAction(photoActionTypes.PHOTO_CREATE_PROFILE_SUCCESS, {userId, authToken, photo: created.photo}));
-          return created.photo;
+      dispatch(createAction(photoActionTypes.PHOTO_CREATE, {cloudinaryId, imageUrl}));
+      return api.createPhoto({cloudinaryId, imageUrl})
+        .then(photoId => {
+          dispatch(createAction(photoActionTypes.PHOTO_CREATE_SUCCESS, { photoId }));
+          return photoId
         })
         .catch(error => {
-          dispatch(createAction(photoActionTypes.PHOTO_CREATE_PROFILE_FAILURE, {userId, photo: {cloudinaryId, imageUrl}, error}));
+          dispatch(createAction(photoActionTypes.PHOTO_CREATE_FAILURE, {photo: {cloudinaryId, imageUrl}, error}));
+          throw error
+        })
+    };
+  };
+
+  function updateUserWithPhoto(userId, authToken, photoId) {
+    return dispatch => {
+      dispatch(createAction(photoActionTypes.PHOTO_UPDATE_USER, { userId, photoId }))
+      return api.updateUserWithPhoto(userId, authToken, photoId)
+        .then(() => {
+          return dispatch(createAction(photoActionTypes.PHOTO_UPDATE_USER_SUCCESS, { userId, authToken, photoId }))
+        })
+        .catch(error => {
+          dispatch(createAction(photoActionTypes.PHOTO_UPDATE_USER_FAILURE, { error, userId }))
           throw error
         })
     };
@@ -49,10 +67,13 @@ export function createPhotoActions(api) {
           if (uploaded.error) {
             throw new Error('Upload Error: ' + (uploaded.error.message || JSON.stringify(uploaded.error)));
           }
-          return dispatch(createUserProfilePhoto(userId, authToken, {
+          return dispatch(createUserProfilePhoto({
             cloudinaryId: uploaded.public_id,
             imageUrl: uploaded.secure_url || uploaded.url
-          }));
+          }))
+        })
+        .then(photoId => {
+          return dispatch(updateUserWithPhoto(userId, authToken, photoId))
         })
     };
   };

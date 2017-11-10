@@ -16,6 +16,7 @@ import globalStyles, { onAndroid, midGray } from '../../styles/index';
 export default class RegisterForm extends Component {
   static propTypes = {
     onSubmitRegister: PropTypes.func.isRequired,
+    backToLogin: PropTypes.func.isRequired,
     apiError: PropTypes.string
   };
 
@@ -120,6 +121,15 @@ export default class RegisterForm extends Component {
             </Text>
           </TouchableHighlight>
 
+
+          <TouchableHighlight
+            style={globalStyles.actionButton}
+            onPress={this.props.backToLogin}
+          >
+            <Text style={globalStyles.actionButtonText}>
+              back to login
+            </Text>
+          </TouchableHighlight>
         </ScrollView>
 
       </View>

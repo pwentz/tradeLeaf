@@ -16,9 +16,8 @@ export function createAuthActions(api) {
       dispatch(createAction(authActionTypes.AUTH_LOGIN));
       return api.login(username, password)
         .then(res => {
-          const authRes = { userId: res.authUserId, token: res.authToken }
-          dispatch(createAction(authActionTypes.AUTH_LOGIN_SUCCESS, authRes))
-          return authRes
+          dispatch(createAction(authActionTypes.AUTH_LOGIN_SUCCESS, res))
+          return res
         })
         .catch(error => {
           dispatch(createAction(authActionTypes.AUTH_LOGIN_FAILURE, {error}))

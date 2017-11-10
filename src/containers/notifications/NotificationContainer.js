@@ -27,7 +27,7 @@ class NotificationContainer extends Component {
     const { actions } = screenProps;
 
     this.setState({ inProgress: true }, () => {
-      dispatch(actions.photos.uploadAndCreateProfilePhoto(userId, token, imageSource));
+      dispatch(actions.photos.uploadAndCreateProfilePhoto(userId, token, imageSource))
         .then(() => {
           this.setState({ inProgress: false })
           console.log("SUCCESS")

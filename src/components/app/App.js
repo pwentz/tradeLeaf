@@ -10,11 +10,37 @@ import SearchContainer from '../../containers/search/SearchContainer';
 import NotificationContainer from '../../containers/notifications/NotificationContainer';
 import InboxContainer from '../../containers/inbox/InboxContainer';
 import RegisterContainer from '../../containers/register/RegisterContainer';
+import FinishRegistrationContainer from '../../containers/register/FinishRegistrationContainer';
 import TabBar from '../navigation/TabBar'
 
 const App = StackNavigator({
-  Home: { screen: props => <LoginContainer {...props} /> },
-  Register: { screen: props => <RegisterContainer {...props} /> },
+  Login: {
+    screen: props => <LoginContainer {...props} />,
+    navigationOptions: ({navigation}) => ({
+      header: null
+    })
+  },
+  Register: {
+    screen: StackNavigator(
+      {
+        RegisterHome: {
+          screen: props => <RegisterContainer {...props} />,
+          navigationOptions: ({navigation}) => ({
+            header: null
+          })
+        },
+        RegisterFinish: {
+          screen: props => <FinishRegistrationContainer {...props} />,
+          navigationOptions: ({navigation}) => ({
+            header: null
+          })
+        }
+      },
+      { initialRouteName: 'RegisterHome' }
+  ),
+  navigationOptions: ({navigation}) => ({
+    header: null
+  })},
   MatchBoard: {
     screen: TabNavigator(
       {
