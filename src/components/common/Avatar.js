@@ -20,11 +20,11 @@ import { secureImageSource } from '../../api/utils';
 
 export default class Avatar extends Component {
   static defaultProps = {
-    imageSource: require('../../images/tradeLeafIcon.png'),
     size: 40
   };
 
   static propTypes = {
+    imageSource: PropTypes.object.isRequired,
     onPressEdit: PropTypes.func,
     renderOverlay: PropTypes.func
   };

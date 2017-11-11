@@ -3,9 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity
+  StyleSheet
 } from 'react-native';
 
 import ImagePicker from './ImagePicker';
@@ -14,23 +12,24 @@ import { maybePermissionsError } from '../../api/utils';
 import globalStyles from '../../styles/index';
 
 export default class ProfilePhotoUploader extends Component {
+  static defaultProps = {
+    defaultImage: require('../../images/tradeLeafIcon.png'),
+    avatarSize: 200
+  };
+
   static propTypes = {
     inProgress: PropTypes.bool.isRequired,
-    profilePhoto: PropTypes.object,
+    uploadedPhoto: PropTypes.object,
     upload: PropTypes.func.isRequired,
     apiError: PropTypes.string,
-    // uploaded = api call uploaded photo was successful
-    uploaded: PropTypes.bool.isRequired,
-    // nonProfile = we're not on the profile photo screen
-    nonProfile: PropTypes.bool
+    isPhotoUploaded: PropTypes.bool.isRequired
   };
 
   constructor(props) {
     super(props)
     this.state = {
-      imageSource: null, // locally picked image
       showPicker: false,
-      selectedImage: false
+      hasSelectedImage: false
     }
   }
 
@@ -42,29 +41,28 @@ export default class ProfilePhotoUploader extends Component {
 
   onSelected = (imageSource) => {
     this.setState({
-      selectedImage: true,
-      imageSource: imageSource,
+      hasSelectedImage: true,
       showPicker: false
     }, () => {
-      this.upload();
+      this.upload(imageSource);
     });
   };
 
   showPicker = () => {
+    if (this.props.inProgress) {
+      return;
+    };
+
     this.setState({
       showPicker: true
     });
   };
 
-  upload = () => {
-    if (this.props.inProgress || !this.state.imageSource) {
-      return;
-    };
-
+  upload = (imageSource) => {
     this.setState({
-      selectedImage: false
+      hasSelectedImage: false
     }, () => {
-      this.props.upload(this.state.imageSource);
+      this.props.upload(imageSource);
     });
   };
 
@@ -81,14 +79,11 @@ export default class ProfilePhotoUploader extends Component {
   }
 
   render() {
-    const { apiError, inProgress, uploaded, profilePhoto, nonProfile, avatarSize } = this.props;
+    const { apiError, inProgress, isPhotoUploaded, uploadedPhoto, avatarSize } = this.props;
 
-    const { imageSource, showPicker, selectedImage } = this.state;
+    const { showPicker, hasSelectedImage } = this.state;
 
-    const currentAvatar = profilePhoto ? { uri: profilePhoto.imageUrl } : undefined;
-
-    const showSelectedImage = selectedImage || inProgress;
-    const gotAnyImage = imageSource || profilePhoto;
+    const currentAvatar = uploadedPhoto ? { uri: uploadedPhoto.imageUrl } : undefined;
 
     return (
       <View style={styles.container}>
@@ -99,33 +94,14 @@ export default class ProfilePhotoUploader extends Component {
           </Text>
         }
 
-        {!showSelectedImage && !nonProfile &&
-          <View style={{alignItems: 'center', paddingTop:15, paddingBottom:20}}>
-            <Avatar
-              onPressEdit={() => console.log("HIT")}
-              imageSource={currentAvatar}
-              size={avatarSize || 200}
-            />
-          </View>
-        }
-
-        {showSelectedImage &&
-          <Image
-            source={imageSource}
-            style={{flex:1, marginBottom: 10}}
+        <View style={styles.avatarContainer}>
+          <Avatar
+            onPressEdit={inProgress ? null : this.showPicker}
+            imageSource={currentAvatar}
+            size={avatarSize}
           />
-        }
-{/*
-        <TouchableOpacity
-          onPress={this.showPicker}
-          disabled={inProgress}
-          style={[globalStyles.actionButton, {backgroundColor:'white', borderColor:'black', borderWidth:1}]}
-        >
-          <Text style={globalStyles.actionButtonText}>
-            {!gotAnyImage ? '+ UPLOAD PHOTO' : '+ UPLOAD PHOTO'}
-          </Text>
-        </TouchableOpacity>
- */}
+        </View>
+
         {showPicker &&
           <ImagePicker
             onError={this.onImagePickerError}
@@ -143,7 +119,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'stretch'
   },
-  header: {
-    textAlign: 'center'
+  avatarContainer: {
+    alignItems: 'center',
+    paddingTop: 15,
+    paddingBottom: 20
   }
 });

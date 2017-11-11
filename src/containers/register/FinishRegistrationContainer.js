@@ -25,7 +25,7 @@ class FinishRegistrationContainer extends Component {
     this.state = {
       inProgress: false,
       error: null,
-      uploaded: false
+      isPhotoUploaded: false
     };
   };
 
@@ -34,22 +34,26 @@ class FinishRegistrationContainer extends Component {
     const { userId, token } = auth;
     const { actions } = screenProps;
 
-    // this.setState({ inProgress: true }, () => {
-    //   dispatch(actions.photos.uploadAndCreateProfilePhoto(userId, token, imageSource))
-    //     .then(() => {
-    //       this.setState({ inProgress: false })
-    //       console.log("SUCCESS")
-    //     })
-    //     .catch(error => {
-    //       handleIfApiError(error, err => {
-    //         this.setState({ inProgress: false, error: err })
-    //         console.log(err)
-    //       })
-    //     })
-    // })
+    this.setState({ inProgress: true }, () => {
+      dispatch(actions.photo.uploadAndCreateProfilePhoto(userId, token, imageSource))
+        .then(() => {
+          return dispatch(actions.user.getUser(userId, token))
+        })
+        .then(() => {
+          this.setState({ inProgress: false, isPhotoUploaded: true })
+        })
+        .catch(error => {
+          handleIfApiError(error, err => {
+            this.setState({ inProgress: false, error: err })
+          })
+        })
+    })
   }
 
   render() {
+    const { auth, userMeta } = this.props;
+    const currentUser = userMeta[auth.userId];
+    
     return (
       <View>
         <View style={{height:80}}></View>
@@ -58,22 +62,16 @@ class FinishRegistrationContainer extends Component {
           <ProfilePhotoUploader
             inProgress={this.state.inProgress}
             upload={this.upload}
+            uploadedPhoto={currentUser.photo}
             apiError={this.state.error}
-            uploaded={this.state.uploaded}
+            isPhotoUploaded={this.state.isPhotoUploaded}
             avatarSize={150}
           />
         </View>
 
         <View style={{ height: (windowHeight * 0.3), zIndex: -1 }}></View>
+
         <View style={globalStyles.container}>
-          <TouchableHighlight
-            style={globalStyles.actionButton}
-            onPress={() => this.props.navigation.goBack()}
-          >
-            <Text style={globalStyles.actionButtonText}>
-              back
-            </Text>
-          </TouchableHighlight>
         </View>
       </View>
     );
