@@ -13,11 +13,11 @@ export function createUserMiddleware(actions) {
 
       switch (action.type) {
         case authActionTypes.AUTH_LOGIN_SUCCESS:
-          dispatch(locationActions.getCoordsAndUpdate(action.userId, action.token));
+          // dispatch(locationActions.getCoordsAndUpdate(action.userId, action.token));
           return;
 
         case locationActionTypes.LOCATION_UPDATE_COORDS_SUCCESS:
-          dispatch(userActions.getUser(action.userId, action.authToken));
+          // dispatch(userActions.getUser(action.userId, action.authToken));
           return;
 
         default:

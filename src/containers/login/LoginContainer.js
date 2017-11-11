@@ -13,7 +13,7 @@ import LoginForm from '../../components/login/LoginForm'
 class LoginContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -29,6 +29,13 @@ class LoginContainer extends Component {
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.auth.loginAndStoreToken(username, password))
+        .then(({ userId, token }) => {
+          return dispatch(actions.location.getCoordsAndUpdate(userId, token))
+            .catch(this.handleLocationFailure)
+        })
+        .then(({ userId, token }) => {
+          return dispatch(actions.user.getUser(userId, token))
+        })
         .then(this.handleLoginSuccess)
         .catch(err => {
           handleIfApiError(err, error => {
@@ -39,10 +46,28 @@ class LoginContainer extends Component {
   };
 
   handleLoginSuccess = () => {
-    const { navigation } = this.props;
-    this.setState({ inProgress: false })
-    navigation.navigate('MatchBoard')
+    const { navigation, auth, userMeta } = this.props;
+    const currentUser = userMeta[auth.userId];
+
+    this.setState({ inProgress: false }, () => {
+      if (currentUser.offers.length == 0) {
+        // PASS MSG TO PROP SAYING TO CREATE OFFERS?!
+        navigation.navigate('RegisterFinish');
+        return;
+      };
+
+      navigation.navigate('MatchBoard');
+    })
   }
+
+  handleLocationFailure = (err) => {
+    const errMsg = 'Please enable location services to trade on tradeLeaf';
+
+    this.setState({ inProgress: false }, () => {
+      // FIND HOW TO PASS ERROR VIA NAVIGATION
+      this.props.navigation.navigate('RegisterFinish');
+    });
+  };
 
   render() {
     return (

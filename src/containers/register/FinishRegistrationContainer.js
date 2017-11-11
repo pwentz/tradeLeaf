@@ -65,15 +65,8 @@ class FinishRegistrationContainer extends Component {
         </View>
 
         <View style={{ height: (windowHeight * 0.3), zIndex: -1 }}></View>
+
         <View style={globalStyles.container}>
-          <TouchableHighlight
-            style={globalStyles.actionButton}
-            onPress={() => this.props.navigation.goBack()}
-          >
-            <Text style={globalStyles.actionButtonText}>
-              back
-            </Text>
-          </TouchableHighlight>
         </View>
       </View>
     );

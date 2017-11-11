@@ -30,6 +30,13 @@ class RegisterContainer extends Component {
 
     this.setState({inProgress: true}, () => {
       dispatch(actions.auth.registerUserAndLogin(firstName, lastName, email, username, password))
+        .then(({ userId, token }) => {
+          return dispatch(actions.location.getCoordsAndUpdate(userId, token))
+            .catch(this.handleLocationFailure)
+        })
+        .then(({ userId, token }) => {
+          return dispatch(actions.user.getUser(userId, token))
+        })
         .then(this.handleRegisterSuccess)
         .catch((error) => {
           handleIfApiError(error, error => {
@@ -40,8 +47,17 @@ class RegisterContainer extends Component {
   };
 
   handleRegisterSuccess = () => {
-    this.setState({ inProgress: false })
-    this.props.navigation.navigate('RegisterFinish');
+    this.setState({ inProgress: false }, () => {
+      this.props.navigation.navigate('RegisterFinish');
+    });
+  };
+
+  handleLocationFailure = () => {
+    const errMsg = 'Please enable location services to trade no tradeLeaf'
+
+    this.setState({ inProgress: false }, () => {
+      this.props.navigation.navigate('RegisterFinish');
+    });
   };
 
   render() {
