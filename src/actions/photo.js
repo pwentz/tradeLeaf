@@ -67,7 +67,7 @@ export function createPhotoActions(api) {
           if (uploaded.error) {
             throw new Error('Upload Error: ' + (uploaded.error.message || JSON.stringify(uploaded.error)));
           }
-          return dispatch(createUserProfilePhoto({
+          return dispatch(createPhoto({
             cloudinaryId: uploaded.public_id,
             imageUrl: uploaded.secure_url || uploaded.url
           }))
@@ -79,8 +79,6 @@ export function createPhotoActions(api) {
   };
 
   return {
-    uploadToCloudinary,
-    createUserProfilePhoto,
     uploadAndCreateProfilePhoto
   };
 };
