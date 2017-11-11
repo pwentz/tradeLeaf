@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 
 import { Text } from 'react-native';
 
-export default class NotificationContainer extends Component {
+import {
+  handleIfApiError,
+  displayableError
+} from '../../api/utils';
+
+import { connect } from 'react-redux';
+
+class NotificationContainer extends Component {
   render() {
     return (
       <Text>
@@ -11,3 +18,9 @@ export default class NotificationContainer extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return state;
+};
+
+export default connect(mapStateToProps)(NotificationContainer);

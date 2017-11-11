@@ -75,3 +75,7 @@ export function secureImageSource(imageSource) {
 
   return imageSource;
 };
+
+export function maybePermissionsError(error) {
+  return (error || '').toLowerCase().indexOf('permission') >= 0;
+};

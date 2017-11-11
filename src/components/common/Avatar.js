@@ -7,6 +7,15 @@ import {
   StyleSheet
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
+import globalStyles, {
+  blue,
+  windowHeight,
+  windowWidth,
+  darkWhite
+} from '../../styles/index';
+
 import { secureImageSource } from '../../api/utils';
 
 export default class Avatar extends Component {
@@ -16,7 +25,7 @@ export default class Avatar extends Component {
   };
 
   static propTypes = {
-    onAvatarPress: PropTypes.func,
+    onPressEdit: PropTypes.func,
     renderOverlay: PropTypes.func
   };
 
@@ -35,13 +44,38 @@ export default class Avatar extends Component {
   };
 
   renderTouchableImage() {
-    const { onAvatarPress } = this.props;
+    const { onPressEdit } = this.props;
 
-    if (onAvatarPress) {
+    if (onPressEdit) {
+      const { size, imageSource } = this.props;
+      const circle = { height: size, width: size, borderRadius: size / 2 };
+
+      const editIconTop = windowHeight * (size / 869)
+      const editIconLeft = windowWidth * (size / 571)
+      const editIconSize = size / 5.5
+
+      let imageSourceSecure = secureImageSource(imageSource);
+
       return (
-        <TouchableOpacity onPress={onAvatarPress}>
-          {this.renderImage()}
-        </TouchableOpacity>
+        <View style={styles.container}>
+          <Image
+            source={imageSourceSecure}
+            style={[styles.imageBorder, circle]}
+          />
+          <View style={{ position: 'absolute', top: editIconTop, left: editIconLeft }}>
+            <TouchableOpacity onPress={onPressEdit}>
+              <View style={styles.editIconContainer}>
+                <Icon
+                  name='pencil'
+                  size={editIconSize}
+                  color={darkWhite}
+                  style={{margin: 4}}
+                >
+                </Icon>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       );
     };
 
@@ -69,5 +103,20 @@ const styles = StyleSheet.create({
   imageBorder: {
     borderWidth: 1,
     borderColor: 'grey'
+  },
+  container: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  editIconPosition: {
+    position: 'absolute',
+    top: (windowHeight * 0.23),
+    left: (windowWidth * 0.35),
+  },
+  editIconContainer: {
+    borderRadius: 80,
+    backgroundColor: blue,
+    overflow: 'hidden'
   }
 });

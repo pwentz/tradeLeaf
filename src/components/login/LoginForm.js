@@ -68,7 +68,7 @@ class LoginForm extends Component {
         }
 
         <View style={styles.filler}></View>
-        <View style={styles.logoContainer}>
+        <View style={globalStyles.scrollContainer}>
           <Image
             source={this.props.logoHeader1}
           />
@@ -148,11 +148,6 @@ const styles = StyleSheet.create({
   logoHeader2: {
     marginTop: 15,
     marginLeft: 70
-  },
-  logoContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center'
   }
 });
 
