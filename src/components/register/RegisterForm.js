@@ -15,6 +15,7 @@ import globalStyles, {
   onAndroid,
   midGray,
   darkWhite,
+  blue,
   windowWidth
 } from '../../styles/index';
 
@@ -33,12 +34,11 @@ export default class RegisterForm extends Component {
     super(props);
 
     this.state = {
-      firstName: "first name",
-      lastName: "last name",
-      email: "email",
-      username: "username",
-      password: "",
-      passwordConfirmation: ""
+      firstName: "",
+      lastName: "",
+      email: "",
+      username: "",
+      password: ""
     };
   };
 
@@ -61,9 +61,8 @@ export default class RegisterForm extends Component {
   };
 
   onSubmitRegister = () => {
-    const { username, password, passwordConfirmation } = this.state;
     this.handleFocus(0);
-    this.props.onSubmitRegister(username, password, passwordConfirmation);
+    this.props.onSubmitRegister(this.state);
   };
 
   render() {
@@ -109,8 +108,9 @@ export default class RegisterForm extends Component {
               returnKeyType='next'
               value={this.state.firstName}
               onChangeText={ text => this.setState({ firstName: text }) }
-              autoCapitalize='none'
               autoCorrect={false}
+              placeholder="first name"
+              placeholderTextColor={blue}
             />
             <TextInput
               style={globalStyles.liteInput}
@@ -120,8 +120,9 @@ export default class RegisterForm extends Component {
               returnKeyType='next'
               value={this.state.lastName}
               onChangeText={ text => this.setState({ lastName: text }) }
-              autoCapitalize='none'
               autoCorrect={false}
+              placeholder="last name"
+              placeholderTextColor={blue}
             />
             <TextInput
               style={globalStyles.liteInput}
@@ -133,6 +134,9 @@ export default class RegisterForm extends Component {
               onChangeText={ text => this.setState({ email: text }) }
               autoCapitalize='none'
               autoCorrect={false}
+              placeholder="email"
+              placeholderTextColor={blue}
+              keyboardType='email-address'
             />
             <TextInput
               style={globalStyles.liteInput}
@@ -144,34 +148,23 @@ export default class RegisterForm extends Component {
               onChangeText={ text => this.setState({ username: text }) }
               autoCapitalize='none'
               autoCorrect={false}
+              placeholder="username"
+              placeholderTextColor={blue}
             />
             <TextInput
               style={globalStyles.liteInput}
               ref='input_4'
               onFocus={() => this.handleFocus(4)}
-              onSubmitEditing={() => this.handleNext(5)}
-              returnKeyType='next'
+              onSubmitEditing={this.onSubmitLogin}
+              returnKeyType='go'
               secureTextEntry={true}
               onChangeText={ text => this.setState({ password: text }) }
               value={this.state.password}
               blurOnSubmit={!onAndroid}
               autoCapitalize='none'
               autoCorrect={false}
-              defaultValue='password'
-            />
-            <TextInput
-              style={globalStyles.liteInput}
-              ref='input_5'
-              onFocus={() => this.handleFocus(5)}
-              onSubmitEditing={this.onSubmitLogin}
-              returnKeyType='go'
-              secureTextEntry={true}
-              onChangeText={ text => this.setState({ passwordConfirmation: text }) }
-              value={this.state.passwordConfirmation}
-              blurOnSubmit={!onAndroid}
-              autoCapitalize='none'
-              autoCorrect={false}
-              defaultValue='confirm password'
+              placeholder='password'
+              placeholderTextColor={blue}
             />
 
             <TouchableHighlight

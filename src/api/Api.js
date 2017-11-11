@@ -17,12 +17,12 @@ export default class Api {
     );
   };
 
-  registerUser(username, password, passwordConfirmation) {
+  registerUser(firstName, lastName, email, username, password) {
     return fetchRequest(
       this.apiUrl,
       'users',
       { method: 'POST', credentials: 'include' },
-      { username, password, passwordConfirmation }
+      { firstName, lastName, email, username, password }
     );
   };
 

@@ -24,25 +24,24 @@ class RegisterContainer extends Component {
     };
   };
 
-  onSubmitRegister = (username, password, passwordConfirmation) => {
-    const { dispatch, screenProps, navigation } = this.props;
+  onSubmitRegister = ({ firstName, lastName, email, username, password }) => {
+    const { dispatch, screenProps } = this.props;
     const { actions } = screenProps;
 
-    navigation.navigate('RegisterFinish');
-    //
-    // this.setState({inProgress: true}, () => {
-    //   dispatch(actions.auth.registerUserAndLogin(username, password, passwordConfirmation))
-    //     .then(this.handleRegisterSuccess)
-    //     .catch((error) => {
-    //       handleIfApiError(error, error => {
-    //         this.setState({inProgress: false, error})
-    //       })
-    //     });
-    // });
+    this.setState({inProgress: true}, () => {
+      dispatch(actions.auth.registerUserAndLogin(firstName, lastName, email, username, password))
+        .then(this.handleRegisterSuccess)
+        .catch((error) => {
+          handleIfApiError(error, error => {
+            this.setState({inProgress: false, error})
+          })
+        });
+    });
   };
 
   handleRegisterSuccess = () => {
     this.setState({ inProgress: false })
+    this.props.navigation.navigate('RegisterFinish');
   };
 
   render() {

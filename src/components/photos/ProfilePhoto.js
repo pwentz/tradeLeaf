@@ -81,12 +81,9 @@ export default class ProfilePhotoUploader extends Component {
   }
 
   render() {
-    const { apiError, inProgress, uploaded, profilePhoto, nonProfile } = this.props;
+    const { apiError, inProgress, uploaded, profilePhoto, nonProfile, avatarSize } = this.props;
 
     const { imageSource, showPicker, selectedImage } = this.state;
-
-    const uploadPromptText = inProgress ? 'Uploading...'
-      : (uploaded && imageSource ? 'Photo Uploaded!' : 'Upload your Photo');
 
     const currentAvatar = profilePhoto ? { uri: profilePhoto.imageUrl } : undefined;
 
@@ -102,15 +99,12 @@ export default class ProfilePhotoUploader extends Component {
           </Text>
         }
 
-        <Text>
-          {uploadPromptText}
-        </Text>
-
         {!showSelectedImage && !nonProfile &&
           <View style={{alignItems: 'center', paddingTop:15, paddingBottom:20}}>
             <Avatar
+              onPressEdit={() => console.log("HIT")}
               imageSource={currentAvatar}
-              size={200}
+              size={avatarSize || 200}
             />
           </View>
         }
@@ -121,7 +115,7 @@ export default class ProfilePhotoUploader extends Component {
             style={{flex:1, marginBottom: 10}}
           />
         }
-
+{/*
         <TouchableOpacity
           onPress={this.showPicker}
           disabled={inProgress}
@@ -131,7 +125,7 @@ export default class ProfilePhotoUploader extends Component {
             {!gotAnyImage ? '+ UPLOAD PHOTO' : '+ UPLOAD PHOTO'}
           </Text>
         </TouchableOpacity>
-
+ */}
         {showPicker &&
           <ImagePicker
             onError={this.onImagePickerError}
