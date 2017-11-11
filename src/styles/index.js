@@ -28,11 +28,26 @@ const styles = StyleSheet.create({
     width: 180,
     textAlign: 'center'
   },
+  liteInput: {
+    marginTop: 15,
+    height: 40,
+    width: (windowWidth * 0.75),
+    borderBottomWidth: 1,
+    borderBottomColor: midGray,
+    color: blue
+  },
   actionButton: {
     marginTop: 15,
     borderRadius: 25,
     height: 40,
     width: 140,
+    backgroundColor: yellow,
+    overflow: 'hidden'
+  },
+  actionButtonWide: {
+    borderRadius: 25,
+    height: 40,
+    width: (windowWidth * 0.75),
     backgroundColor: yellow,
     overflow: 'hidden'
   },
@@ -58,6 +73,16 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  secondaryButton: {
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: midGray
   }
 })
 
