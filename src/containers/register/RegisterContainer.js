@@ -20,9 +20,16 @@ class RegisterContainer extends Component {
     super(props);
     this.state = {
       error: null,
-      inProgress: false
+      inProgress: false,
+      hasLocationEnabled: true
     };
   };
+
+  handleError = (err) => {
+    handleIfApiError(err, error => {
+      this.setState({ inProgress: false, error })
+    })
+  }
 
   onSubmitRegister = ({ firstName, lastName, email, username, password }) => {
     const { dispatch, screenProps } = this.props;
@@ -32,31 +39,33 @@ class RegisterContainer extends Component {
       dispatch(actions.auth.registerUserAndLogin(firstName, lastName, email, username, password))
         .then(({ userId, token }) => {
           return dispatch(actions.location.getCoordsAndUpdate(userId, token))
-            .catch(this.handleLocationFailure)
+            .then(this.getUserAndFinishRegistration)
+            .catch(() => {
+              this.setState(
+                { hasLocationEnabled: false },
+                () => this.getUserAndFinishRegistration({ userId, token })
+              )
+            })
         })
-        .then(({ userId, token }) => {
-          return dispatch(actions.user.getUser(userId, token))
-        })
-        .then(this.handleRegisterSuccess)
-        .catch((error) => {
-          handleIfApiError(error, error => {
-            this.setState({inProgress: false, error})
-          })
-        });
+        .catch(this.handleError);
     });
   };
+
+  getUserAndFinishRegistration = ({ userId, token }) => {
+    const { dispatch, screenProps } = this.props;
+    const { actions } = screenProps;
+
+    return dispatch(actions.user.getUser(userId, token))
+      .then(this.handleRegisterSuccess)
+      .catch(this.handleError);
+  }
 
   handleRegisterSuccess = () => {
-    this.setState({ inProgress: false }, () => {
-      this.props.navigation.navigate('RegisterFinish');
-    });
-  };
-
-  handleLocationFailure = () => {
-    const errMsg = 'Please enable location services to trade no tradeLeaf'
+    const { navigation } = this.props;
+    const { hasLocationEnabled } = this.state;
 
     this.setState({ inProgress: false }, () => {
-      this.props.navigation.navigate('RegisterFinish');
+      navigation.navigate('RegisterFinish', { hasLocationEnabled });
     });
   };
 
