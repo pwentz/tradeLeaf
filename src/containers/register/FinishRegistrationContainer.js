@@ -1,16 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import Icon from 'react-native-vector-icons/Feather'
 
-import ProfilePhotoUploader from '../../components/photos/ProfilePhoto';
+import FinishRegistration from '../../components/register/FinishRegistration';
 
-import globalStyles, {
-  windowHeight
-} from '../../styles/index';
-
-import {
-  Text,
-  View,
-  TouchableHighlight
-} from 'react-native'
+import { displayableError } from '../../api/utils';
 
 import { connect } from 'react-redux'
 
@@ -51,35 +44,34 @@ class FinishRegistrationContainer extends Component {
   }
 
   render() {
-    const { auth, userMeta } = this.props;
+    const { auth, userMeta, hasLocationEnabled } = this.props;
+    const { inProgress, error, isPhotoUploaded } = this.state;
+
     const currentUser = userMeta[auth.userId];
-    
+    const hasOffers = currentUser.offers.length > 0
+
     return (
-      <View>
-        <View style={{height:80}}></View>
-
-        <View>
-          <ProfilePhotoUploader
-            inProgress={this.state.inProgress}
-            upload={this.upload}
-            uploadedPhoto={currentUser.photo}
-            apiError={this.state.error}
-            isPhotoUploaded={this.state.isPhotoUploaded}
-            avatarSize={150}
-          />
-        </View>
-
-        <View style={{ height: (windowHeight * 0.3), zIndex: -1 }}></View>
-
-        <View style={globalStyles.container}>
-        </View>
-      </View>
+      <FinishRegistration
+        upload={this.upload}
+        inProgress={inProgress}
+        isPhotoUploaded={isPhotoUploaded}
+        hasOffers={hasOffers}
+        hasLocationEnabled={hasLocationEnabled}
+        uploadedPhoto={currentUser.photo}
+        apiError={displayableError(error)}
+        userFirstName={currentUser.firstName}
+      />
     );
   };
 };
 
-function mapStateToProps(state) {
-  return state;
+function mapStateToProps(state, props) {
+  const { params } = props.navigation.state
+
+  return {
+    ...state,
+    hasLocationEnabled: params && params.hasLocationEnabled,
+  };
 };
 
 export default connect(mapStateToProps)(FinishRegistrationContainer);

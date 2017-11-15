@@ -19,9 +19,16 @@ class LoginContainer extends Component {
     super(props);
     this.state = {
       error: null,
-      inProgress: false
+      inProgress: false,
+      hasLocationEnabled: true
     }
   };
+
+  handleError = (err) => {
+    handleIfApiError(err, error => {
+      this.setState({ inProgress: false, error })
+    })
+  }
 
   onSubmitLogin = (username, password) => {
     const { screenProps, dispatch, navigation } = this.props
@@ -31,43 +38,41 @@ class LoginContainer extends Component {
       dispatch(actions.auth.loginAndStoreToken(username, password))
         .then(({ userId, token }) => {
           return dispatch(actions.location.getCoordsAndUpdate(userId, token))
-            .catch(this.handleLocationFailure)
+            .then(this.getUserAndFinishLogin)
+            .catch(() => {
+              this.setState(
+                { hasLocationEnabled: false },
+                () => this.getUserAndFinishLogin({ userId, token })
+              )
+            })
         })
-        .then(({ userId, token }) => {
-          return dispatch(actions.user.getUser(userId, token))
-        })
-        .then(this.handleLoginSuccess)
-        .catch(err => {
-          handleIfApiError(err, error => {
-            this.setState({ inProgress: false, error });
-          })
-        });
+        .catch(this.handleError)
     });
   };
 
+  getUserAndFinishLogin = ({ userId, token }) => {
+    const { dispatch, screenProps } = this.props;
+    const { actions } = screenProps;
+
+    return dispatch(actions.user.getUser(userId, token))
+      .then(this.handleLoginSuccess)
+      .catch(this.handleError);
+  }
+
   handleLoginSuccess = () => {
     const { navigation, auth, userMeta } = this.props;
+    const { hasLocationEnabled } = this.state;
     const currentUser = userMeta[auth.userId];
 
     this.setState({ inProgress: false }, () => {
-      if (currentUser.offers.length == 0) {
-        // PASS MSG TO PROP SAYING TO CREATE OFFERS?!
-        navigation.navigate('RegisterFinish');
+      if (currentUser.offers.length == 0 || !hasLocationEnabled) {
+        navigation.navigate('RegisterFinish', { hasLocationEnabled });
         return;
       };
 
       navigation.navigate('MatchBoard');
     })
   }
-
-  handleLocationFailure = (err) => {
-    const errMsg = 'Please enable location services to trade on tradeLeaf';
-
-    this.setState({ inProgress: false }, () => {
-      // FIND HOW TO PASS ERROR VIA NAVIGATION
-      this.props.navigation.navigate('RegisterFinish');
-    });
-  };
 
   render() {
     return (

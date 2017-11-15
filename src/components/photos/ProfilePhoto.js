@@ -13,7 +13,6 @@ import globalStyles from '../../styles/index';
 
 export default class ProfilePhotoUploader extends Component {
   static defaultProps = {
-    defaultImage: require('../../images/tradeLeafIcon.png'),
     avatarSize: 200
   };
 
@@ -79,11 +78,11 @@ export default class ProfilePhotoUploader extends Component {
   }
 
   render() {
-    const { apiError, inProgress, isPhotoUploaded, uploadedPhoto, avatarSize } = this.props;
+    const { apiError, inProgress, isPhotoUploaded, uploadedPhoto, avatarSize, defaultImage } = this.props;
 
     const { showPicker, hasSelectedImage } = this.state;
 
-    const currentAvatar = uploadedPhoto ? { uri: uploadedPhoto.imageUrl } : undefined;
+    const currentAvatar = uploadedPhoto ? { uri: uploadedPhoto.imageUrl } : undefined
 
     return (
       <View style={styles.container}>
