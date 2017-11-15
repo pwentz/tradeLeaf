@@ -65,7 +65,7 @@ class LoginContainer extends Component {
     const currentUser = userMeta[auth.userId];
 
     this.setState({ inProgress: false }, () => {
-      if (currentUser.offers.length == 0) {
+      if (currentUser.offers.length == 0 || !hasLocationEnabled) {
         navigation.navigate('RegisterFinish', { hasLocationEnabled });
         return;
       };
