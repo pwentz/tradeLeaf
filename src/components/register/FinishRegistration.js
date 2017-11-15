@@ -31,7 +31,7 @@ export default class FinishRegistration extends Component {
     inProgress: PropTypes.bool.isRequired,
     isPhotoUploaded: PropTypes.bool.isRequired,
     hasOffers: PropTypes.bool.isRequired,
-    hasLocationEnabled: PropTypes.bool.isRequired,
+    isLocationEnabled: PropTypes.bool.isRequired,
     userFirstName: PropTypes.string.isRequired,
     uploadedPhoto: PropTypes.object,
     apiError: PropTypes.string
@@ -48,10 +48,10 @@ export default class FinishRegistration extends Component {
   render() {
     const {
       upload, inProgress, apiError, uploadedPhoto, isPhotoUploaded,
-      hasLocationEnabled, hasOffers, userFirstName, imageHeader
+      isLocationEnabled, hasOffers, userFirstName, imageHeader
     } = this.props;
 
-    const hasLocationColors = this.iconColors(hasLocationEnabled)
+    const hasLocationColors = this.iconColors(isLocationEnabled)
     const hasOffersColors = this.iconColors(hasOffers)
 
     return (
@@ -103,7 +103,7 @@ export default class FinishRegistration extends Component {
               </View>
 
               <View style={{marginLeft: 15}}>
-                <Text style={{ color: hasLocationEnabled ? blue : midGray }}>
+                <Text style={{ color: isLocationEnabled ? blue : midGray }}>
                   Allow location services
                 </Text>
               </View>

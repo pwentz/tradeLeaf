@@ -21,7 +21,7 @@ class RegisterContainer extends Component {
     this.state = {
       error: null,
       inProgress: false,
-      hasLocationEnabled: true
+      isLocationEnabled: true
     };
   };
 
@@ -62,10 +62,10 @@ class RegisterContainer extends Component {
 
   handleRegisterSuccess = () => {
     const { navigation } = this.props;
-    const { hasLocationEnabled } = this.state;
+    const { isLocationEnabled } = this.state;
 
     this.setState({ inProgress: false }, () => {
-      navigation.navigate('RegisterFinish', { hasLocationEnabled });
+      navigation.navigate('RegisterFinish', { isLocationEnabled });
     });
   };
 

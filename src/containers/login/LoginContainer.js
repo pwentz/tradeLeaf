@@ -20,7 +20,7 @@ class LoginContainer extends Component {
     this.state = {
       error: null,
       inProgress: false,
-      hasLocationEnabled: true
+      isLocationEnabled: true
     }
   };
 
@@ -81,12 +81,12 @@ class LoginContainer extends Component {
 
   handleLoginSuccess = () => {
     const { navigation, auth, userMeta } = this.props;
-    const { hasLocationEnabled } = this.state;
+    const { isLocationEnabled } = this.state;
     const currentUser = userMeta[auth.userId];
 
     this.setState({ inProgress: false }, () => {
-      if (currentUser.offers.length == 0 || !hasLocationEnabled) {
-        navigation.navigate('RegisterFinish', { hasLocationEnabled });
+      if (currentUser.offers.length == 0 || !isLocationEnabled) {
+        navigation.navigate('RegisterFinish', { isLocationEnabled });
         return;
       };
 

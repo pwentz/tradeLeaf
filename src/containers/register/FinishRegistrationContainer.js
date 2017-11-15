@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Icon from 'react-native-vector-icons/Feather'
 
+import { AppState } from 'react-native';
+
 import FinishRegistration from '../../components/register/FinishRegistration';
 
 import { displayableError } from '../../api/utils';
@@ -15,12 +17,47 @@ class FinishRegistrationContainer extends Component {
   constructor(props) {
     super(props);
 
+    const { params } = props.navigation.state;
+
     this.state = {
       inProgress: false,
       error: null,
-      isPhotoUploaded: false
+      isPhotoUploaded: false,
+      appState: AppState.currentState,
+      isLocationEnabled: params && params.isLocationEnabled
     };
   };
+
+  componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange)
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange)
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    const { appState } = this.state
+    if (appState && appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.getCoords();
+    }
+
+    this.setState({ appState: nextAppState })
+  }
+
+  getCoords = () => {
+    const { dispatch, screenProps, auth } = this.props;
+    const { actions } = screenProps;
+    const { userId, token } = auth;
+
+    dispatch(actions.location.getCoordsAndUpdate(userId, token))
+      .then(() => {
+        this.setState({ isLocationEnabled: true }, () => {
+          dispatch(actions.user.getUser(userId, token))
+        })
+      })
+      .catch(() => this.setState({ isLocationEnabled: false }))
+  }
 
   upload = (imageSource) => {
     const { auth, screenProps, dispatch } = this.props;
@@ -52,8 +89,8 @@ class FinishRegistrationContainer extends Component {
   }
 
   render() {
-    const { auth, userMeta, hasLocationEnabled, screenProps } = this.props;
-    const { inProgress, error, isPhotoUploaded } = this.state;
+    const { auth, userMeta } = this.props;
+    const { inProgress, error, isPhotoUploaded, isLocationEnabled } = this.state;
 
     const currentUser = userMeta[auth.userId];
     const hasOffers = currentUser.offers.length > 0
@@ -64,7 +101,7 @@ class FinishRegistrationContainer extends Component {
         inProgress={inProgress}
         isPhotoUploaded={isPhotoUploaded}
         hasOffers={hasOffers}
-        hasLocationEnabled={hasLocationEnabled}
+        isLocationEnabled={isLocationEnabled}
         uploadedPhoto={currentUser.photo}
         apiError={displayableError(error)}
         userFirstName={currentUser.firstName}
@@ -75,12 +112,7 @@ class FinishRegistrationContainer extends Component {
 };
 
 function mapStateToProps(state, props) {
-  const { params } = props.navigation.state
-
-  return {
-    ...state,
-    hasLocationEnabled: params && params.hasLocationEnabled,
-  };
+  return state;
 };
 
 export default connect(mapStateToProps)(FinishRegistrationContainer);
