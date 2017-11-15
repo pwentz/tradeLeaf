@@ -12,4 +12,12 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "tradeLeaf";
     }
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new OpenSettingsPackage()
+        );
+    }
 }

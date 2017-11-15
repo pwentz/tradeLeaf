@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Icon from 'react-native-vector-icons/Feather'
+import OpenSettings from 'react-native-open-settings';
 
 import ProfilePhotoUploader from '../photos/ProfilePhoto';
 
@@ -15,7 +16,7 @@ import globalStyles, {
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
   Image
 } from 'react-native'
@@ -87,25 +88,28 @@ export default class FinishRegistration extends Component {
             Follow these steps to get started:
           </Text>
 
-          <View style={styles.stepContainer}>
+          <TouchableOpacity onPress={() => OpenSettings.openSettings()}>
+            <View style={styles.stepContainer}>
 
-            <View style={[styles.iconContainer, {backgroundColor: yellow}]}>
-              <View style={[styles.iconContainer, { backgroundColor: hasLocationColors.iconBackgroundColor }]}>
-                <Icon
-                  name='check'
-                  size={22}
-                  color={hasLocationColors.iconColor}
-                  style={{margin: 4}}
-                />
+              <View style={[styles.iconContainer, {backgroundColor: yellow}]}>
+                <View style={[styles.iconContainer, { backgroundColor: hasLocationColors.iconBackgroundColor }]}>
+                  <Icon
+                    name='check'
+                    size={22}
+                    color={hasLocationColors.iconColor}
+                    style={{margin: 4}}
+                  />
+                </View>
               </View>
-            </View>
 
-            <View style={{marginLeft: 15}}>
-              <Text style={{ color: hasLocationEnabled ? blue : midGray }}>
-                Allow location services
-              </Text>
+              <View style={{marginLeft: 15}}>
+                <Text style={{ color: hasLocationEnabled ? blue : midGray }}>
+                  Allow location services
+                </Text>
+              </View>
+
             </View>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.stepContainer}>
 
