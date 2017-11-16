@@ -24,6 +24,21 @@ class LoginContainer extends Component {
     }
   };
 
+  componentWillMount() {
+    // THIS FOLLOWS TOP LEVEL COMPONENT
+    const { navigation, screenProps, dispatch } = this.props;
+    const { actions } = screenProps;
+
+    dispatch(actions.auth.retrieveAuthToken())
+      .then(({userId, authToken}) => {
+        if (userId && authToken) {
+          dispatch(actions.auth.storeToken(userId, authToken))
+          this.getCoordsAndUser({userId, authToken})
+        };
+      })
+      .catch(this.handleError)
+  };
+
   handleError = (err) => {
     handleIfApiError(err, error => {
       this.setState({ inProgress: false, error })
@@ -36,25 +51,30 @@ class LoginContainer extends Component {
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.auth.loginAndStoreToken(username, password))
-        .then(({ userId, token }) => {
-          return dispatch(actions.location.getCoordsAndUpdate(userId, token))
-            .then(this.getUserAndFinishLogin)
-            .catch(() => {
-              this.setState(
-                { hasLocationEnabled: false },
-                () => this.getUserAndFinishLogin({ userId, token })
-              )
-            })
-        })
+        .then(this.getCoordsAndUser)
         .catch(this.handleError)
     });
   };
 
-  getUserAndFinishLogin = ({ userId, token }) => {
+  getCoordsAndUser = ({userId, authToken}) => {
+    const { screenProps, dispatch, navigation } = this.props
+    const { actions } = screenProps
+
+    return dispatch(actions.location.getCoordsAndUpdate(userId, authToken))
+      .then(this.getUserAndFinishLogin)
+      .catch(() => {
+        this.setState(
+          { hasLocationEnabled: false },
+          () => this.getUserAndFinishLogin({ userId, authToken })
+        )
+      })
+  }
+
+  getUserAndFinishLogin = ({ userId }) => {
     const { dispatch, screenProps } = this.props;
     const { actions } = screenProps;
 
-    return dispatch(actions.user.getUser(userId, token))
+    return dispatch(actions.user.getUser(userId))
       .then(this.handleLoginSuccess)
       .catch(this.handleError);
   }

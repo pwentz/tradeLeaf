@@ -26,7 +26,7 @@ export default class Api {
     );
   };
 
-  getUser(userId, authToken) {
+  getUser(userId) {
     return fetchRequest(
       this.apiUrl,
       `users/${userId}`,

@@ -37,13 +37,13 @@ class RegisterContainer extends Component {
 
     this.setState({inProgress: true}, () => {
       dispatch(actions.auth.registerUserAndLogin(firstName, lastName, email, username, password))
-        .then(({ userId, token }) => {
-          return dispatch(actions.location.getCoordsAndUpdate(userId, token))
+        .then(({ userId, authToken }) => {
+          return dispatch(actions.location.getCoordsAndUpdate(userId, authToken))
             .then(this.getUserAndFinishRegistration)
             .catch(() => {
               this.setState(
                 { hasLocationEnabled: false },
-                () => this.getUserAndFinishRegistration({ userId, token })
+                () => this.getUserAndFinishRegistration({ userId, authToken })
               )
             })
         })
@@ -51,11 +51,11 @@ class RegisterContainer extends Component {
     });
   };
 
-  getUserAndFinishRegistration = ({ userId, token }) => {
+  getUserAndFinishRegistration = ({ userId, authToken }) => {
     const { dispatch, screenProps } = this.props;
     const { actions } = screenProps;
 
-    return dispatch(actions.user.getUser(userId, token))
+    return dispatch(actions.user.getUser(userId, authToken))
       .then(this.handleRegisterSuccess)
       .catch(this.handleError);
   }

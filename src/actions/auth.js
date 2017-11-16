@@ -1,4 +1,5 @@
 import { createAction } from './createAction';
+import { storeAuthToken, destroyAuthToken, getAuthToken } from '../api/utils';
 
 export const authActionTypes = {
   AUTH_LOGIN: 'AUTH_LOGIN',
@@ -7,7 +8,21 @@ export const authActionTypes = {
 
   AUTH_REGISTER: 'AUTH_REGISTER',
   AUTH_REGISTER_SUCCESS: 'AUTH_REGISTER_SUCCESS',
-  AUTH_REGISTER_FAILURE: 'AUTH_REGISTER_FAILURE'
+  AUTH_REGISTER_FAILURE: 'AUTH_REGISTER_FAILURE',
+
+  AUTH_PERSIST_TOKEN: 'AUTH_PERSIST_TOKEN',
+  AUTH_PERSIST_TOKEN_SUCCESS: 'AUTH_PERSIST_TOKEN_SUCCESS',
+  AUTH_PERSIST_TOKEN_FAILURE: 'AUTH_PERSIST_TOKEN_FAILURE',
+
+  AUTH_LOGOUT: 'AUTH_LOGOUT',
+  AUTH_LOGOUT_SUCCESS: 'AUTH_LOGOUT_SUCCESS',
+  AUTH_LOGOUT_FAILURE: 'AUTH_LOGOUT_FAILURE',
+
+  AUTH_STORE_TOKEN: 'AUTH_STORE_TOKEN',
+
+  AUTH_RETRIEVE_TOKEN: 'AUTH_RETRIEVE_TOKEN',
+  AUTH_RETRIEVE_TOKEN_SUCCESS: 'AUTH_RETRIEVE_TOKEN_SUCCESS',
+  AUTH_RETRIEVE_TOKEN_FAILURE: 'AUTH_RETRIEVE_TOKEN_FAILURE'
 }
 
 export function createAuthActions(api) {
@@ -50,9 +65,62 @@ export function createAuthActions(api) {
     }
   }
 
+  function storeToken(userId, authToken) {
+    return dispatch => {
+      dispatch(createAction(authActionTypes.AUTH_STORE_TOKEN, {userId, authToken}))
+    }
+  }
+
+  function persistAuthToken(userId, authToken) {
+    return dispatch => {
+      dispatch(createAction(authActionTypes.AUTH_PERSIST_TOKEN, {userId, authToken}))
+      return storeAuthToken(userId, authToken)
+        .then(() => {
+          dispatch(createAction(authActionTypes.AUTH_PERSIST_TOKEN_SUCCESS, {userId, authToken}))
+        })
+        .catch(err => {
+          dispatch(createAction(authActionTypes.AUTH_PERSIST_TOKEN_FAILURE, {err}))
+          throw err
+        })
+    }
+  }
+
+  function retrieveAuthToken() {
+    return dispatch => {
+      dispatch(createAction(authActionTypes.AUTH_RETRIEVE_TOKEN))
+      return getAuthToken()
+        .then(data => {
+          dispatch(createAction(authActionTypes.AUTH_RETRIEVE_TOKEN_SUCCESS, data))
+          return data
+        })
+        .catch(err => {
+          dispatch(createAction(authActionTypes.AUTH_RETRIEVE_TOKEN_FAILURE, {err}))
+          throw err
+        })
+    }
+  }
+
+  function logout() {
+    return dispatch => {
+      dispatch(createAction(authActionTypes.AUTH_LOGOUT))
+      return destroyAuthToken()
+        .then(() => {
+          dispatch(createAction(authActionTypes.AUTH_LOGOUT_SUCCESS))
+        })
+        .catch(err => {
+          dispatch(createAction(authActionTypes.AUTH_LOGOUT_FAILURE, {err}))
+          throw err
+        })
+    }
+  }
+
   return {
     registerUser,
     registerUserAndLogin,
-    loginAndStoreToken
+    loginAndStoreToken,
+    storeToken,
+    persistAuthToken,
+    retrieveAuthToken,
+    logout
   }
 };
