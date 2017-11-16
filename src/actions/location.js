@@ -13,7 +13,7 @@ export const locationActionTypes = {
 export function createLocationActions(api) {
   function updateCoords(userId, authToken, lat, lng, onSuccess) {
     return dispatch => {
-      dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS, {userId}))
+      dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS, {userId }))
       return api.updateCoords(userId, authToken, {lat, lng})
         .then(() => {
           dispatch(createAction(locationActionTypes.LOCATION_UPDATE_COORDS_SUCCESS, {userId, authToken, lat, lng}))

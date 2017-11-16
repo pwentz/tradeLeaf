@@ -10,7 +10,7 @@ import SearchContainer from '../../containers/search/SearchContainer';
 import NotificationContainer from '../../containers/notifications/NotificationContainer';
 import InboxContainer from '../../containers/inbox/InboxContainer';
 import RegisterContainer from '../../containers/register/RegisterContainer';
-import FinishRegistrationContainer from '../../containers/register/FinishRegistrationContainer';
+import AccountRequirementsContainer from '../../containers/register/AccountRequirementsContainer';
 import TabBar from '../navigation/TabBar'
 
 const App = StackNavigator({
@@ -30,7 +30,7 @@ const App = StackNavigator({
           })
         },
         RegisterFinish: {
-          screen: props => <FinishRegistrationContainer {...props} />,
+          screen: props => <AccountRequirementsContainer {...props} />,
           navigationOptions: ({navigation}) => ({
             header: null
           })

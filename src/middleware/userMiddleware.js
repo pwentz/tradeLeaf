@@ -14,7 +14,7 @@ export function createUserMiddleware(actions) {
 
       switch (action.type) {
         case authActionTypes.AUTH_LOGIN_SUCCESS:
-          dispatch(authActions.persistAuthToken(action.userId, action.token))
+          dispatch(authActions.persistAuthToken(action.userId, action.authToken))
           return;
 
         default:

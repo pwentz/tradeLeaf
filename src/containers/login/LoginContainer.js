@@ -64,7 +64,7 @@ class LoginContainer extends Component {
       .then(this.getUserAndFinishLogin)
       .catch(() => {
         this.setState(
-          { hasLocationEnabled: false },
+          { isLocationEnabled: false },
           () => this.getUserAndFinishLogin({ userId, authToken })
         )
       })

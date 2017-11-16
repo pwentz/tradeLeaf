@@ -1,15 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import Icon from 'react-native-vector-icons/Feather'
+import OpenSettings from 'react-native-open-settings';
 
 import { AppState } from 'react-native';
 
-import FinishRegistration from '../../components/register/FinishRegistration';
+import AccountRequirements from '../../components/register/AccountRequirements';
 
 import { displayableError } from '../../api/utils';
 
 import { connect } from 'react-redux'
 
-class FinishRegistrationContainer extends Component {
+class AccountRequirementsContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -48,12 +49,12 @@ class FinishRegistrationContainer extends Component {
   getCoords = () => {
     const { dispatch, screenProps, auth } = this.props;
     const { actions } = screenProps;
-    const { userId, token } = auth;
+    const { userId, authToken } = auth;
 
-    dispatch(actions.location.getCoordsAndUpdate(userId, token))
+    dispatch(actions.location.getCoordsAndUpdate(userId, authToken))
       .then(() => {
         this.setState({ isLocationEnabled: true }, () => {
-          dispatch(actions.user.getUser(userId, token))
+          dispatch(actions.user.getUser(userId, authToken))
         })
       })
       .catch(() => this.setState({ isLocationEnabled: false }))
@@ -80,23 +81,15 @@ class FinishRegistrationContainer extends Component {
     })
   }
 
-  logout = () => {
-    const { dispatch, navigation } = this.props
-    const { actions } = this.props.screenProps;
-
-    dispatch(actions.auth.logout())
-      .then(() => navigation.navigate('Login'))
-  }
-
   render() {
-    const { auth, userMeta } = this.props;
+    const { auth, userMeta, navigation } = this.props;
     const { inProgress, error, isPhotoUploaded, isLocationEnabled } = this.state;
 
     const currentUser = userMeta[auth.userId];
     const hasOffers = currentUser.offers.length > 0
 
     return (
-      <FinishRegistration
+      <AccountRequirements
         upload={this.upload}
         inProgress={inProgress}
         isPhotoUploaded={isPhotoUploaded}
@@ -105,7 +98,8 @@ class FinishRegistrationContainer extends Component {
         uploadedPhoto={currentUser.photo}
         apiError={displayableError(error)}
         userFirstName={currentUser.firstName}
-        logout={this.logout}
+        onLocationRequirementPress={() => OpenSettings.openSettings()}
+        onContinuePress={() => navigation.navigate('MatchBoard')}
       />
     );
   };
@@ -115,4 +109,4 @@ function mapStateToProps(state, props) {
   return state;
 };
 
-export default connect(mapStateToProps)(FinishRegistrationContainer);
+export default connect(mapStateToProps)(AccountRequirementsContainer);
