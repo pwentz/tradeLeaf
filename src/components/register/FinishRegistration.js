@@ -127,6 +127,14 @@ export default class FinishRegistration extends Component {
             </View>
           </View>
 
+          <View>
+            <TouchableHighlight style={globalStyles.actionButton} onPress={this.props.logout}>
+              <Text style={globalStyles.actionButtonText}>
+                LOGOUT
+              </Text>
+            </TouchableHighlight>
+          </View>
+
         </View>
       </View>
     )

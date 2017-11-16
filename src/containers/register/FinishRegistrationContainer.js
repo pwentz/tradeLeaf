@@ -24,13 +24,13 @@ class FinishRegistrationContainer extends Component {
 
   upload = (imageSource) => {
     const { auth, screenProps, dispatch } = this.props;
-    const { userId, token } = auth;
+    const { userId, authToken } = auth;
     const { actions } = screenProps;
 
     this.setState({ inProgress: true }, () => {
-      dispatch(actions.photo.uploadAndCreateProfilePhoto(userId, token, imageSource))
+      dispatch(actions.photo.uploadAndCreateProfilePhoto(userId, authToken, imageSource))
         .then(() => {
-          return dispatch(actions.user.getUser(userId, token))
+          return dispatch(actions.user.getUser(userId, authToken))
         })
         .then(() => {
           this.setState({ inProgress: false, isPhotoUploaded: true })
@@ -43,8 +43,16 @@ class FinishRegistrationContainer extends Component {
     })
   }
 
+  logout = () => {
+    const { dispatch, navigation } = this.props
+    const { actions } = this.props.screenProps;
+
+    dispatch(actions.auth.logout())
+      .then(() => navigation.navigate('Login'))
+  }
+
   render() {
-    const { auth, userMeta, hasLocationEnabled } = this.props;
+    const { auth, userMeta, hasLocationEnabled, screenProps } = this.props;
     const { inProgress, error, isPhotoUploaded } = this.state;
 
     const currentUser = userMeta[auth.userId];
@@ -60,6 +68,7 @@ class FinishRegistrationContainer extends Component {
         uploadedPhoto={currentUser.photo}
         apiError={displayableError(error)}
         userFirstName={currentUser.firstName}
+        logout={this.logout}
       />
     );
   };

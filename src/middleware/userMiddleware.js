@@ -5,6 +5,7 @@ import { locationActionTypes } from '../actions/location';
 export function createUserMiddleware(actions) {
   const userActions = actions.user;
   const locationActions = actions.location;
+  const authActions = actions.auth;
 
   function userMiddleware(store) {
     const { dispatch } = store;
@@ -13,11 +14,7 @@ export function createUserMiddleware(actions) {
 
       switch (action.type) {
         case authActionTypes.AUTH_LOGIN_SUCCESS:
-          // dispatch(locationActions.getCoordsAndUpdate(action.userId, action.token));
-          return;
-
-        case locationActionTypes.LOCATION_UPDATE_COORDS_SUCCESS:
-          // dispatch(userActions.getUser(action.userId, action.authToken));
+          dispatch(authActions.persistAuthToken(action.userId, action.token))
           return;
 
         default:

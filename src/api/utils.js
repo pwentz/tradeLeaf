@@ -1,4 +1,5 @@
 import ApiError from './ApiError'
+import { AsyncStorage } from 'react-native';
 
 function processJson(responseJson, response) {
   const error = responseJson.error || displayableErrors(responseJson.errors);
@@ -30,7 +31,7 @@ export function handleIfApiError(error, handler) {
   throw error;
 };
 
-export function fetchRequest(apiUrl, route, request, body, token) {
+export function fetchRequest(apiUrl, route, request, body, authToken) {
   const headers = {
     'Content-Type': 'application/json',
     Accept: '*/*'
@@ -39,7 +40,7 @@ export function fetchRequest(apiUrl, route, request, body, token) {
   return fetch(apiUrl + route, {
     body: body ? JSON.stringify(body) : null,
     headers: new Headers(
-      token ? {...headers, 'Authorization': token} : headers
+      authToken ? {...headers, 'Authorization': authToken} : headers
     ),
     credentials: 'include',
     ...request
@@ -79,3 +80,24 @@ export function secureImageSource(imageSource) {
 export function maybePermissionsError(error) {
   return (error || '').toLowerCase().indexOf('permission') >= 0;
 };
+
+export function storeAuthToken(userId, authToken) {
+  return AsyncStorage.multiSet([['userId', String(userId)], ['authToken', authToken]]);
+}
+
+export function getAuthToken() {
+  return new Promise((resolve, reject) => {
+    return AsyncStorage.multiGet(['userId', 'authToken'])
+      .then((vals) => {
+        const userId = vals[0][1] ? parseInt(vals[0][1]) : undefined
+        const authToken = vals[1][1]
+
+        resolve({ userId, authToken })
+      })
+      .catch(reject)
+  })
+}
+
+export function destroyAuthToken() {
+  return AsyncStorage.multiRemove(['userId', 'authToken']);
+}
