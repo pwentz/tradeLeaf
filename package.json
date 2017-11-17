@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test-js": "mocha --require babel-core/register --recursive",
     "test": "jest"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
     "jest": "21.2.1",
+    "mocha": "^4.0.1",
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "jest": {

@@ -47,8 +47,7 @@ class AccountRequirementsContainer extends Component {
   }
 
   getCoords = () => {
-    const { dispatch, screenProps, auth } = this.props;
-    const { actions } = screenProps;
+    const { dispatch, actions, auth } = this.props;
     const { userId, authToken } = auth;
 
     dispatch(actions.location.getCoordsAndUpdate(userId, authToken))
@@ -61,9 +60,8 @@ class AccountRequirementsContainer extends Component {
   }
 
   upload = (imageSource) => {
-    const { auth, screenProps, dispatch } = this.props;
+    const { auth, actions, dispatch } = this.props;
     const { userId, authToken } = auth;
-    const { actions } = screenProps;
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.photo.uploadAndCreateProfilePhoto(userId, authToken, imageSource))
@@ -106,7 +104,9 @@ class AccountRequirementsContainer extends Component {
 };
 
 function mapStateToProps(state, props) {
-  return state;
+  const { actions } = props.screenProps;
+
+  return {...state, actions};
 };
 
 export default connect(mapStateToProps)(AccountRequirementsContainer);
