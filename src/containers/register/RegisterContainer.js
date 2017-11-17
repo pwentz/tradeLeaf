@@ -21,7 +21,7 @@ class RegisterContainer extends Component {
     this.state = {
       error: null,
       inProgress: false,
-      hasLocationEnabled: true
+      isLocationEnabled: true
     };
   };
 
@@ -42,8 +42,8 @@ class RegisterContainer extends Component {
             .then(this.getUserAndFinishRegistration)
             .catch(() => {
               this.setState(
-                { hasLocationEnabled: false },
-                () => this.getUserAndFinishRegistration({ userId, authToken })
+                { isLocationEnabled: false },
+                () => this.getUserAndFinishRegistration({ userId })
               )
             })
         })
@@ -51,21 +51,21 @@ class RegisterContainer extends Component {
     });
   };
 
-  getUserAndFinishRegistration = ({ userId, authToken }) => {
+  getUserAndFinishRegistration = ({ userId }) => {
     const { dispatch, screenProps } = this.props;
     const { actions } = screenProps;
 
-    return dispatch(actions.user.getUser(userId, authToken))
+    return dispatch(actions.user.getUser(userId))
       .then(this.handleRegisterSuccess)
       .catch(this.handleError);
   }
 
   handleRegisterSuccess = () => {
     const { navigation } = this.props;
-    const { hasLocationEnabled } = this.state;
+    const { isLocationEnabled } = this.state;
 
     this.setState({ inProgress: false }, () => {
-      navigation.navigate('RegisterFinish', { hasLocationEnabled });
+      navigation.navigate('RegisterFinish', { isLocationEnabled });
     });
   };
 

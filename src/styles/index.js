@@ -83,6 +83,11 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: midGray
+  },
+  iconCircleContainer: {
+    borderRadius: 80,
+    overflow: 'hidden',
+    margin: 1
   }
 })
 

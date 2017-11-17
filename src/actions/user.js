@@ -7,10 +7,10 @@ export const userActionTypes = {
 };
 
 export function createUserActions(api) {
-  function getUser(userId, authToken) {
+  function getUser(userId) {
     return dispatch => {
       dispatch(createAction(userActionTypes.GET_USER, {userId}))
-      return api.getUser(userId, authToken)
+      return api.getUser(userId)
         .then(res => {
           dispatch(createAction(userActionTypes.GET_USER_SUCCESS, { user: res }));
           return res;

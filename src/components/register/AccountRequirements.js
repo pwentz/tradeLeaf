@@ -15,12 +15,12 @@ import globalStyles, {
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
   Image
 } from 'react-native'
 
-export default class FinishRegistration extends Component {
+export default class AccountRequirements extends Component {
   static defaultProps = {
     imageHeader: require('../../images/full-logo.png')
   }
@@ -30,28 +30,33 @@ export default class FinishRegistration extends Component {
     inProgress: PropTypes.bool.isRequired,
     isPhotoUploaded: PropTypes.bool.isRequired,
     hasOffers: PropTypes.bool.isRequired,
-    hasLocationEnabled: PropTypes.bool.isRequired,
+    isLocationEnabled: PropTypes.bool.isRequired,
     userFirstName: PropTypes.string.isRequired,
+    onLocationRequirementPress: PropTypes.func.isRequired,
+    onContinuePress: PropTypes.func.isRequired,
     uploadedPhoto: PropTypes.object,
     apiError: PropTypes.string
   }
 
-  iconColors = (pred) => {
+  conditionalColors = (pred) => {
     if (pred) {
-      return { iconBackgroundColor: yellow, iconColor: darkWhite }
+      return { bgColor: yellow, fgColor: darkWhite }
     }
 
-    return { iconBackgroundColor: darkWhite, iconColor: yellow }
+    return { bgColor: darkWhite, fgColor: yellow }
   }
 
   render() {
     const {
       upload, inProgress, apiError, uploadedPhoto, isPhotoUploaded,
-      hasLocationEnabled, hasOffers, userFirstName, imageHeader
+      isLocationEnabled, hasOffers, userFirstName, imageHeader,
+      onLocationRequirementPress, onContinuePress
     } = this.props;
 
-    const hasLocationColors = this.iconColors(hasLocationEnabled)
-    const hasOffersColors = this.iconColors(hasOffers)
+    const hasLocationColors = this.conditionalColors(isLocationEnabled)
+    const hasOffersColors = this.conditionalColors(hasOffers)
+    const mayProceed = isLocationEnabled && hasOffers
+    const continueColors = this.conditionalColors(mayProceed)
 
     return (
       <View>
@@ -87,34 +92,37 @@ export default class FinishRegistration extends Component {
             Follow these steps to get started:
           </Text>
 
-          <View style={styles.stepContainer}>
+          <TouchableOpacity onPress={onLocationRequirementPress} disabled={isLocationEnabled}>
+            <View style={styles.stepContainer}>
 
-            <View style={[styles.iconContainer, {backgroundColor: yellow}]}>
-              <View style={[styles.iconContainer, { backgroundColor: hasLocationColors.iconBackgroundColor }]}>
-                <Icon
-                  name='check'
-                  size={22}
-                  color={hasLocationColors.iconColor}
-                  style={{margin: 4}}
-                />
+              <View style={[globalStyles.iconCircleContainer, {backgroundColor: yellow}]}>
+                <View style={[globalStyles.iconCircleContainer, { backgroundColor: hasLocationColors.bgColor }]}>
+                  <Icon
+                    name='check'
+                    size={22}
+                    color={hasLocationColors.fgColor}
+                    style={{margin: 4}}
+                  />
+                </View>
               </View>
-            </View>
 
-            <View style={{marginLeft: 15}}>
-              <Text style={{ color: hasLocationEnabled ? blue : midGray }}>
-                Allow location services
-              </Text>
+              <View style={{marginLeft: 15}}>
+                <Text style={{ color: isLocationEnabled ? blue : midGray }}>
+                  Allow location services
+                </Text>
+              </View>
+
             </View>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.stepContainer}>
 
-            <View style={[styles.iconContainer, {backgroundColor: yellow}]}>
-              <View style={[styles.iconContainer, { backgroundColor: hasOffersColors.iconBackgroundColor }]}>
+            <View style={[globalStyles.iconCircleContainer, {backgroundColor: yellow}]}>
+              <View style={[globalStyles.iconCircleContainer, { backgroundColor: hasOffersColors.bgColor }]}>
                 <Icon
                   name='check'
                   size={22}
-                  color={hasOffersColors.iconColor}
+                  color={hasOffersColors.fgColor}
                   style={{margin: 4}}
                 />
               </View>
@@ -127,12 +135,16 @@ export default class FinishRegistration extends Component {
             </View>
           </View>
 
-          <View>
-            <TouchableHighlight style={globalStyles.actionButton} onPress={this.props.logout}>
-              <Text style={globalStyles.actionButtonText}>
-                LOGOUT
-              </Text>
-            </TouchableHighlight>
+          <View style={[globalStyles.container, {marginTop: (windowHeight * 0.075)}]}>
+            <View style={[globalStyles.iconCircleContainer, {backgroundColor: yellow}]}>
+              <TouchableOpacity disabled={!mayProceed} onPress={onContinuePress}>
+                <View style={[ globalStyles.iconCircleContainer, {backgroundColor: continueColors.bgColor}]}>
+                  <Text style={[styles.wideBtnText, { color: continueColors.fgColor }]}>
+                    continue
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
 
         </View>
@@ -171,9 +183,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 25
   },
-  iconContainer: {
-    borderRadius: 80,
-    overflow: 'hidden',
-    margin: 1,
+  wideBtnText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: (windowHeight * 0.02),
+    marginBottom: (windowHeight * 0.02),
+    marginLeft: (windowWidth * 0.275),
+    marginRight: (windowWidth * 0.275)
   }
 })
