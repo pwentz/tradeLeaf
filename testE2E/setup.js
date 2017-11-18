@@ -30,12 +30,14 @@ const LoginForm=require('../src/components/login/LoginForm').default;
 const RegisterForm=require('../src/components/register/RegisterForm').default;
 const Card=require('../src/components/matchboard/Card').default;
 const AccountRequirements=require('../src/components/register/AccountRequirements').default;
+const Avatar=require('../src/components/common/Avatar').default;
 
 export const components = {
   LoginForm,
   RegisterForm,
   Card,
-  AccountRequirements
+  AccountRequirements,
+  Avatar
 }
 
 class TestRouteObserver {}

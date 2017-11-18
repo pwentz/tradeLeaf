@@ -1,4 +1,3 @@
-import { createApi } from './src/api/createApi';
 import { createStore } from './src/stores/index';
 import { createActions } from './src/actions/index';
 import { createUserMiddleware } from './src/middleware/userMiddleware';

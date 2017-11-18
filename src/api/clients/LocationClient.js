@@ -1,4 +1,4 @@
-export default class LocationService {
+export default class LocationClient {
   static getCurrentPosition() {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(

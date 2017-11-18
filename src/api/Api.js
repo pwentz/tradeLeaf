@@ -1,12 +1,13 @@
-import { fetchRequest, storeAuthToken, destroyAuthToken, getAuthToken  } from './utils';
-import LocationService from '../location/LocationService';
+import { fetchRequest } from './utils';
 
 import { createUploader } from './cloudinary/cloudinary';
 
 export default class Api {
-  constructor({apiUrl, cloudinary}) {
+  constructor({ apiUrl, cloudinary, locationClient, localStorageClient }) {
     this.apiUrl = apiUrl;
     this.cloudinaryUploader = createUploader(cloudinary);
+    this.locationClient = locationClient
+    this.localStorageClient = localStorageClient
   };
 
   login(username, password) {
@@ -28,19 +29,19 @@ export default class Api {
   };
 
   persistAuthToken(userId, authToken) {
-    return storeAuthToken(userId, authToken)
+    return this.localStorageClient.storeAuthToken(userId, authToken)
   }
 
   retrieveAuthToken() {
-    return getAuthToken()
+    return this.localStorageClient.getAuthToken()
   }
 
   logout() {
-    return destroyAuthToken()
+    return this.localStorageClient.destroyAuthToken()
   }
 
   getCurrentPosition() {
-    return LocationService.getCurrentPosition()
+    return this.locationClient.getCurrentPosition()
   }
 
   getUser(userId) {
