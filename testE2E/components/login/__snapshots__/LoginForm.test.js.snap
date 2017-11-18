@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoginForm /> 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "stretch",
+      "alignSelf": "stretch",
+      "backgroundColor": "#F9F9F9",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "height": 140,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "column",
+      }
+    }
+  >
+    <Image
+      source={1}
+    />
+    <Image
+      source={1}
+      style={
+        Object {
+          "marginLeft": 70,
+          "marginTop": 15,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "height": 70,
+        }
+      }
+    />
+  </View>
+</View>
+`;

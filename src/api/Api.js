@@ -71,12 +71,12 @@ export default class Api {
     )
   };
 
-  createPhoto(photoReq) {
+  createPhoto(cloudinaryId, imageUrl) {
     return fetchRequest(
       this.apiUrl,
       `photos`,
       { method: 'POST', credential: 'include' },
-      photoReq
+      { cloudinaryId, imageUrl }
     );
   };
 

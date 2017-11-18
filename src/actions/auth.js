@@ -27,7 +27,7 @@ export const authActionTypes = {
 export function createAuthActions(api) {
   function loginAndStoreToken(username, password) {
     return dispatch => {
-      dispatch(createAction(authActionTypes.AUTH_LOGIN));
+      dispatch(createAction(authActionTypes.AUTH_LOGIN, {username}));
       return api.login(username, password)
         .then(res => {
           const data = { userId: res.userId, authToken: res.token }
@@ -115,7 +115,6 @@ export function createAuthActions(api) {
   }
 
   return {
-    registerUser,
     registerUserAndLogin,
     loginAndStoreToken,
     storeToken,

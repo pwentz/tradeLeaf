@@ -5,14 +5,11 @@ const {
 } = require('react-native');
 
 import { Provider } from 'react-redux';
-import App from '../src/components/app/App';
 
 import MockApi from './mocks/MockApi';
 const { setupApp } = require('../setupApp');
 
 __DEV__ = true;
-
-export const renderer = require('react-test-renderer');
 
 jest.mock('Linking', () => {
   return {
@@ -25,6 +22,21 @@ jest.mock('Linking', () => {
 })
 
 jest.mock('ScrollView', () => jest.genMockFromModule('ScrollView'))
+
+export const renderer = require('react-test-renderer');
+
+const App=require('../src/components/app/App').default;
+const LoginForm=require('../src/components/login/LoginForm').default;
+const RegisterForm=require('../src/components/register/RegisterForm').default;
+const Card=require('../src/components/matchboard/Card').default;
+const AccountRequirements=require('../src/components/register/AccountRequirements').default;
+
+export const components = {
+  LoginForm,
+  RegisterForm,
+  Card,
+  AccountRequirements
+}
 
 class TestRouteObserver {}
 
