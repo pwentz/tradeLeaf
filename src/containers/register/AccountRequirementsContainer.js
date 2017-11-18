@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Feather'
 import OpenSettings from 'react-native-open-settings';
 
