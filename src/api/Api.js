@@ -1,4 +1,5 @@
-import { fetchRequest } from './utils';
+import { fetchRequest, storeAuthToken, destroyAuthToken, getAuthToken  } from './utils';
+import LocationService from '../location/LocationService';
 
 import { createUploader } from './cloudinary/cloudinary';
 
@@ -25,6 +26,22 @@ export default class Api {
       { firstName, lastName, email, username, password }
     );
   };
+
+  persistAuthToken(userId, authToken) {
+    return storeAuthToken(userId, authToken)
+  }
+
+  retrieveAuthToken() {
+    return getAuthToken()
+  }
+
+  logout() {
+    return destroyAuthToken()
+  }
+
+  getCurrentPosition() {
+    return LocationService.getCurrentPosition()
+  }
 
   getUser(userId) {
     return fetchRequest(

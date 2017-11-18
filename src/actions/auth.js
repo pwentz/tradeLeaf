@@ -1,5 +1,4 @@
 import { createAction } from './createAction';
-import { storeAuthToken, destroyAuthToken, getAuthToken } from '../api/utils';
 
 export const authActionTypes = {
   AUTH_LOGIN: 'AUTH_LOGIN',
@@ -75,7 +74,7 @@ export function createAuthActions(api) {
   function persistAuthToken(userId, authToken) {
     return dispatch => {
       dispatch(createAction(authActionTypes.AUTH_PERSIST_TOKEN, {userId, authToken}))
-      return storeAuthToken(userId, authToken)
+      return api.persistAuthToken(userId, authToken)
         .then(() => {
           dispatch(createAction(authActionTypes.AUTH_PERSIST_TOKEN_SUCCESS, {userId, authToken}))
         })
@@ -89,7 +88,7 @@ export function createAuthActions(api) {
   function retrieveAuthToken() {
     return dispatch => {
       dispatch(createAction(authActionTypes.AUTH_RETRIEVE_TOKEN))
-      return getAuthToken()
+      return api.retrieveAuthToken()
         .then(data => {
           dispatch(createAction(authActionTypes.AUTH_RETRIEVE_TOKEN_SUCCESS, data))
           return data
@@ -104,7 +103,7 @@ export function createAuthActions(api) {
   function logout() {
     return dispatch => {
       dispatch(createAction(authActionTypes.AUTH_LOGOUT))
-      return destroyAuthToken()
+      return api.logout()
         .then(() => {
           dispatch(createAction(authActionTypes.AUTH_LOGOUT_SUCCESS))
         })

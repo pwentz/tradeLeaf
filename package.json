@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test-js": "mocha --require babel-core/register --recursive",
-    "test": "jest"
+    "test": "jest",
+    "test-e2e": "jest testE2E"
   },
   "dependencies": {
     "react": "16.0.0-alpha.12",
@@ -26,6 +27,9 @@
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-navigation)/"
+    ]
   }
 }
