@@ -63,7 +63,7 @@ class RegisterContainer extends Component {
     const { isLocationEnabled } = this.state;
 
     this.setState({ inProgress: false }, () => {
-      navigation.navigate('RegisterFinish', { isLocationEnabled });
+      navigation.navigate('AccountRequirements', { isLocationEnabled });
     });
   };
 

@@ -26,6 +26,8 @@ jest.mock('Linking', () => {
 
 jest.mock('ScrollView', () => jest.genMockFromModule('ScrollView'))
 
+class TestRouteObserver {}
+
 export function setupTestApp() {
   const api = new MockApi();
 
@@ -42,13 +44,15 @@ export function setupTestApp() {
     }
   })
 
+  const testRouteObserver = new TestRouteObserver()
+
   class TradeLeafApp extends Component {
     render() {
       return (
         <View style={styles.container}>
           <Provider store={store}>
             <App
-              screenProps={{ actions }}
+              screenProps={{ actions, testRouteObserver }}
             />
           </Provider>
         </View>
@@ -60,6 +64,7 @@ export function setupTestApp() {
     TradeLeafApp,
     api,
     actions,
-    dispatch: store.dispatch
+    dispatch: store.dispatch,
+    testRouteObserver
   }
 }

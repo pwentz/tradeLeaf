@@ -10,10 +10,10 @@ import {
   users
 } from '../mocks/mockData'
 
-let { TradeLeafApp, api, actions, dispatch } = {};
+let { TradeLeafApp, api, testRouteObserver, actions, dispatch } = {};
 
 beforeEach(() => {
-  ({ TradeLeafApp, api, actions, dispatch } = setupTestApp());
+  ({ TradeLeafApp, api, actions, dispatch, testRouteObserver } = setupTestApp());
 })
 
 it('tries to get stored auth token', () => {
@@ -50,18 +50,14 @@ it('will get user if token is retrieved', () => {
   })
 })
 
-
-// HOW TO GET DATA ON RENDERED COMPONENT?
-
-// it('routes to the register page if authed user has offers and location', () => {
-//   const component = renderer.create(
-//     <TradeLeafApp />
-//   );
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       const tree = component.toJSON();
-//       console.log("TREE: ", tree)
-//       resolve();
-//     }, 1)
-//   })
-// })
+it('routes to the register page if authed user has offers and location', () => {
+  const component = renderer.create(
+    <TradeLeafApp />
+  );
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      expect(testRouteObserver.currentRoute).toEqual('MatchBoard')
+      resolve();
+    }, 1)
+  })
+})

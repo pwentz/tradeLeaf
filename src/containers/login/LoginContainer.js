@@ -82,7 +82,7 @@ class LoginContainer extends Component {
 
     this.setState({ inProgress: false }, () => {
       if (currentUser.offers.length == 0 || !isLocationEnabled) {
-        navigation.navigate('RegisterFinish', { isLocationEnabled });
+        navigation.navigate('AccountRequirements', { isLocationEnabled });
         return;
       };
 
