@@ -50,13 +50,61 @@ it('will get user if token is retrieved', () => {
   })
 })
 
-it('routes to the register page if authed user has offers and location', () => {
+it('routes to the register page if token is found and authed user has enabled location', () => {
   const component = renderer.create(
     <TradeLeafApp />
   );
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       expect(testRouteObserver.currentRoute).toEqual('MatchBoard')
+      resolve();
+    }, 1)
+  })
+})
+
+it('routes to the account requirements page if authed user has no offers', () => {
+  const retrieveTokenForOfferlessUser = () => {
+    return Promise.resolve({userId: 2, authToken: 'abc123'})
+  };
+  api.retrieveAuthToken.mockImplementationOnce(retrieveTokenForOfferlessUser);
+  const component = renderer.create(
+    <TradeLeafApp />
+  );
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      expect(testRouteObserver.currentRoute).toEqual('AccountRequirements')
+      resolve();
+    }, 1)
+  })
+})
+
+it('will route to account requirements page if authed user has location off', () => {
+  const component = renderer.create(
+    <TradeLeafApp />
+  );
+  const disabledLocationServices = () => {
+    return Promise.reject()
+  };
+  api.getCurrentPosition.mockImplementationOnce(disabledLocationServices);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      expect(testRouteObserver.currentRoute).toEqual('AccountRequirements')
+      resolve();
+    }, 1)
+  })
+})
+
+it('does not route anywhere if no auth token is found', () => {
+  const emptyAuthToken = () => {
+    return Promise.resolve({ userId: null, authToken: null })
+  }
+  api.retrieveAuthToken.mockImplementationOnce(emptyAuthToken);
+  const component = renderer.create(
+    <TradeLeafApp />
+  );
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      expect(testRouteObserver.currentRoute).toBeUndefined()
       resolve();
     }, 1)
   })

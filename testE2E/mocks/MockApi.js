@@ -32,7 +32,7 @@ export default class MockApi {
   })
 
   retrieveAuthToken = jest.fn(() => {
-    return Promise.resolve({userId: authedUser.id, authToken: 'abc123'})
+    return Promise.resolve({ userId: authedUser.id, authToken: 'xyz789' })
   })
 
   logout = jest.fn(() => {

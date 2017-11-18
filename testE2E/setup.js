@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {
+const {
   View,
   StyleSheet
-} from 'react-native';
+} = require('react-native');
 
 import { Provider } from 'react-redux';
 import App from '../src/components/app/App';
