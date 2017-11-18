@@ -26,8 +26,7 @@ class LoginContainer extends Component {
 
   componentWillMount() {
     // THIS FOLLOWS TOP LEVEL COMPONENT
-    const { navigation, screenProps, dispatch } = this.props;
-    const { actions } = screenProps;
+    const { navigation, actions, dispatch } = this.props;
 
     dispatch(actions.auth.retrieveAuthToken())
       .then(({userId, authToken}) => {
@@ -46,8 +45,7 @@ class LoginContainer extends Component {
   }
 
   onSubmitLogin = (username, password) => {
-    const { screenProps, dispatch, navigation } = this.props
-    const { actions } = screenProps
+    const { actions, dispatch, navigation } = this.props
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.auth.loginAndStoreToken(username, password))
@@ -57,8 +55,7 @@ class LoginContainer extends Component {
   };
 
   getCoordsAndUser = ({userId, authToken}) => {
-    const { screenProps, dispatch, navigation } = this.props
-    const { actions } = screenProps
+    const { actions, dispatch, navigation } = this.props
 
     return dispatch(actions.location.getCoordsAndUpdate(userId, authToken))
       .then(this.getUserAndFinishLogin)
@@ -71,8 +68,7 @@ class LoginContainer extends Component {
   }
 
   getUserAndFinishLogin = ({ userId }) => {
-    const { dispatch, screenProps } = this.props;
-    const { actions } = screenProps;
+    const { dispatch, actions } = this.props;
 
     return dispatch(actions.user.getUser(userId))
       .then(this.handleLoginSuccess)
@@ -86,7 +82,7 @@ class LoginContainer extends Component {
 
     this.setState({ inProgress: false }, () => {
       if (currentUser.offers.length == 0 || !isLocationEnabled) {
-        navigation.navigate('RegisterFinish', { isLocationEnabled });
+        navigation.navigate('AccountRequirements', { isLocationEnabled });
         return;
       };
 
@@ -105,8 +101,10 @@ class LoginContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return state;
+function mapStateToProps(state, props) {
+  const { actions } = props.screenProps;
+
+  return {...state, actions};
 }
 
 export default connect(mapStateToProps)(LoginContainer)

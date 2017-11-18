@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test-js": "mocha --require babel-core/register --recursive",
+    "test": "npm run test-js && npm run test-e2e && npm run test-ui",
+    "test-e2e": "jest testE2E/e2e",
+    "test-ui": "jest testE2E/components"
   },
   "dependencies": {
     "react": "16.0.0-alpha.12",
@@ -20,10 +23,18 @@
   "devDependencies": {
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
+    "chai": "^4.1.2",
     "jest": "21.2.1",
+    "mocha": "^4.0.1",
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./node_modules/react-native/jest/setup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|react-navigation)/"
+    ]
   }
 }

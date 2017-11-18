@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Avatar /> 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+      },
+      Object {
+        "borderRadius": 20,
+        "height": 40,
+        "width": 40,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+        "position": "relative",
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Array [
+          Object {
+            "borderColor": "grey",
+            "borderWidth": 1,
+          },
+          Object {
+            "borderRadius": 20,
+            "height": 40,
+            "width": 40,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Object {
+          "left": 52.53940455341506,
+          "position": "absolute",
+          "top": 61.403912543153055,
+        }
+      }
+    >
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        collapsable={undefined}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        nativeID={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "#27496B",
+              "borderRadius": 80,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            disabled={false}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "color": "#F5F5F5",
+                  "fontSize": 7.2727272727272725,
+                },
+                Object {
+                  "margin": 4,
+                },
+                Object {
+                  "fontFamily": "Material Design Icons",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`<Avatar onPressEdit={null} /> 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+      },
+      Object {
+        "borderRadius": 20,
+        "height": 40,
+        "width": 40,
+      },
+    ]
+  }
+>
+  <Image
+    source={1}
+    style={
+      Array [
+        Object {
+          "borderColor": "grey",
+          "borderWidth": 1,
+        },
+        Object {
+          "borderRadius": 20,
+          "height": 40,
+          "width": 40,
+        },
+      ]
+    }
+  />
+</View>
+`;

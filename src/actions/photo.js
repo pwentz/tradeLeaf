@@ -34,7 +34,7 @@ export function createPhotoActions(api) {
   function createPhoto({ cloudinaryId, imageUrl }) {
     return dispatch => {
       dispatch(createAction(photoActionTypes.PHOTO_CREATE, {cloudinaryId, imageUrl}));
-      return api.createPhoto({cloudinaryId, imageUrl})
+      return api.createPhoto(cloudinaryId, imageUrl)
         .then(photoId => {
           dispatch(createAction(photoActionTypes.PHOTO_CREATE_SUCCESS, { photoId }));
           return photoId

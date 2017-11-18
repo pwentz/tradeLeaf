@@ -32,8 +32,7 @@ class RegisterContainer extends Component {
   }
 
   onSubmitRegister = ({ firstName, lastName, email, username, password }) => {
-    const { dispatch, screenProps } = this.props;
-    const { actions } = screenProps;
+    const { dispatch, actions } = this.props;
 
     this.setState({inProgress: true}, () => {
       dispatch(actions.auth.registerUserAndLogin(firstName, lastName, email, username, password))
@@ -52,8 +51,7 @@ class RegisterContainer extends Component {
   };
 
   getUserAndFinishRegistration = ({ userId }) => {
-    const { dispatch, screenProps } = this.props;
-    const { actions } = screenProps;
+    const { dispatch, actions } = this.props;
 
     return dispatch(actions.user.getUser(userId))
       .then(this.handleRegisterSuccess)
@@ -65,7 +63,7 @@ class RegisterContainer extends Component {
     const { isLocationEnabled } = this.state;
 
     this.setState({ inProgress: false }, () => {
-      navigation.navigate('RegisterFinish', { isLocationEnabled });
+      navigation.navigate('AccountRequirements', { isLocationEnabled });
     });
   };
 
@@ -80,8 +78,10 @@ class RegisterContainer extends Component {
   };
 };
 
-function mapStateToProps(state) {
-  return state;
+function mapStateToProps(state, props) {
+  const { actions } = props.screenProps;
+
+  return {...state, actions};
 };
 
 export default connect(mapStateToProps)(RegisterContainer);

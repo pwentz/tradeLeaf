@@ -3,9 +3,11 @@ import { fetchRequest } from './utils';
 import { createUploader } from './cloudinary/cloudinary';
 
 export default class Api {
-  constructor({apiUrl, cloudinary}) {
+  constructor({ apiUrl, cloudinary, locationClient, localStorageClient }) {
     this.apiUrl = apiUrl;
     this.cloudinaryUploader = createUploader(cloudinary);
+    this.locationClient = locationClient
+    this.localStorageClient = localStorageClient
   };
 
   login(username, password) {
@@ -25,6 +27,22 @@ export default class Api {
       { firstName, lastName, email, username, password }
     );
   };
+
+  persistAuthToken(userId, authToken) {
+    return this.localStorageClient.storeAuthToken(userId, authToken)
+  }
+
+  retrieveAuthToken() {
+    return this.localStorageClient.getAuthToken()
+  }
+
+  logout() {
+    return this.localStorageClient.destroyAuthToken()
+  }
+
+  getCurrentPosition() {
+    return this.locationClient.getCurrentPosition()
+  }
 
   getUser(userId) {
     return fetchRequest(
@@ -54,12 +72,12 @@ export default class Api {
     )
   };
 
-  createPhoto(photoReq) {
+  createPhoto(cloudinaryId, imageUrl) {
     return fetchRequest(
       this.apiUrl,
       `photos`,
       { method: 'POST', credential: 'include' },
-      photoReq
+      { cloudinaryId, imageUrl }
     );
   };
 

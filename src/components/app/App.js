@@ -13,41 +13,45 @@ import RegisterContainer from '../../containers/register/RegisterContainer';
 import AccountRequirementsContainer from '../../containers/register/AccountRequirementsContainer';
 import TabBar from '../navigation/TabBar'
 
+function addListener(props) {
+  const { navigate } = props.navigation;
+
+  const newNav = (routeName, ...rest) => {
+    props.screenProps.testRouteObserver.currentRoute = routeName
+    navigate(routeName, ...rest)
+  }
+
+  props.navigation.navigate = newNav
+  props.screenProps.testRouteObserver.navigate = newNav
+  return props;
+};
+
 const App = StackNavigator({
   Login: {
-    screen: props => <LoginContainer {...props} />,
+    screen: props => <LoginContainer {...addListener(props)} />,
     navigationOptions: ({navigation}) => ({
       header: null
     })
   },
   Register: {
-    screen: StackNavigator(
-      {
-        RegisterHome: {
-          screen: props => <RegisterContainer {...props} />,
-          navigationOptions: ({navigation}) => ({
-            header: null
-          })
-        },
-        RegisterFinish: {
-          screen: props => <AccountRequirementsContainer {...props} />,
-          navigationOptions: ({navigation}) => ({
-            header: null
-          })
-        }
-      },
-      { initialRouteName: 'RegisterHome' }
-  ),
-  navigationOptions: ({navigation}) => ({
-    header: null
-  })},
+    screen: props => <RegisterContainer {...addListener(props)} />,
+    navigationOptions: ({navigation}) => ({
+      header: null
+    })
+  },
+  AccountRequirements: {
+    screen: props => <AccountRequirementsContainer {...addListener(props)} />,
+    navigationOptions: ({navigation}) => ({
+      header: null
+    })
+  },
   MatchBoard: {
     screen: TabNavigator(
       {
-        Index: { screen: props => <MatchBoardContainer {...props} /> },
-        Search: { screen: props => <SearchContainer {...props} /> },
-        Notifications: { screen: props => <NotificationContainer {...props} /> },
-        Inbox: { screen: props => <InboxContainer {...props} /> }
+        Index: { screen: props => <MatchBoardContainer {...addListener(props)} /> },
+        Search: { screen: props => <SearchContainer {...addListener(props)} /> },
+        Notifications: { screen: props => <NotificationContainer {...addListener(props)} /> },
+        Inbox: { screen: props => <InboxContainer {...addListener(props)} /> }
       },
       { initialRouteName: 'Index',
         tabBarComponent: TabBar,
