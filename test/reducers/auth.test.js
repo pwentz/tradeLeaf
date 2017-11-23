@@ -2,7 +2,7 @@ import { createAction } from '../../src/actions/createAction';
 import reducer from '../../src/reducers/index';
 import { authActionTypes } from '../../src/actions/auth';
 
-import assert from 'assert';
+import { expect } from 'chai';
 
 describe('auth reducer', () => {
   let state;
@@ -19,8 +19,8 @@ describe('auth reducer', () => {
       authToken: 'xyz'
     }));
 
-    assert.equal(state.auth.userId, 123);
-    assert.equal(state.auth.authToken, 'xyz');
+    expect(state.auth.userId).to.equal(123)
+    expect(state.auth.authToken).to.equal('xyz')
   })
 
   it('stores token with login data', () => {
@@ -31,7 +31,7 @@ describe('auth reducer', () => {
       authToken: 'abc'
     }));
 
-    assert.equal(state.auth.userId, 321);
-    assert.equal(state.auth.authToken, 'abc');
+    expect(state.auth.userId).to.equal(321)
+    expect(state.auth.authToken).to.equal('abc')
   })
 })

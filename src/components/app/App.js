@@ -11,18 +11,24 @@ import NotificationContainer from '../../containers/notifications/NotificationCo
 import InboxContainer from '../../containers/inbox/InboxContainer';
 import RegisterContainer from '../../containers/register/RegisterContainer';
 import AccountRequirementsContainer from '../../containers/register/AccountRequirementsContainer';
-import TabBar from '../navigation/TabBar'
+import TabBarContainer from '../../containers/navigation/TabBarContainer'
 
 function addListener(props) {
   const { navigate } = props.navigation;
 
   const newNav = (routeName, ...rest) => {
-    props.screenProps.testRouteObserver.currentRoute = routeName
+    if (props.screenProps.testRouteObserver) {
+      props.screenProps.testRouteObserver.currentRoute = routeName
+    }
     navigate(routeName, ...rest)
   }
 
   props.navigation.navigate = newNav
-  props.screenProps.testRouteObserver.navigate = newNav
+
+  if (props.screenProps.testRouteObserver) {
+    props.screenProps.testRouteObserver.navigate = newNav
+  }
+
   return props;
 };
 
@@ -48,13 +54,13 @@ const App = StackNavigator({
   MatchBoard: {
     screen: TabNavigator(
       {
-        Index: { screen: props => <MatchBoardContainer {...addListener(props)} /> },
-        Search: { screen: props => <SearchContainer {...addListener(props)} /> },
-        Notifications: { screen: props => <NotificationContainer {...addListener(props)} /> },
-        Inbox: { screen: props => <InboxContainer {...addListener(props)} /> }
+        Home: { screen: props => <MatchBoardContainer {...props} /> },
+        Search: { screen: props => <SearchContainer {...props} /> },
+        Notifications: { screen: props => <NotificationContainer {...props} /> },
+        Inbox: { screen: props => <InboxContainer {...props} /> }
       },
-      { initialRouteName: 'Index',
-        tabBarComponent: TabBar,
+      { initialRouteName: 'Home',
+        tabBarComponent: TabBarContainer,
         tabBarPosition: 'top',
         swipeEnabled: true
         // animationEnabled: true

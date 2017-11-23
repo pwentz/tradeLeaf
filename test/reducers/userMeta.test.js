@@ -2,7 +2,7 @@ import { createAction } from '../../src/actions/createAction';
 import reducer from '../../src/reducers/index';
 import { userActionTypes } from '../../src/actions/user';
 
-import assert from 'assert';
+import { expect } from 'chai';
 
 describe('userMeta reducer', () => {
   let state;
@@ -29,9 +29,9 @@ describe('userMeta reducer', () => {
       state = reducer(state, createAction(userActionTypes.GET_USER_SUCCESS, { user }))
 
       storedUser = state.userMeta[3]
-      assert.equal(storedUser.firstName, "Fred")
-      assert.equal(storedUser.lastName, "Jackson")
-      assert.equal(storedUser.username, "freddy-jack")
+      expect(storedUser.firstName).to.equal("Fred")
+      expect(storedUser.lastName).to.equal("Jackson")
+      expect(storedUser.username).to.equal("freddy-jack")
     })
 
     it('can update state with more users', () => {
@@ -53,8 +53,8 @@ describe('userMeta reducer', () => {
         user: user2
       }))
 
-      assert.equal(state.userMeta[3].username, "freddy-jack")
-      assert.equal(state.userMeta[4].username, "jackie-fred")
+      expect(state.userMeta[3].username).to.equal("freddy-jack")
+      expect(state.userMeta[4].username).to.equal("jackie-fred")
     })
 
     it('updates existing user with same id', () => {
@@ -79,9 +79,9 @@ describe('userMeta reducer', () => {
       }))
 
       const user = state.userMeta[1]
-      assert.equal(user.username, "action-crackson")
-      assert.equal(user.firstName, "John")
-      assert.equal(user.lastName, "Crackson")
+      expect(user.username).to.equal("action-crackson")
+      expect(user.firstName).to.equal("John")
+      expect(user.lastName).to.equal("Crackson")
     });
   })
 })
