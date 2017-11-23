@@ -9,29 +9,33 @@ describe('auth reducer', () => {
 
   beforeEach(() => {
     state = reducer(undefined, { data: {} })
-  })
+  });
 
-  it('saves login data on successful login', () => {
-    let state = reducer(undefined, { data: {} })
+  context('AUTH_LOGIN_SUCCESS', () => {
+    it('saves login data on successful login', () => {
+      let state = reducer(undefined, { data: {} });
 
-    state = reducer(state, createAction(authActionTypes.AUTH_LOGIN_SUCCESS, {
-      userId: 123,
-      authToken: 'xyz'
-    }));
+      state = reducer(state, createAction(authActionTypes.AUTH_LOGIN_SUCCESS, {
+        userId: 123,
+        authToken: 'xyz'
+      }));
 
-    expect(state.auth.userId).to.equal(123)
-    expect(state.auth.authToken).to.equal('xyz')
-  })
+      expect(state.auth.userId).to.equal(123);
+      expect(state.auth.authToken).to.equal('xyz');
+    });
+  });
 
-  it('stores token with login data', () => {
-    let state = reducer(undefined, { data: {} })
+  context('AUTH_STORE_TOKEN', () => {
+    it('stores token with login data', () => {
+      let state = reducer(undefined, { data: {} });
 
-    state = reducer(state, createAction(authActionTypes.AUTH_STORE_TOKEN, {
-      userId: 321,
-      authToken: 'abc'
-    }));
+      state = reducer(state, createAction(authActionTypes.AUTH_STORE_TOKEN, {
+        userId: 321,
+        authToken: 'abc'
+      }));
 
-    expect(state.auth.userId).to.equal(321)
-    expect(state.auth.authToken).to.equal('abc')
-  })
-})
+      expect(state.auth.userId).to.equal(321);
+      expect(state.auth.authToken).to.equal('abc');
+    });
+  });
+});
