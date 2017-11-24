@@ -84,4 +84,14 @@ export default class Api {
   uploadToCloudinary(imageResource) {
     return this.cloudinaryUploader.upload(imageResource);
   };
+
+  getMatches(authToken) {
+    return fetchRequest(
+      this.apiUrl,
+      'matches',
+      { method: 'GET', credential: 'include' },
+      null,
+      authToken
+    )
+  }
 };

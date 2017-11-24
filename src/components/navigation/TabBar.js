@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/Octicons';
+import PropTypes from 'prop-types';
+import TabHeader from './TabHeader'
 
 import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
   StyleSheet,
   Image
 } from 'react-native';
@@ -16,23 +17,44 @@ import globalStyles, {
   windowWidth,
   windowHeight
 } from '../../styles/index'
-const { width } = Dimensions.get('window');
 
 export default class TabBar extends Component {
+  static propTypes = {
+    profilePhoto: PropTypes.object
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTab: 'home'
+    }
+  };
+
+  navigateToTab = (routeName) => {
+    this.setState({
+      currentTab: routeName
+    }, () => {
+      this.props.navigation.navigate(routeName);
+    });
+  };
+
   render() {
     const routeIcons = {
-      Index: 'home',
+      Home: 'home',
       Search: 'search',
       Notifications: 'bell',
       Inbox: 'mail'
     }
 
-    const { navigation } = this.props;
+    const { navigation, profilePhoto } = this.props;
     const { routes, index } = navigation.state;
 
     return (
-      <View>
-        <View style={styles.tabHeader}></View>
+      <View style={{backgroundColor: 'white'}}>
+        <TabHeader
+          profilePhoto={profilePhoto}
+          headerTitle={this.state.currentTab}
+        />
 
         <View style={styles.tabContainer}>
           {routes.map((route, idx) => {
@@ -42,9 +64,7 @@ export default class TabBar extends Component {
 
             return (
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(route.routeName);
-                }}
+                onPress={() => this.navigateToTab(route.routeName)}
                 key={idx}
                 style={[styles.tab, tabStyles]}
               >
@@ -65,13 +85,9 @@ export default class TabBar extends Component {
 
 
 const styles = StyleSheet.create({
-  tabHeader: {
-    width: windowWidth,
-    height: (windowHeight * 0.15)
-  },
   tabContainer: {
     flexDirection: 'row',
-    width,
+    width: windowWidth,
     borderBottomWidth: 1,
     borderBottomColor: midGray
   },

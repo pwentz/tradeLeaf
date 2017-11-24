@@ -65,7 +65,6 @@ exports[`<RegisterForm /> 1`] = `
       <Text
         accessible={true}
         allowFontScaling={true}
-        disabled={false}
         ellipsizeMode="tail"
         style={
           Object {
@@ -93,7 +92,11 @@ exports[`<RegisterForm /> 1`] = `
     }
   >
     <Image
-      source={1}
+      source={
+        Object {
+          "testUri": "../../../src/images/tradeLeafHeader1.png",
+        }
+      }
     />
     <View
       style={

@@ -14,7 +14,8 @@ import globalStyles, {
   blue,
   windowHeight,
   windowWidth,
-  darkWhite
+  darkWhite,
+  midGray
 } from '../../styles/index';
 
 import { secureImageSource } from '../../api/utils';
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
   imageBorder: {
     borderWidth: 1,
-    borderColor: 'grey'
+    borderColor: midGray
   },
   container: {
     position: 'relative',
