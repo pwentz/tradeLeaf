@@ -12,6 +12,13 @@ export const photos = {
     imageUrl: 'https://imagethings.jpeg',
     createdAt: '2017-11-18T00:12:46.618258Z',
     updatedAt: '2017-11-18T00:12:46.618258Z'
+  },
+  8: {
+    id: 8,
+    cloudinaryId: 'some cloud id',
+    imageUrl: 'https://sunset.png',
+    createdAt: '2017-11-18T00:12:46.618258Z',
+    updateAt: '2017-11-18T00:12:46.618258Z'
   }
 }
 
@@ -42,6 +49,8 @@ export const authedUser = {
       updatedAt: '2017-11-17T00:12:46.618258Z'
     }
 }
+
+export const authedUserToken = 'xyz789'
 
 export const users = {
   1: authedUser,
@@ -81,5 +90,45 @@ export const users = {
       createdAt: '2017-11-18T00:12:46.618258Z',
       updatedAt: '2017-11-18T00:12:46.618258Z'
     }
+  },
+  4: {
+    id: 4,
+    coordinates: { lat: 12.123, lng: -123.45 },
+    email: 'barry1@gmail.com',
+    firstName: 'Barry',
+    lastName: 'Garrison',
+    username: 'bargar',
+    offers: [
+      {
+        id: 10,
+        categoryId: 1,
+        photoId: 8,
+        userId: 4,
+        radius: 4,
+        decription: 'food is moldy. hope u dont mind',
+        createdAt: '2017-11-18T00:12:46.618258Z',
+        updatedAt: '2017-11-18T00:12:46.618258Z'
+      }
+    ],
+    photo: {
+      id: 11,
+      cloudinaryId: 'somewhere',
+      imageUrl: 'https://waterfall.jpeg',
+      createdAt: '2017-11-18T00:12:46.618258Z',
+      updatedAt: '2017-11-18T00:12:46.618258Z'
+    }
   }
 }
+
+export const authedUserMatches = [
+  {
+    user: users[3],
+    offer: users[3].offers[0],
+    distance: 5
+  },
+  {
+    user: users[4],
+    offer: users[4].offers[0],
+    distance: 10
+  }
+]

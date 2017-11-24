@@ -11,7 +11,7 @@ import { createApi } from '../../api/createApi';
 import { setupApp } from '../../../setupApp';
 
 const inDev = __DEV__;
-const { actions, store } = setupApp(createApi(inDev))
+const { actions, store } = setupApp(createApi(inDev), inDev)
 
 import { Provider } from 'react-redux';
 

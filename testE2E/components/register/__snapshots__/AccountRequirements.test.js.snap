@@ -20,7 +20,11 @@ exports[`<AccountRequirements /> 1`] = `
     }
   >
     <Image
-      source={1}
+      source={
+        Object {
+          "testUri": "../../../src/images/full-logo.png",
+        }
+      }
       style={
         Object {
           "aspectRatio": 1.5,
@@ -89,7 +93,7 @@ exports[`<AccountRequirements /> 1`] = `
               style={
                 Array [
                   Object {
-                    "borderColor": "grey",
+                    "borderColor": "#B8B8B8",
                     "borderWidth": 1,
                   },
                   Object {
@@ -145,7 +149,6 @@ exports[`<AccountRequirements /> 1`] = `
                   <Text
                     accessible={true}
                     allowFontScaling={false}
-                    disabled={false}
                     ellipsizeMode="tail"
                     style={
                       Array [
@@ -193,7 +196,6 @@ exports[`<AccountRequirements /> 1`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
-      disabled={false}
       ellipsizeMode="tail"
       style={
         Object {
@@ -208,7 +210,6 @@ exports[`<AccountRequirements /> 1`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
-      disabled={false}
       ellipsizeMode="tail"
       style={
         Object {
@@ -283,7 +284,6 @@ exports[`<AccountRequirements /> 1`] = `
             <Text
               accessible={true}
               allowFontScaling={false}
-              disabled={false}
               ellipsizeMode="tail"
               style={
                 Array [
@@ -316,7 +316,6 @@ exports[`<AccountRequirements /> 1`] = `
           <Text
             accessible={true}
             allowFontScaling={true}
-            disabled={false}
             ellipsizeMode="tail"
             style={
               Object {
@@ -370,7 +369,6 @@ exports[`<AccountRequirements /> 1`] = `
           <Text
             accessible={true}
             allowFontScaling={false}
-            disabled={false}
             ellipsizeMode="tail"
             style={
               Array [
@@ -403,7 +401,6 @@ exports[`<AccountRequirements /> 1`] = `
         <Text
           accessible={true}
           allowFontScaling={true}
-          disabled={false}
           ellipsizeMode="tail"
           style={
             Object {
@@ -483,7 +480,6 @@ exports[`<AccountRequirements /> 1`] = `
             <Text
               accessible={true}
               allowFontScaling={true}
-              disabled={false}
               ellipsizeMode="tail"
               style={
                 Array [

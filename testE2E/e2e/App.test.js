@@ -7,6 +7,7 @@ import ApiError from '../../src/api/ApiError';
 import {
   photos,
   authedUser,
+  authedUserToken,
   users
 } from '../mocks/mockData'
 
@@ -109,3 +110,16 @@ it('does not route anywhere if no auth token is found', () => {
     }, 1)
   })
 })
+//
+// it('gets matches when Matchboard is mounted', () => {
+//   const component = renderer.create(
+//     <TradeLeafApp />
+//   );
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       expect(testRouteObserver.currentRoute).toEqual('MatchBoard');
+//       expect(api.getMatches).toBeCalledWith(authedUserToken);
+//       resolve();
+//     }, 1)
+//   })
+// })

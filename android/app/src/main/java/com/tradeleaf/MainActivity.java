@@ -1,5 +1,6 @@
 package com.tradeleaf;
 
+import com.opensettings.OpenSettingsPackage
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -15,9 +16,9 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new OpenSettingsPackage()
-        );
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
+          new OpenSettingsPackage()
+      );
     }
 }

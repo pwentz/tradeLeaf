@@ -26,11 +26,15 @@ exports[`<Avatar /> 1`] = `
     }
   >
     <Image
-      source={1}
+      source={
+        Object {
+          "testUri": "../../../src/images/tradeLeafIcon.png",
+        }
+      }
       style={
         Array [
           Object {
-            "borderColor": "grey",
+            "borderColor": "#B8B8B8",
             "borderWidth": 1,
           },
           Object {
@@ -86,7 +90,6 @@ exports[`<Avatar /> 1`] = `
           <Text
             accessible={true}
             allowFontScaling={false}
-            disabled={false}
             ellipsizeMode="tail"
             style={
               Array [
@@ -131,11 +134,15 @@ exports[`<Avatar onPressEdit={null} /> 1`] = `
   }
 >
   <Image
-    source={1}
+    source={
+      Object {
+        "testUri": "../../../src/images/tradeLeafIcon.png",
+      }
+    }
     style={
       Array [
         Object {
-          "borderColor": "grey",
+          "borderColor": "#B8B8B8",
           "borderWidth": 1,
         },
         Object {

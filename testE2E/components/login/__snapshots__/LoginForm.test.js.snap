@@ -29,10 +29,18 @@ exports[`<LoginForm /> 1`] = `
     }
   >
     <Image
-      source={1}
+      source={
+        Object {
+          "testUri": "../../../src/images/tradeLeafHeader1.png",
+        }
+      }
     />
     <Image
-      source={1}
+      source={
+        Object {
+          "testUri": "../../../src/images/tradeLeafHeader2.png",
+        }
+      }
       style={
         Object {
           "marginLeft": 70,

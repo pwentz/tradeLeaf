@@ -3,7 +3,9 @@ import { createUploader } from './mockCloudinary';
 import {
   photos,
   authedUser,
-  users
+  users,
+  authedUserMatches,
+  authedUserToken
 } from './mockData';
 
 import { findById } from '../../src/reducers/utils';
@@ -18,8 +20,8 @@ export default class MockApi {
 
   login = jest.fn((username, password) => {
     return Promise.resolve({
-      userId: 1,
-      token: 'abc123'
+      userId: authedUser.id,
+      token: authedUserToken
     });
   })
 
@@ -32,7 +34,7 @@ export default class MockApi {
   })
 
   retrieveAuthToken = jest.fn(() => {
-    return Promise.resolve({ userId: authedUser.id, authToken: 'xyz789' })
+    return Promise.resolve({ userId: authedUser.id, authToken: authedUserToken })
   })
 
   logout = jest.fn(() => {
@@ -80,5 +82,9 @@ export default class MockApi {
 
   uploadToCloudinary = jest.fn((imageResource) => {
     return this.cloudinaryUploader.upload(imageResource);
+  })
+
+  getMatches = jest.fn((authToken) => {
+    return Promise.resolve(authedUserMatches);
   })
 }
