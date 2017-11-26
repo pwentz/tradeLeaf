@@ -32,11 +32,17 @@ export const authedUser = {
     offers: [
       {
         id: 1,
-        categoryId: 1,
-        photoId: 2,
+        category: "tutor",
+        photo: photos[1],
         userId: 1,
         radius: null,
         description: "giving away food!",
+        request: {
+          id: 1,
+          offerId: 1,
+          category: 'transportation',
+          description: 'i need daily rides'
+        },
         createdAt: "2017-11-18T00:12:46.618258Z",
         updatedAt: "2017-11-18T00:12:46.618258Z"
       }
@@ -74,11 +80,17 @@ export const users = {
     offers: [
       {
         id: 3,
-        categoryId: 1,
-        photoId: 3,
+        category: "baby sitting",
+        photo: photos[3],
         userId: 3,
         radius: 15,
         description: 'i hate cheese. please have',
+        request: {
+          id: 2,
+          offerId: 3,
+          category: 'flowers',
+          description: 'bouquet of petunias'
+        },
         createdAt: '2017-11-18T00:12:46.618258Z',
         updatedAt: '2017-11-18T00:12:46.618258Z'
       }
@@ -101,10 +113,16 @@ export const users = {
     offers: [
       {
         id: 10,
-        categoryId: 1,
-        photoId: 8,
+        category: "woodworking",
+        photo: photos[8],
         userId: 4,
         radius: 4,
+        request: {
+          id: 10,
+          offerId: 10,
+          category: 'food',
+          description: 'pizza would be nice'
+        },
         decription: 'food is moldy. hope u dont mind',
         createdAt: '2017-11-18T00:12:46.618258Z',
         updatedAt: '2017-11-18T00:12:46.618258Z'

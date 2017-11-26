@@ -59,7 +59,7 @@ exports[`<Card /> 1`] = `
         <Image
           source={
             Object {
-              "testUri": "../../../src/images/tradeLeafIcon.png",
+              "uri": "https://inthecloud.png",
             }
           }
           style={
@@ -92,7 +92,7 @@ exports[`<Card /> 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
         >
-          @tannerLemon
+          @harry-jim
         </Text>
         <Text
           accessible={true}
@@ -106,7 +106,8 @@ exports[`<Card /> 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
         >
-          Icons
+          5
+           miles away
         </Text>
       </View>
     </View>
@@ -114,8 +115,6 @@ exports[`<Card /> 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "borderColor": "#27496B",
-          "borderWidth": 2,
           "flexDirection": "column",
           "height": "58.5%",
           "justifyContent": "flex-end",
@@ -128,13 +127,85 @@ exports[`<Card /> 1`] = `
       <View
         style={
           Object {
-            "borderTopColor": "#27496B",
-            "borderTopWidth": 2,
-            "height": "25%",
+            "alignItems": "flex-start",
+            "flexDirection": "column",
+            "height": "66%",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+        >
+          offer:
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+        >
+          i hate cheese. please have
+        </Text>
+        <View
+          style={
+            Object {
+              "height": "45%",
+              "marginBottom": 5,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        >
+          <Image
+            blurRadius={10}
+            onLoadEnd={[Function]}
+            source={
+              Object {
+                "uri": "https://imagethings.jpeg",
+              }
+            }
+            style={
+              Object {
+                "alignSelf": "center",
+                "aspectRatio": 2,
+                "width": "100%",
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "borderTopColor": "#B8B8B8",
+            "borderTopWidth": 1,
+            "flexDirection": "column",
+            "height": "34%",
+            "justifyContent": "space-between",
+            "paddingBottom": 5,
+            "paddingTop": 5,
             "width": "100%",
           }
         }
-      />
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+        >
+          need:
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+        >
+          bouquet of petunias
+        </Text>
+      </View>
     </View>
     <View
       style={

@@ -28,10 +28,10 @@ export default class Card extends Component {
     onAccept: PropTypes.func.isRequired,
     onDecline: PropTypes.func.isRequired,
     inProgress: PropTypes.bool.isRequired,
-    apiError: PropTypes.string,
-    user: PropTypes.object,
-    offer: PropTypes.object,
-    distance: PropTypes.number
+    user: PropTypes.object.isRequired,
+    offer: PropTypes.object.isRequired,
+    distance: PropTypes.number.isRequired,
+    apiError: PropTypes.string
   }
 
   constructor(props) {
