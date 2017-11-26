@@ -6,8 +6,11 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
+
+import { secureImageSource } from '../../api/utils';
 
 import globalStyles, {
   darkWhite,
@@ -21,65 +24,133 @@ import globalStyles, {
 import Avatar from '../common/Avatar';
 
 export default class Card extends Component {
+  static propTypes = {
+    onAccept: PropTypes.func.isRequired,
+    onDecline: PropTypes.func.isRequired,
+    inProgress: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    offer: PropTypes.object.isRequired,
+    distance: PropTypes.number.isRequired,
+    apiError: PropTypes.string
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageBlur: 10
+    }
+  }
+
+  renderCard = () => {
+    const { user, offer, onAccept, onDecline, distance } = this.props;
+    const userPhoto = user.photo ? { uri: user.photo.imageUrl } : undefined
+    const milesAway = distance <= 0 ? '∞' : String(distance)
+
+    return (
+      <View style={styles.cardContainer}>
+
+        <View style={styles.userContainer}>
+          <Avatar
+            size={90}
+            imageSource={userPhoto}
+          />
+
+          <View style={styles.userDataContainer}>
+            <Text>
+              {'@' + user.username}
+            </Text>
+            <Text>
+              Simple Logo
+            </Text>
+            <Text>
+              {milesAway} miles away
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.tradeContainer}>
+          <View style={styles.offerDetails}>
+            <Text>
+              offer:
+            </Text>
+            <Text>
+              {offer.description}
+            </Text>
+            <View style={styles.offerImageContainer}>
+              <Image
+                source={secureImageSource({uri: offer.photo.imageUrl})}
+                style={styles.offerImage}
+                blurRadius={this.state.imageBlur}
+                onLoadEnd={() => this.setState({imageBlur: 0})}
+              />
+            </View>
+          </View>
+          <View style={styles.needContainer}>
+            <Text>
+              need:
+            </Text>
+            <Text>
+              {offer.request.description}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.cardActionContainer}>
+
+          <View style={styles.mailIconContainer}>
+            <TouchableOpacity>
+              <Icon
+                name='mail'
+                size={38}
+                color={midGray}
+              >
+              </Icon>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={onAccept}
+          ></TouchableOpacity>
+
+          <View style={styles.xIconContainer}>
+            <TouchableOpacity onPress={onDecline}>
+              <Icon
+                name='x'
+                size={38}
+                color={blue}
+              >
+              </Icon>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+      </View>
+    )
+  }
+
+  renderLoading() {
+    return (
+      <Text>
+        Loading...
+      </Text>
+    )
+  }
+
   render() {
+    const { apiError, inProgress } = this.props;
+
     return (
       <View style={globalStyles.container}>
+        {!!apiError &&
+          <Text style={globalStyles.errorText}>
+            {apiError}
+          </Text>
+        }
 
         <View style={{height: 20}}></View>
 
-        <View style={styles.cardContainer}>
-
-          <View style={styles.userContainer}>
-            <Avatar
-              size={90}
-            />
-
-            <View style={styles.userDataContainer}>
-              <Text>
-                @tannerLemon
-              </Text>
-              <Text>
-                Simple Logo
-              </Text>
-              <Text>
-                Icons
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.tradeContainer}>
-            <View style={styles.needContainer}>
-            </View>
-          </View>
-
-          <View style={styles.cardActionContainer}>
-
-            <View style={styles.mailIconContainer}>
-              <TouchableOpacity>
-                <Icon
-                  name='mail'
-                  size={38}
-                  color={midGray}
-                >
-                </Icon>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity style={styles.mainButton}></TouchableOpacity>
-
-            <View style={styles.xIconContainer}>
-              <TouchableOpacity>
-                <Icon
-                  name='x'
-                  size={38}
-                  color={blue}
-                >
-                </Icon>
-              </TouchableOpacity>
-            </View>
-
-          </View>
-        </View>
+        { inProgress ? this.renderLoading() : this.renderCard() }
       </View>
     )
   }
@@ -128,8 +199,6 @@ const styles = StyleSheet.create({
   tradeContainer: {
     width: '75%',
     height: '58.5%',
-    borderWidth: 2,
-    borderColor: blue,
     marginTop: 10,
     marginBottom: 10,
     flexDirection: 'column',
@@ -138,9 +207,14 @@ const styles = StyleSheet.create({
   },
   needContainer: {
     width: '100%',
-    height: '25%',
-    borderTopWidth: 2,
-    borderTopColor: blue
+    height: '34%',
+    borderTopWidth: 1,
+    borderTopColor: midGray,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingTop: 5,
+    paddingBottom: 5
   },
   userContainer: {
     flexDirection: 'row',
@@ -153,5 +227,22 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flex: 0.85
+  },
+  offerDetails: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    height: '66%'
+  },
+  offerImageContainer: {
+    width: '100%',
+    height: '45%',
+    overflow: 'hidden',
+    marginBottom: 5
+  },
+  offerImage: {
+    width: '100%',
+    aspectRatio: 2,
+    alignSelf: 'center'
   }
 });
