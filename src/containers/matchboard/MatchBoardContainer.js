@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
+import Swiper from 'react-native-deck-swiper';
+import { lightGray } from '../../styles/index';
 
 import {
   handleIfApiError,
@@ -24,8 +26,8 @@ class MatchBoardContainer extends Component {
       inProgress: false,
       error: null,
       matchStack: props.match.matches,
-      currentMatch: null
-    }
+      isFinishedCards: false
+    };
   };
 
   componentWillMount() {
@@ -36,8 +38,7 @@ class MatchBoardContainer extends Component {
         .then(matches => {
           this.setState({
             inProgress: false,
-            currentMatch: matches[0],
-            matchStack: matches.slice(1)
+            matchStack: matches
           })
         })
         .catch(err => {
@@ -45,37 +46,65 @@ class MatchBoardContainer extends Component {
             this.setState({ inProgress: false, error })
           })
         })
-    })
-  }
+    });
+  };
 
-  handleAcceptOffer = () => {
-    console.log("IT'S A MATCH!")
-  }
+  handleAcceptOffer = (matchIdx) => {
+    console.log("ACCEPTED!");
+  };
 
-  handleDeclineOffer = () => {
-    const { matchStack, currentMatch } = this.state;
+  handleDeclineOffer = (matchIdx) => {
+    console.log("DECLINED!");
+  };
 
-    this.setState({
-      currentMatch: matchStack[0],
-      matchStack: [...matchStack.slice(1), currentMatch]
-    })
-  }
+  handleNoCardsLeft = () => {
+    this.setState({ isFinishedCards: true });
+  };
 
-  render() {
-    const { currentMatch, inProgress, error } = this.state;
+  renderMatchStack = () => {
+    const { matchStack, inProgress, error, isFinishedCards } = this.state;
+
+    if (isFinishedCards) {
+      return (
+        <Text>
+          All done!
+        </Text>
+      );
+    };
 
     return (
-      <Card
-        onAccept={this.handleAcceptOffer}
-        onDecline={this.handleDeclineOffer}
-        offer={currentMatch && currentMatch.offer}
-        user={currentMatch && currentMatch.user}
-        distance={currentMatch && currentMatch.distance}
-        inProgress={inProgress}
-        apiError={displayableError(error)}
+      <Swiper
+        ref='swiper'
+        cards={matchStack}
+        renderCard={(currentMatch) => {
+          return (
+            <Card
+              onAccept={() => this.refs.swiper.swipeRight()}
+              onDecline={() => this.refs.swiper.swipeLeft()}
+              offer={currentMatch.offer}
+              user={currentMatch.user}
+              distance={currentMatch.distance}
+              inProgress={inProgress}
+              apiError={displayableError(error)}
+            />
+          )
+        }}
+        verticalSwipe={false}
+        onSwipedRight={this.handleAcceptOffer}
+        onSwipedLeft={this.handleDeclineOffer}
+        onSwipedAll={this.handleNoCardsLeft}
+        backgroundColor={lightGray}
+        cardVerticalMargin={0}
+        marginTop={0}
       />
     );
   };
+
+  render() {
+    const { inProgress } = this.state;
+
+    return inProgress ? <Text>Loading...</Text> : this.renderMatchStack();
+  }
 };
 
 function mapStateToProps(state, props) {

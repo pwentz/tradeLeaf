@@ -41,104 +41,10 @@ export default class Card extends Component {
     }
   }
 
-  renderCard = () => {
-    const { user, offer, onAccept, onDecline, distance } = this.props;
+  render() {
+    const { user, offer, onAccept, onDecline, distance, apiError, inProgress } = this.props;
     const userPhoto = user.photo ? { uri: user.photo.imageUrl } : undefined
     const milesAway = distance <= 0 ? '∞' : String(distance)
-
-    return (
-      <View style={styles.cardContainer}>
-
-        <View style={styles.userContainer}>
-          <Avatar
-            size={90}
-            imageSource={userPhoto}
-          />
-
-          <View style={styles.userDataContainer}>
-            <Text>
-              {'@' + user.username}
-            </Text>
-            <Text>
-              Simple Logo
-            </Text>
-            <Text>
-              {milesAway} miles away
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.tradeContainer}>
-          <View style={styles.offerDetails}>
-            <Text>
-              offer:
-            </Text>
-            <Text>
-              {offer.description}
-            </Text>
-            <View style={styles.offerImageContainer}>
-              <Image
-                source={secureImageSource({uri: offer.photo.imageUrl})}
-                style={styles.offerImage}
-                blurRadius={this.state.imageBlur}
-                onLoadEnd={() => this.setState({imageBlur: 0})}
-              />
-            </View>
-          </View>
-          <View style={styles.needContainer}>
-            <Text>
-              need:
-            </Text>
-            <Text>
-              {offer.request.description}
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.cardActionContainer}>
-
-          <View style={styles.mailIconContainer}>
-            <TouchableOpacity>
-              <Icon
-                name='mail'
-                size={38}
-                color={midGray}
-              >
-              </Icon>
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity
-            style={styles.mainButton}
-            onPress={onAccept}
-          ></TouchableOpacity>
-
-          <View style={styles.xIconContainer}>
-            <TouchableOpacity onPress={onDecline}>
-              <Icon
-                name='x'
-                size={38}
-                color={blue}
-              >
-              </Icon>
-            </TouchableOpacity>
-          </View>
-
-        </View>
-      </View>
-    )
-  }
-
-  renderLoading() {
-    return (
-      <Text>
-        Loading...
-      </Text>
-    )
-  }
-
-  render() {
-    const { apiError, inProgress } = this.props;
 
     return (
       <View style={globalStyles.container}>
@@ -149,8 +55,85 @@ export default class Card extends Component {
         }
 
         <View style={{height: 20}}></View>
+        <View style={styles.cardContainer}>
 
-        { inProgress ? this.renderLoading() : this.renderCard() }
+          <View style={styles.userContainer}>
+            <Avatar
+              size={90}
+              imageSource={userPhoto}
+            />
+
+            <View style={styles.userDataContainer}>
+              <Text>
+                {'@' + user.username}
+              </Text>
+              <Text>
+                Simple Logo
+              </Text>
+              <Text>
+                {milesAway} miles away
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.tradeContainer}>
+            <View style={styles.offerDetails}>
+              <Text>
+                offer:
+              </Text>
+              <Text>
+                {offer.description}
+              </Text>
+              <View style={styles.offerImageContainer}>
+                <Image
+                  source={secureImageSource({uri: offer.photo.imageUrl})}
+                  style={styles.offerImage}
+                  blurRadius={this.state.imageBlur}
+                  onLoadEnd={() => this.setState({imageBlur: 0})}
+                />
+              </View>
+            </View>
+            <View style={styles.needContainer}>
+              <Text>
+                need:
+              </Text>
+              <Text>
+                {offer.request.description}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.cardActionContainer}>
+
+            <View style={styles.mailIconContainer}>
+              <TouchableOpacity>
+                <Icon
+                  name='mail'
+                  size={38}
+                  color={midGray}
+                >
+                </Icon>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              style={styles.mainButton}
+              onPress={onAccept}
+            ></TouchableOpacity>
+
+            <View style={styles.xIconContainer}>
+              <TouchableOpacity onPress={onDecline}>
+                <Icon
+                  name='x'
+                  size={38}
+                  color={blue}
+                >
+                </Icon>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </View>
       </View>
     )
   }
