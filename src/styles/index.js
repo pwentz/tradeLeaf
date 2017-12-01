@@ -15,9 +15,9 @@ export const windowHeight = Dimensions.get('window').height;
 export const blue = '#27496B';
 export const yellow = '#DFBA00';
 export const midGray = '#B8B8B8';
+export const lightGray = 'rgba(184, 184, 184, 0.34)';
 export const lightWhite = '#F9F9F9';
 export const darkWhite = '#F5F5F5';
-
 
 const styles = StyleSheet.create({
   input: {
