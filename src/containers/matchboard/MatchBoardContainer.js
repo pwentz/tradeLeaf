@@ -50,6 +50,10 @@ class MatchBoardContainer extends Component {
   };
 
   handleAcceptOffer = (matchIdx) => {
+    const { matchStack } = this.state;
+    const approvedMatch = matchStack[matchIdx];
+
+    console.log(approvedMatch);
     console.log("ACCEPTED!");
   };
 
