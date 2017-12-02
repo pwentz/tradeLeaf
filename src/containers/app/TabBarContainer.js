@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import TabBar from '../../components/navigation/TabBar';
+import TabBar from '../../components/app/TabBar';
 
 const TabBarContainer = (props) => {
   return (
