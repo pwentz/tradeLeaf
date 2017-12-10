@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Octicons';
+import LightboxImage from '../common/LightboxImage';
 
 import {
   Text,
@@ -31,6 +32,8 @@ export default class Card extends Component {
     user: PropTypes.object.isRequired,
     offer: PropTypes.object.isRequired,
     distance: PropTypes.number.isRequired,
+    onLightboxOpen: PropTypes.func,
+    onLightboxClose: PropTypes.func,
     apiError: PropTypes.string
   }
 
@@ -42,7 +45,8 @@ export default class Card extends Component {
   }
 
   render() {
-    const { user, offer, onAccept, onDecline, distance, apiError, inProgress } = this.props;
+    const { user, offer, onAccept, onDecline, distance, apiError, inProgress,
+            onLightboxOpen, onLightboxClose } = this.props;
     const userPhoto = user.photo ? { uri: user.photo.imageUrl } : undefined
     const milesAway = distance <= 0 ? '∞' : String(distance)
 
@@ -84,14 +88,22 @@ export default class Card extends Component {
               <Text>
                 {offer.description}
               </Text>
+
               <View style={styles.offerImageContainer}>
-                <Image
-                  source={secureImageSource({uri: offer.photo.imageUrl})}
-                  style={styles.offerImage}
-                  blurRadius={this.state.imageBlur}
-                  onLoadEnd={() => this.setState({imageBlur: 0})}
-                />
+                <LightboxImage
+                  onOpen={onLightboxOpen}
+                  onClose={onLightboxClose}
+                  swipeToDismiss={false}
+                >
+                  <Image
+                    source={secureImageSource({uri: offer.photo.imageUrl})}
+                    style={styles.offerImage}
+                    blurRadius={this.state.imageBlur}
+                    onLoadEnd={() => this.setState({imageBlur: 0})}
+                  />
+                </LightboxImage>
               </View>
+
             </View>
             <View style={styles.needContainer}>
               <Text>
