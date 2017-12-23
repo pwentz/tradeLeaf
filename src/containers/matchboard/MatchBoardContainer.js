@@ -65,15 +65,10 @@ class MatchBoardContainer extends Component {
     const { matchStack } = this.state;
     const approvedMatch = matchStack[matchIdx];
     this.handleSwipe(matchIdx);
-
-    console.log("APPROVED MATCH: ", approvedMatch.offer);
-    console.log("MATCHING OFFER: ", approvedMatch.exchangeOffers);
-    console.log("ACCEPTED!");
   };
 
   handleDeclineOffer = (matchIdx) => {
     this.handleSwipe(matchIdx);
-    console.log("DECLINED!");
   };
 
   handleNoCardsLeft = () => {
@@ -139,7 +134,6 @@ class MatchBoardContainer extends Component {
 
   render() {
     const { inProgress } = this.state;
-
     return inProgress ? <Text>Loading...</Text> : this.renderMatchStack();
   }
 };
