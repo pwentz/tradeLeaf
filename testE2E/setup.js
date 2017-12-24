@@ -25,19 +25,21 @@ jest.mock('ScrollView', () => jest.genMockFromModule('ScrollView'))
 
 export const renderer = require('react-test-renderer');
 
+const AccountRequirements=require('../src/components/register/AccountRequirements').default;
 const App=require('../src/components/app/App').default;
+const Avatar=require('../src/components/common/Avatar').default;
+const Card=require('../src/components/matchboard/Card').default;
 const LoginForm=require('../src/components/login/LoginForm').default;
 const RegisterForm=require('../src/components/register/RegisterForm').default;
-const Card=require('../src/components/matchboard/Card').default;
-const AccountRequirements=require('../src/components/register/AccountRequirements').default;
-const Avatar=require('../src/components/common/Avatar').default;
+const TabBar=require('../src/components/app/TabBar').default;
 
 export const components = {
   LoginForm,
   RegisterForm,
   Card,
   AccountRequirements,
-  Avatar
+  Avatar,
+  TabBar
 }
 
 class TestRouteObserver {}

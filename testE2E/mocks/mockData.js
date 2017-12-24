@@ -3,7 +3,7 @@ export const photos = {
     id: 1,
     cloudinaryId: "abc123",
     imageUrl: 'https://somephoto.png',
-    createAt: '2017-11-18T00:12:46.618258Z',
+    createdAt: '2017-11-18T00:12:46.618258Z',
     updatedAt: '2017-11-17T00:12:46.618258Z'
   },
   3: {
@@ -18,7 +18,7 @@ export const photos = {
     cloudinaryId: 'some cloud id',
     imageUrl: 'https://sunset.png',
     createdAt: '2017-11-18T00:12:46.618258Z',
-    updateAt: '2017-11-18T00:12:46.618258Z'
+    updatedAt: '2017-11-18T00:12:46.618258Z'
   }
 }
 
@@ -51,7 +51,7 @@ export const authedUser = {
       id: 2,
       cloudinaryId: "xyz780",
       imageUrl: 'https://someofferphoto.png',
-      createAt: '2017-11-18T00:12:46.618258Z',
+      createdAt: '2017-11-18T00:12:46.618258Z',
       updatedAt: '2017-11-17T00:12:46.618258Z'
     }
 }

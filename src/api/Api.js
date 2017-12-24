@@ -92,6 +92,15 @@ export default class Api {
       { method: 'GET', credential: 'include' },
       null,
       authToken
-    )
-  }
+    );
+  };
+
+  createTrade(offer1Id, offer2Id) {
+    return fetchRequest(
+      this.apiUrl,
+      `trades`,
+      { method: 'POST', credential: 'include' },
+      { offer1Id, offer2Id }
+    );
+  };
 };

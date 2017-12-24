@@ -26,7 +26,9 @@ class MatchBoardContainer extends Component {
       inProgress: false,
       error: null,
       matchStack: props.match.matches,
-      isFinishedCards: false
+      isFinishedCards: false,
+      enableSwipe: true,
+      matchIdx: 0
     };
   };
 
@@ -49,20 +51,45 @@ class MatchBoardContainer extends Component {
     });
   };
 
+  handleSwipe = (matchIdx) => {
+    const { matchStack } = this.state;
+
+    if (matchIdx < matchStack.length - 1) {
+      this.setState({
+        matchIdx: matchIdx + 1
+      });
+    };
+  };
+
   handleAcceptOffer = (matchIdx) => {
-    console.log("ACCEPTED!");
+    const { matchStack } = this.state;
+    const approvedMatch = matchStack[matchIdx];
+    this.handleSwipe(matchIdx);
   };
 
   handleDeclineOffer = (matchIdx) => {
-    console.log("DECLINED!");
+    this.handleSwipe(matchIdx);
   };
 
   handleNoCardsLeft = () => {
     this.setState({ isFinishedCards: true });
   };
 
+  enableSwipe = () => {
+    this.setState({
+      enableSwipe: true
+    })
+  };
+
+  disableSwipe = () => {
+    this.setState({
+      enableSwipe: false
+    });
+  };
+
   renderMatchStack = () => {
-    const { matchStack, inProgress, error, isFinishedCards } = this.state;
+    const { matchStack, inProgress, error, isFinishedCards, matchIdx } = this.state;
+    const showNextCard = matchIdx < matchStack.length - 1
 
     if (isFinishedCards) {
       return (
@@ -76,6 +103,7 @@ class MatchBoardContainer extends Component {
       <Swiper
         ref='swiper'
         cards={matchStack}
+        cardIndex={matchIdx}
         renderCard={(currentMatch) => {
           return (
             <Card
@@ -86,10 +114,14 @@ class MatchBoardContainer extends Component {
               distance={currentMatch.distance}
               inProgress={inProgress}
               apiError={displayableError(error)}
+              onLightboxOpen={this.disableSwipe}
+              onLightboxClose={this.enableSwipe}
             />
           )
         }}
+        showSecondCard={showNextCard}
         verticalSwipe={false}
+        horizontalSwipe={this.state.enableSwipe}
         onSwipedRight={this.handleAcceptOffer}
         onSwipedLeft={this.handleDeclineOffer}
         onSwipedAll={this.handleNoCardsLeft}
@@ -102,7 +134,6 @@ class MatchBoardContainer extends Component {
 
   render() {
     const { inProgress } = this.state;
-
     return inProgress ? <Text>Loading...</Text> : this.renderMatchStack();
   }
 };

@@ -11,7 +11,7 @@ import NotificationContainer from '../../containers/notifications/NotificationCo
 import InboxContainer from '../../containers/inbox/InboxContainer';
 import RegisterContainer from '../../containers/register/RegisterContainer';
 import AccountRequirementsContainer from '../../containers/register/AccountRequirementsContainer';
-import TabBarContainer from '../../containers/navigation/TabBarContainer'
+import TabBarContainer from '../../containers/app/TabBarContainer';
 
 function addListener(props) {
   const { navigate } = props.navigation;
