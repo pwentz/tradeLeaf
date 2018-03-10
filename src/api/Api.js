@@ -76,7 +76,7 @@ export default class Api {
     return fetchRequest(
       this.apiUrl,
       `photos`,
-      { method: 'POST', credential: 'include' },
+      { method: 'POST', credentials: 'include' },
       { cloudinaryId, imageUrl }
     );
   };
@@ -89,18 +89,35 @@ export default class Api {
     return fetchRequest(
       this.apiUrl,
       'matches',
-      { method: 'GET', credential: 'include' },
+      { method: 'GET', credentials: 'include' },
       null,
       authToken
     );
   };
 
-  createTrade(offer1Id, offer2Id) {
+  createTrade({acceptedOfferId, exchangeOfferId}) {
     return fetchRequest(
       this.apiUrl,
       `trades`,
-      { method: 'POST', credential: 'include' },
-      { offer1Id, offer2Id }
+      { method: 'POST', credentials: 'include' },
+      { acceptedOfferId, exchangeOfferId }
     );
   };
+
+  findTrade({acceptedOfferId, exchangeOfferId}) {
+    return fetchRequest(
+      this.apiUrl,
+      `trades?acceptedOfferId=${acceptedOfferId}&exchangeOfferId=${exchangeOfferId}`,
+      { method: 'GET', credentials: 'include' }
+    )
+  }
+
+  createTradeChat(tradeId) {
+    return fetchRequest(
+      this.apiUrl,
+      `trade-chat`,
+      { method: 'POST', credentials: 'include' },
+      { tradeId }
+    )
+  }
 };

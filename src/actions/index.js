@@ -4,6 +4,7 @@ import { createLocationActions } from './location';
 import { createPhotoActions } from './photo';
 import { createMatchActions } from './match';
 import { createTradeActions } from './trade';
+import { createTradeChatActions } from './tradeChat';
 
 export function createActions(api) {
   return {
@@ -12,6 +13,7 @@ export function createActions(api) {
     location: createLocationActions(api),
     photo: createPhotoActions(api),
     match: createMatchActions(api),
-    trade: createTradeActions(api)
+    trade: createTradeActions(api),
+    tradeChat: createTradeChatActions(api)
   }
 }
