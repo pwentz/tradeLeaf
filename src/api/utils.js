@@ -43,7 +43,7 @@ export function fetchRequest(apiUrl, route, request, body, authToken) {
     ),
     credentials: 'include',
     ...request
-  })
+    })
     .then(processResponse)
     .catch(error => {
       if (error instanceof ApiError) throw error

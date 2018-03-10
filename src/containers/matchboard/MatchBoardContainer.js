@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-deck-swiper';
@@ -51,20 +51,52 @@ class MatchBoardContainer extends Component {
     });
   };
 
-  handleSwipe = (matchIdx) => {
+  handleSwipe = (matchIdx, exchangeOfferId) => {
     const { matchStack } = this.state;
+    const acceptedOfferId = matchStack[matchIdx].id
+    console.log("SWIPED: ", matchStack[matchIdx])
+    /*
+      - Get trade to see if it already exists
+      - If it does, then we need to make a POST request to create a trade chat
+      - If it does not, we make a POST request to create a trade
+    */
 
-    if (matchIdx < matchStack.length - 1) {
-      this.setState({
-        matchIdx: matchIdx + 1
-      });
-    };
+    dispatch(actions.trade.findTrade({acceptedOfferId, exchangeOfferId }))
+      .then(trade => {
+        if (trade) {
+          return dispatch(actions.tradeChat.createTradeChat(trade.id))
+        }
+
+        return dispatch(actions.createTrade({ acceptedOfferId, exchangeOfferId }))
+      })
+      .then(() => {
+        if (matchIdx < matchStack.length - 1) {
+          this.setState({
+            matchIdx: matchIdx + 1
+          });
+        };
+      })
   };
 
   handleAcceptOffer = (matchIdx) => {
     const { matchStack } = this.state;
     const approvedMatch = matchStack[matchIdx];
-    this.handleSwipe(matchIdx);
+    const handleSwipe = this.handleSwipe
+
+    if (approvedMatch.exchangeOffers.length > 1) {
+      const acceptedToFront = (acc, e) => e.isAccepted ? [e, ...acc] : [...acc, e]
+      Alert.alert(
+        'Multiple exchange offers found',
+        "Please select which offer you'd like to trade for",
+        approvedMatch.exchangeOffers.reduce(acceptedToFront, []).map(exch => {
+          return exch.isAccepted ?
+            { text: `${exch.offer.description} (Matched)`, onPress: () => handleSwipe(matchIdx, exch.offer.id) } :
+            { text: exch.offer.description, onPress: () => handleSwipe(matchIdx, exch.offer.id) }
+        })
+      )
+    } else {
+      this.handleSwipe(matchIdx, approvedMatch.exchangeOffers[0].offer.id);
+    }
   };
 
   handleDeclineOffer = (matchIdx) => {
@@ -89,6 +121,7 @@ class MatchBoardContainer extends Component {
 
   renderMatchStack = () => {
     const { matchStack, inProgress, error, isFinishedCards, matchIdx } = this.state;
+    console.log(matchStack)
     const showNextCard = matchIdx < matchStack.length - 1
 
     if (isFinishedCards) {
