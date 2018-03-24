@@ -120,4 +120,13 @@ export default class Api {
       { tradeId }
     )
   }
+
+  createMessage({tradeChatId, senderId, content}) {
+    return fetchRequest(
+      this.apiUrl,
+      `messages`,
+      { method: 'POST', credentials: 'include' },
+      { tradeChatId, senderId, content }
+    )
+  }
 };
