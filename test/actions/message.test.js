@@ -4,7 +4,7 @@ import { MockDispatch } from './utils';
 import { expect } from 'chai';
 
 class MockApi {
-  createMessage({ tradeChatId, senderId, content }) {
+  createMessage({ token, tradeChatId, senderId, content }) {
     return Promise.resolve(1);
   };
 };
@@ -18,9 +18,10 @@ describe('message actions', () => {
   it('creates a message', (done) => {
     const senderId = 1;
     const tradeChatId = 1;
-    const content = 'hello, world!'
+    const token = 'abc123';
+    const content = 'hello, world!';
 
-    mockDispatch.dispatch(actions.createMessage({ senderId, tradeChatId, content }))
+    mockDispatch.dispatch(actions.createMessage({ token, senderId, tradeChatId, content }))
       .then(res => {
 
         expect(mockDispatch.actions).to.deep.equal([

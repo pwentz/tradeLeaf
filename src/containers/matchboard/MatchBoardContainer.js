@@ -36,6 +36,7 @@ class MatchBoardContainer extends Component {
     const { auth, dispatch, actions } = this.props;
 
     this.setState({ inProgress: true }, () => {
+      // open web socket!
       dispatch(actions.match.getMatches(auth.authToken))
         .then(matches => {
           this.setState({

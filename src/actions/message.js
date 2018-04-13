@@ -7,10 +7,10 @@ export const messageActionTypes = {
 }
 
 export function createMessageActions(api) {
-  function createMessage({tradeChatId, senderId, content}) {
+  function createMessage({tradeChatId, senderId, content, token}) {
     return dispatch => {
       dispatch(createAction(messageActionTypes.MESSAGE_CREATE_MESSAGE, { tradeChatId, senderId, content }));
-      return api.createMessage({ tradeChatId, senderId, content })
+      return api.createMessage({ tradeChatId, senderId, content, token })
         .then(messageId => {
           dispatch(createAction(messageActionTypes.MESSSAGE_CREATE_MESSAGE_SUCCESS, { messageId }));
           return messageId;
