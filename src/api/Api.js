@@ -129,4 +129,14 @@ export default class Api {
       { tradeChatId, senderId, content }
     )
   }
+
+  fetchTradeChats(userId, authToken) {
+    return fetchRequest(
+      this.apiUrl,
+      `trade-chat/${userId}`,
+      { method: 'GET', credentials: 'include' },
+      null,
+      authToken
+    )
+  }
 };
