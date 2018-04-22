@@ -5,6 +5,8 @@ import { createPhotoActions } from './photo';
 import { createMatchActions } from './match';
 import { createTradeActions } from './trade';
 import { createTradeChatActions } from './tradeChat';
+import { createMessageActions } from './message';
+import { createChatSocketActions } from './chatSocket';
 
 export function createActions(api) {
   return {
@@ -14,6 +16,8 @@ export function createActions(api) {
     photo: createPhotoActions(api),
     match: createMatchActions(api),
     trade: createTradeActions(api),
-    tradeChat: createTradeChatActions(api)
+    tradeChat: createTradeChatActions(api),
+    message: createMessageActions(api),
+    chatSocket: createChatSocketActions(api)
   }
 }

@@ -19,10 +19,11 @@ import globalStyles, {
 } from '../../styles/index';
 
 import { secureImageSource } from '../../api/utils';
+const tradeLeafIcon = require('../../images/tradeLeafIcon.png')
 
 export default class Avatar extends Component {
   static defaultProps = {
-    imageSource: require('../../images/tradeLeafIcon.png'),
+    imageSource: tradeLeafIcon,
     size: 40
   };
 
@@ -31,15 +32,17 @@ export default class Avatar extends Component {
     renderOverlay: PropTypes.func
   };
 
-  renderImage() {
-    const { size, imageSource } = this.props;
-    const circle = { height: size, width: size, borderRadius: size / 2 };
+  imageSource() {
+    return secureImageSource(this.props.imageSource) || tradeLeafIcon
+  }
 
-    let imageSourceSecure = secureImageSource(imageSource);
+  renderImage() {
+    const { size } = this.props;
+    const circle = { height: size, width: size, borderRadius: size / 2 };
 
     return (
       <Image
-        source={imageSourceSecure}
+        source={this.imageSource()}
         style={[styles.imageBorder, circle]}
       />
     );
@@ -49,19 +52,17 @@ export default class Avatar extends Component {
     const { onPressEdit } = this.props;
 
     if (onPressEdit) {
-      const { size, imageSource } = this.props;
+      const { size } = this.props;
       const circle = { height: size, width: size, borderRadius: size / 2 };
 
       const editIconTop = windowHeight * (size / 869)
       const editIconLeft = windowWidth * (size / 571)
       const editIconSize = size / 5.5
 
-      let imageSourceSecure = secureImageSource(imageSource);
-
       return (
         <View style={styles.container}>
           <Image
-            source={imageSourceSecure}
+            source={this.imageSource()}
             style={[styles.imageBorder, circle]}
           />
           <View style={{ position: 'absolute', top: editIconTop, left: editIconLeft }}>

@@ -83,8 +83,6 @@ export default class ProfilePhotoUploader extends Component {
 
     const { showPicker, hasSelectedImage } = this.state;
 
-    const currentAvatar = uploadedPhoto ? { uri: uploadedPhoto.imageUrl } : undefined
-
     return (
       <View style={styles.container}>
 
@@ -97,7 +95,7 @@ export default class ProfilePhotoUploader extends Component {
         <View style={styles.avatarContainer}>
           <Avatar
             onPressEdit={inProgress ? null : this.showPicker}
-            imageSource={currentAvatar}
+            imageSource={uploadedPhoto && { uri: uploadedPhoto.imageUrl }}
             size={avatarSize}
           />
         </View>

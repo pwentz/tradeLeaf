@@ -1,7 +1,8 @@
 import Api from './Api';
 // 'clients' dir holds wrappers for react-native (non-ui) modules
 import LocalStorageClient from './clients/LocalStorageClient';
-import LocationClient from './clients/LocationClient'
+import LocationClient from './clients/LocationClient';
+import ChatSocketClient from './clients/ChatSocketClient';
 
 export function createApi() {
   return new Api({
@@ -11,6 +12,7 @@ export function createApi() {
       uploadPreset: 'mx9ed9ic'
     },
     localStorageClient: LocalStorageClient,
-    locationClient: LocationClient
+    locationClient: LocationClient,
+    chatSocketClient: new ChatSocketClient('ws://localhost:9160/')
   });
 };
