@@ -122,13 +122,13 @@ export default class Api {
     )
   }
 
-  createMessage({tradeChatId, senderId, content, token}) {
+  createMessage({tradeChatId, senderId, content, authToken}) {
     return fetchRequest(
       this.apiUrl,
       `messages`,
       { method: 'POST', credentials: 'include' },
       { tradeChatId, senderId, content },
-      token
+      authToken
     )
   }
 
@@ -143,9 +143,7 @@ export default class Api {
   }
 
   createChatSocket(onOpen, onMessage) {
-    this.chatSocketClient.createSocket();
-    this.chatSocketClient.onOpen(onOpen);
-    this.chatSocketClient.onMessage(onMessage);
+    this.chatSocketClient.createSocket(onOpen, onMessage);
   }
 
   sendToChatSocket(message) {

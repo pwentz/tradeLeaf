@@ -40,7 +40,8 @@ class MatchBoardContainer extends Component {
         .then(matches => {
           this.setState({
             inProgress: false,
-            matchStack: matches
+            matchStack: matches,
+            isFinishedCards: matches.length === 0
           })
         })
         .catch(err => {

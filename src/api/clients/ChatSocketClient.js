@@ -5,18 +5,12 @@ export default class {
     this.socket = null;
   }
 
-  createSocket() {
+  createSocket(onOpen, onMessage) {
     this.socket = this.token === null ?
       new WebSocket(this.url) :
       new WebSocket(this.url, [this.token])
-  }
-
-  onOpen(fn) {
-    this.socket.onopen = fn;
-  }
-
-  onMessage(fn) {
-    this.socket.onmessage = fn;
+    this.socket.onopen = onOpen;
+    this.socket.onmessage = onMessage;
   }
 
   send(msg) {
