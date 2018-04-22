@@ -1,4 +1,4 @@
-class ChatSocketClient {
+export default class {
   constructor(url, wsToken = null) {
     this.url = url;
     this.token = wsToken;

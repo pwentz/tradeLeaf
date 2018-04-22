@@ -1,7 +1,7 @@
 import ApiError from './ApiError'
 
 export function processJson(responseJson, response) {
-  const error = responseJson.error || displayableErrors(responseJson.errors);
+  const error = responseJson && (responseJson.error || displayableErrors(responseJson.errors));
 
   if (error) {
     throw new Error(error);

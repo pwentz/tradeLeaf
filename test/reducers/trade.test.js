@@ -5,59 +5,15 @@ import { tradeActionTypes } from '../../src/actions/trade';
 import { expect } from 'chai';
 
 describe('trade reducer', () => {
-  let state;
-
-  beforeEach(() => {
-    state = reducer(undefined, { data: {} });
-  });
-
   context(tradeActionTypes.TRADE_CREATE_TRADE_SUCCESS, () => {
-    it('adds a trade when it is successfully retrieved', () => {
-      const trade = {
-        id: 1,
-        offer1Id: 1,
-        offer2Id: 2,
-        isOpen: true,
-        createdAt: '2017-11-18T00:12:46.618258Z',
-        updatedAt: '2017-11-18T00:12:46.618258Z'
-      }
-
-      let state = reducer(undefined, { data: {} })
+    it('appends a tradeId when it is successfully retrieved', () => {
+      let state = reducer({ trade: { trades: [1] }}, {})
 
       state = reducer(state, createAction(tradeActionTypes.TRADE_CREATE_TRADE_SUCCESS, {
-        trade
+        tradeId: 3
       }));
 
-      expect(state.trade.trades[1]).to.deep.equal(trade);
-    });
-
-    it('updates existing trades object', () => {
-      const existingTrade = {
-        id: 1,
-        offer1Id: 1,
-        offer2Id: 2,
-        isOpen: true,
-        createdAt: '2017-11-18T00:12:46.618258Z',
-        updatedAt: '2017-11-18T00:12:46.618258Z'
-      };
-
-      const newTrade = {
-        id: 2,
-        offer1Id: 2,
-        offer2Id: 3,
-        isOpen: false,
-        createdAt: '2017-11-18T00:12:46.618258Z',
-        updatedAt: '2017-11-18T00:12:46.618258Z'
-      };
-
-      let state = reducer({ trade: { trades: { [existingTrade.id]: existingTrade } } }, {})
-
-      state = reducer(state, createAction(tradeActionTypes.TRADE_CREATE_TRADE_SUCCESS, {
-        trade: newTrade
-      }));
-
-      expect(state.trade.trades[existingTrade.id]).to.deep.equal(existingTrade);
-      expect(state.trade.trades[newTrade.id]).to.deep.equal(newTrade);
+      expect(state.trade.trades).to.deep.equal([1, 3]);
     });
   });
 });
