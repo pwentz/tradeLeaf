@@ -53,7 +53,7 @@ class InboxContainer extends Component {
               key={recipient}
               recipient={this.props.userMeta[recipient]}
               currentUser={this.props.userMeta[this.props.auth.userId]}
-              lastMessage={messages.slice(-1)[0] && messages.slice(-1)[0].content}
+              lastMessage={messages.slice(-1)[0]}
             />
           ))}
         </View>

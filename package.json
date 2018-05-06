@@ -10,6 +10,7 @@
     "test-ui": "jest testE2E/components"
   },
   "dependencies": {
+    "moment": "^2.22.1",
     "prop-types": "^15.6.0",
     "react": "16.0.0",
     "react-native": "0.50.3",

@@ -10,20 +10,17 @@ import globalStyles, {
   lightWhite,
   blue,
 } from '../../styles';
+const moment = require('moment');
 
 export default class extends React.Component {
   static propTypes = {
     recipient: PropTypes.object.isRequired,
     currentUser: PropTypes.object.isRequired,
-    lastMessage: PropTypes.string.isRequired,
+    lastMessage: PropTypes.object,
   };
 
-  get message() {
-    return `${this.props.lastMessage.slice(0, 75)}...`;
-  }
-
   render() {
-    const { recipient, currentUser } = this.props;
+    const { recipient, currentUser, lastMessage } = this.props;
     const recipientPhoto = recipient.photo ? { uri: recipient.photo.imageUrl } : undefined;
     return (
       <TouchableOpacity style={styles.chatContainer}>
@@ -37,9 +34,19 @@ export default class extends React.Component {
             </Text>
             <Text style={{ color: midGray }}> @{recipient.username}</Text>
           </Text>
-          <Text style={{ color: blue, opacity: 0.75 }}>{this.message}</Text>
+          {lastMessage && (
+            <Text style={styles.preview}>
+              {lastMessage.content.length > 75
+                ? `${lastMessage.content.slice(0, 75)}...`
+                : lastMessage.content}
+            </Text>
+          )}
         </View>
-        {/* PUT TIMESTAMP OF MESSAGE BELOW */}
+        {lastMessage && (
+          <View style={styles.timestampContainer}>
+            <Text style={styles.timestamp}>{moment(lastMessage.createdAt).format('M/D/YY')}</Text>
+          </View>
+        )}
         <View />
       </TouchableOpacity>
     );
@@ -64,9 +71,24 @@ const styles = StyleSheet.create({
     width: '20%',
   },
   previewContainer: {
-    width: '75%',
+    width: '65%',
     height: '75%',
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  preview: { color: blue, opacity: 0.75, fontSize: 14 },
+  timestampContainer: {
+    position: 'relative',
+    width: '15%',
+    zIndex: -1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  timestamp: {
+    color: blue,
+    marginBottom: 30,
+    opacity: 0.7,
+    fontSize: 12,
   },
 });
