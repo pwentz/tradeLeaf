@@ -11,15 +11,16 @@ import globalStyles, {
   blue,
 } from '../../styles';
 
-// Message
-// { id, tradeChatId, senderId, content, createdAt }
-
 export default class extends React.Component {
   static propTypes = {
     recipient: PropTypes.object.isRequired,
     currentUser: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
+    lastMessage: PropTypes.string.isRequired,
   };
+
+  get message() {
+    return `${this.props.lastMessage.slice(0, 75)}...`;
+  }
 
   render() {
     const { recipient, currentUser } = this.props;
@@ -36,6 +37,7 @@ export default class extends React.Component {
             </Text>
             <Text style={{ color: midGray }}> @{recipient.username}</Text>
           </Text>
+          <Text style={{ color: blue, opacity: 0.75 }}>{this.message}</Text>
         </View>
         {/* PUT TIMESTAMP OF MESSAGE BELOW */}
         <View />
@@ -63,6 +65,8 @@ const styles = StyleSheet.create({
   },
   previewContainer: {
     width: '75%',
-    height: '90%',
+    height: '75%',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 });

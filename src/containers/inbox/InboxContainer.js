@@ -29,7 +29,7 @@ class InboxContainer extends Component {
             Object.values(tradeChats).map((tc) => dispatch(actions.user.getUser(tc.recipient)))
           )
         )
-        .then(() => this.setState({ inProgress: false }, () => console.log('PROPS', this.props)))
+        .then(() => this.setState({ inProgress: false }))
         .catch((err) => {
           handleIfApiError(err, (error) => {
             this.setState({ inProgress: false, error });
@@ -53,7 +53,7 @@ class InboxContainer extends Component {
               key={recipient}
               recipient={this.props.userMeta[recipient]}
               currentUser={this.props.userMeta[this.props.auth.userId]}
-              messages={messages}
+              lastMessage={messages.slice(-1)[0] && messages.slice(-1)[0].content}
             />
           ))}
         </View>
