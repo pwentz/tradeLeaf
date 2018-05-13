@@ -45,6 +45,10 @@ export default class extends React.Component {
       moment(then)
         .add(7, 'days')
         .isAfter(new Date());
+    const isWithinDay = (then) => moment(new Date()).diff(moment(then), 'days') === 0;
+    if (isWithinDay(lastMessage.createdAt)) {
+      return moment(lastMessage.createdAt).fromNow();
+    }
     if (wasLaterThanWeekAgo(lastMessage.createdAt)) {
       return this.dayOfWeek(lastMessage.createdAt);
     }
@@ -59,13 +63,18 @@ export default class extends React.Component {
         <View style={styles.avatarContainer}>
           <Avatar size={50} imageSource={recipientPhoto} />
         </View>
-        <View style={styles.previewContainer}>
-          <Text>
-            <Text style={{ fontWeight: 'bold', color: blue }}>
-              {recipient.firstName} {recipient.lastName}
+        <View style={{ width: '70%' }}>
+          <View style={styles.previewDetailsContainer}>
+            <Text>
+              <Text style={{ fontWeight: 'bold', color: blue }}>
+                {recipient.firstName} {recipient.lastName}
+              </Text>
+              <Text style={{ color: midGray }}> @{recipient.username}</Text>
             </Text>
-            <Text style={{ color: midGray }}> @{recipient.username}</Text>
-          </Text>
+            <View>
+              <Text style={styles.timestamp}>{this.formattedDate}</Text>
+            </View>
+          </View>
           {lastMessage && (
             <Text style={styles.preview}>
               {lastMessage.content.length > 75
@@ -74,12 +83,6 @@ export default class extends React.Component {
             </Text>
           )}
         </View>
-        {lastMessage && (
-          <View style={styles.timestampContainer}>
-            <Text style={styles.timestamp}>{this.formattedDate}</Text>
-          </View>
-        )}
-        <View />
       </TouchableOpacity>
     );
   }
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     borderBottomColor: midGray,
     backgroundColor: lightWhite,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   avatarContainer: {
@@ -102,28 +105,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '20%',
   },
-  previewContainer: {
-    width: '60%',
-    height: '75%',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
+  previewDetailsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
   },
   preview: {
     color: blue,
     opacity: 0.75,
-    fontSize: 12,
-  },
-  timestampContainer: {
-    position: 'relative',
-    width: '20%',
-    zIndex: -1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    fontSize: 14,
   },
   timestamp: {
     color: blue,
-    marginBottom: 30,
     opacity: 0.7,
     fontSize: 12,
   },
