@@ -70,6 +70,9 @@ const App = StackNavigator({
   },
   Chat: {
     screen: (props) => <ChatContainer {...props} />,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+    }),
   },
 });
 

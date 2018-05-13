@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import ChatHeader from './ChatHeader';
 
 export default class extends Component {
   static propTypes = {
     tradeChat: PropTypes.object.isRequired,
+    recipient: PropTypes.object.isRequired,
+    back: PropTypes.func.isRequired,
   };
 
   render() {
-    console.log('TC:', this.props.tradeChat);
-    return <Text>I'm a chat!</Text>;
+    const { recipient, tradeChat } = this.props;
+    return (
+      <View>
+        <ChatHeader
+          recipientName={recipient.username}
+          recipientPhoto={recipient.photo}
+          back={this.props.back}
+        />
+        <View>
+          <Text>hi!</Text>
+        </View>
+      </View>
+    );
   }
 }

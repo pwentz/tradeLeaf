@@ -10,8 +10,20 @@ class ChatContainer extends Component {
     dispatch: PropTypes.func.isRequired,
   };
 
+  back = () => {
+    this.props.navigation.goBack(this.props.navigation.state.key);
+  };
+
   render() {
-    return <Chat tradeChat={this.props.navigation.state.params.tradeChat} />;
+    const { tradeChat } = this.props.navigation.state.params;
+
+    return (
+      <Chat
+        tradeChat={tradeChat}
+        recipient={this.props.userMeta[tradeChat.recipient]}
+        back={this.back}
+      />
+    );
   }
 }
 
