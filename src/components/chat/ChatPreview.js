@@ -20,6 +20,37 @@ export default class extends React.Component {
     lastMessage: PropTypes.object,
   };
 
+  dayOfWeek(date) {
+    switch (moment(date).day()) {
+      case 0:
+        return 'Sunday';
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+    }
+  }
+
+  get formattedDate() {
+    const { lastMessage } = this.props;
+    const wasLaterThanWeekAgo = (then) =>
+      moment(then)
+        .add(7, 'days')
+        .isAfter(new Date());
+    if (wasLaterThanWeekAgo(lastMessage.createdAt)) {
+      return this.dayOfWeek(lastMessage.createdAt);
+    }
+    return moment(lastMessage.createAt).format('M/D/YY');
+  }
+
   render() {
     const { recipient, currentUser, lastMessage, handlePress } = this.props;
     const recipientPhoto = recipient.photo ? { uri: recipient.photo.imageUrl } : undefined;
@@ -45,7 +76,7 @@ export default class extends React.Component {
         </View>
         {lastMessage && (
           <View style={styles.timestampContainer}>
-            <Text style={styles.timestamp}>{moment(lastMessage.createdAt).format('M/D')}</Text>
+            <Text style={styles.timestamp}>{this.formattedDate}</Text>
           </View>
         )}
         <View />
@@ -72,19 +103,19 @@ const styles = StyleSheet.create({
     width: '20%',
   },
   previewContainer: {
-    width: '65%',
+    width: '60%',
     height: '75%',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   preview: {
     color: blue,
     opacity: 0.75,
-    fontSize: 14,
+    fontSize: 12,
   },
   timestampContainer: {
     position: 'relative',
-    width: '15%',
+    width: '20%',
     zIndex: -1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
