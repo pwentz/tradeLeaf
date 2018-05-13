@@ -17,15 +17,14 @@ export default class extends React.Component {
     recipient: PropTypes.object.isRequired,
     currentUser: PropTypes.object.isRequired,
     handlePress: PropTypes.func.isRequired,
-    tradeChatId: PropTypes.string.isRequired,
     lastMessage: PropTypes.object,
   };
 
   render() {
-    const { recipient, currentUser, lastMessage, handlePress, tradeChatId } = this.props;
+    const { recipient, currentUser, lastMessage, handlePress } = this.props;
     const recipientPhoto = recipient.photo ? { uri: recipient.photo.imageUrl } : undefined;
     return (
-      <TouchableOpacity style={styles.chatContainer} onPress={() => handlePress(tradeChatId)}>
+      <TouchableOpacity style={styles.chatContainer} onPress={handlePress}>
         <View style={styles.avatarContainer}>
           <Avatar size={50} imageSource={recipientPhoto} />
         </View>
@@ -46,7 +45,7 @@ export default class extends React.Component {
         </View>
         {lastMessage && (
           <View style={styles.timestampContainer}>
-            <Text style={styles.timestamp}>{moment(lastMessage.createdAt).fromNow()}</Text>
+            <Text style={styles.timestamp}>{moment(lastMessage.createdAt).format('M/D')}</Text>
           </View>
         )}
         <View />
