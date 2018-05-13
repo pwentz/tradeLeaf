@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
-import Chat from '../../components/chat/Chat';
+import ChatPreview from '../../components/chat/ChatPreview';
 import { handleIfApiError, displayableError } from '../../api/utils';
 import globalStyles, { midGray } from '../../styles';
 
@@ -38,6 +38,12 @@ class InboxContainer extends Component {
     });
   }
 
+  handleChatPress = (tradeChatId) => {
+    const selectedChat = this.props.tradeChat.tradeChats[tradeChatId];
+
+    this.props.navigation.navigate('Chat', { tradeChat: selectedChat });
+  };
+
   render() {
     if (this.state.inProgress) {
       return <Text>Loading...</Text>;
@@ -48,14 +54,18 @@ class InboxContainer extends Component {
         {!!this.state.error && <Text style={globalStyles.errorText}>{this.state.error}</Text>}
 
         <View style={globalStyles.scrollContainer}>
-          {Object.values(this.props.tradeChat.tradeChats).map(({ recipient, messages }) => (
-            <Chat
-              key={recipient}
-              recipient={this.props.userMeta[recipient]}
-              currentUser={this.props.userMeta[this.props.auth.userId]}
-              lastMessage={messages.slice(-1)[0]}
-            />
-          ))}
+          {Object.entries(this.props.tradeChat.tradeChats).map(
+            ([tradeChatId, { recipient, messages }]) => (
+              <ChatPreview
+                key={recipient}
+                tradeChatId={tradeChatId}
+                recipient={this.props.userMeta[recipient]}
+                currentUser={this.props.userMeta[this.props.auth.userId]}
+                handlePress={this.handleChatPress}
+                lastMessage={messages.slice(-1)[0]}
+              />
+            )
+          )}
         </View>
       </View>
     );

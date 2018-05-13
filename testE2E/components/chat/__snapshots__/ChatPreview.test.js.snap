@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ChatPreview /> 1`] = `
+<View
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  collapsable={undefined}
+  hitSlop={undefined}
+  isTVSelectable={true}
+  nativeID={undefined}
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F9F9F9",
+      "borderBottomColor": "#B8B8B8",
+      "borderBottomWidth": 1,
+      "flexDirection": "row",
+      "height": "15%",
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+  testID={undefined}
+  tvParallaxProperties={undefined}
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "width": "20%",
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+          Object {
+            "borderRadius": 25,
+            "height": 50,
+            "width": 50,
+          },
+        ]
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../src/images/tradeLeafIcon.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "borderColor": "#B8B8B8",
+              "borderWidth": 1,
+            },
+            Object {
+              "borderRadius": 25,
+              "height": 50,
+              "width": 50,
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "column",
+        "height": "75%",
+        "justifyContent": "space-between",
+        "width": "65%",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#27496B",
+            "fontWeight": "bold",
+          }
+        }
+      >
+         
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#B8B8B8",
+          }
+        }
+      >
+         @
+      </Text>
+    </Text>
+  </View>
+  <View />
+</View>
+`;
