@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-const {
-  View,
-  StyleSheet
-} = require('react-native');
+const { View, StyleSheet } = require('react-native');
 
 import { Provider } from 'react-redux';
 
@@ -17,21 +14,22 @@ jest.mock('Linking', () => {
     removeEventListener: jest.fn(),
     openURL: jest.genMockFn().mockReturnValue(Promise.resolve()),
     canOpenURL: jest.genMockFn().mockReturnValue(Promise.resolve()),
-    getInitialURL: jest.genMockFn().mockReturnValue(Promise.resolve())
-  }
-})
+    getInitialURL: jest.genMockFn().mockReturnValue(Promise.resolve()),
+  };
+});
 
-jest.mock('ScrollView', () => jest.genMockFromModule('ScrollView'))
+jest.mock('ScrollView', () => jest.genMockFromModule('ScrollView'));
 
 export const renderer = require('react-test-renderer');
 
-const AccountRequirements=require('../src/components/register/AccountRequirements').default;
-const App=require('../src/components/app/App').default;
-const Avatar=require('../src/components/common/Avatar').default;
-const Card=require('../src/components/matchboard/Card').default;
-const LoginForm=require('../src/components/login/LoginForm').default;
-const RegisterForm=require('../src/components/register/RegisterForm').default;
-const TabBar=require('../src/components/app/TabBar').default;
+const AccountRequirements = require('../src/components/register/AccountRequirements').default;
+const App = require('../src/components/app/App').default;
+const Avatar = require('../src/components/common/Avatar').default;
+const Card = require('../src/components/matchboard/Card').default;
+const LoginForm = require('../src/components/login/LoginForm').default;
+const RegisterForm = require('../src/components/register/RegisterForm').default;
+const TabBar = require('../src/components/app/TabBar').default;
+const ChatPreview = require('../src/components/chat/ChatPreview').default;
 
 export const components = {
   LoginForm,
@@ -39,8 +37,9 @@ export const components = {
   Card,
   AccountRequirements,
   Avatar,
-  TabBar
-}
+  TabBar,
+  ChatPreview,
+};
 
 class TestRouteObserver {}
 
@@ -56,23 +55,21 @@ export function setupTestApp() {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'stretch',
-      backgroundColor: 'white'
-    }
-  })
+      backgroundColor: 'white',
+    },
+  });
 
-  const testRouteObserver = new TestRouteObserver()
+  const testRouteObserver = new TestRouteObserver();
 
   class TradeLeafApp extends Component {
     render() {
       return (
         <View style={styles.container}>
           <Provider store={store}>
-            <App
-              screenProps={{ actions, testRouteObserver }}
-            />
+            <App screenProps={{ actions, testRouteObserver }} />
           </Provider>
         </View>
-      )
+      );
     }
   }
 
@@ -81,6 +78,6 @@ export function setupTestApp() {
     api,
     actions,
     dispatch: store.dispatch,
-    testRouteObserver
-  }
+    testRouteObserver,
+  };
 }
