@@ -22,7 +22,7 @@ export default class extends React.Component {
   get formattedDate() {
     const { lastMessage } = this.props;
 
-    if (time.daysAgo(lastMessage.createdAt, 'days') === 0) {
+    if (time.daysAgo(lastMessage.createdAt) === 0) {
       return time.fromNow(lastMessage.createdAt);
     }
 

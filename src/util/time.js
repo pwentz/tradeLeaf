@@ -19,8 +19,8 @@ export const dayOfWeek = (date) => {
   }
 };
 
-export const daysAgo = (date, metric) => {
-  return moment(new Date()).diff(moment(date), metric);
+export const daysAgo = (date) => {
+  return moment(new Date()).diff(moment(date), 'days');
 };
 
 export const fromNow = (date) => moment(date).fromNow();

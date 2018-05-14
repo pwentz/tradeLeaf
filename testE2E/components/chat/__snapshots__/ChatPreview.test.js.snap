@@ -25,7 +25,7 @@ exports[`<ChatPreview /> 1`] = `
       "borderBottomWidth": 1,
       "flexDirection": "row",
       "height": "15%",
-      "justifyContent": "space-between",
+      "justifyContent": "space-around",
       "opacity": 1,
       "width": "100%",
     }
@@ -51,9 +51,9 @@ exports[`<ChatPreview /> 1`] = `
             "justifyContent": "center",
           },
           Object {
-            "borderRadius": 25,
-            "height": 50,
-            "width": 50,
+            "borderRadius": 26,
+            "height": 52,
+            "width": 52,
           },
         ]
       }
@@ -71,9 +71,9 @@ exports[`<ChatPreview /> 1`] = `
               "borderWidth": 1,
             },
             Object {
-              "borderRadius": 25,
-              "height": 50,
-              "width": 50,
+              "borderRadius": 26,
+              "height": 52,
+              "width": 52,
             },
           ]
         }
@@ -83,45 +83,51 @@ exports[`<ChatPreview /> 1`] = `
   <View
     style={
       Object {
-        "flexDirection": "column",
-        "height": "75%",
-        "justifyContent": "space-between",
-        "width": "65%",
+        "width": "70%",
       }
     }
   >
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginBottom": "2%",
+        }
+      }
     >
       <Text
         accessible={true}
         allowFontScaling={true}
         ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "#27496B",
-            "fontWeight": "bold",
-          }
-        }
       >
-         
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "#B8B8B8",
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#27496B",
+              "fontWeight": "bold",
+            }
           }
-        }
-      >
-         @
+        >
+           
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#B8B8B8",
+            }
+          }
+        >
+           @
+        </Text>
       </Text>
-    </Text>
+    </View>
   </View>
-  <View />
 </View>
 `;
