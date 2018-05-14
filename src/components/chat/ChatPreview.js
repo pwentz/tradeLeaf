@@ -10,58 +10,36 @@ import globalStyles, {
   lightWhite,
   blue,
 } from '../../styles';
-const moment = require('moment');
+import * as time from '../../util/time';
 
 export default class extends React.Component {
   static propTypes = {
     recipient: PropTypes.object.isRequired,
-    currentUser: PropTypes.object.isRequired,
     handlePress: PropTypes.func.isRequired,
     lastMessage: PropTypes.object,
   };
 
-  dayOfWeek(date) {
-    switch (moment(date).day()) {
-      case 0:
-        return 'Sunday';
-      case 1:
-        return 'Monday';
-      case 2:
-        return 'Tuesday';
-      case 3:
-        return 'Wednesday';
-      case 4:
-        return 'Thursday';
-      case 5:
-        return 'Friday';
-      case 6:
-        return 'Saturday';
-    }
-  }
-
   get formattedDate() {
     const { lastMessage } = this.props;
-    const wasLaterThanWeekAgo = (then) =>
-      moment(then)
-        .add(7, 'days')
-        .isAfter(new Date());
-    const isWithinDay = (then) => moment(new Date()).diff(moment(then), 'days') === 0;
-    if (isWithinDay(lastMessage.createdAt)) {
-      return moment(lastMessage.createdAt).fromNow();
+
+    if (time.daysAgo(lastMessage.createdAt, 'days') === 0) {
+      return time.fromNow(lastMessage.createdAt);
     }
-    if (wasLaterThanWeekAgo(lastMessage.createdAt)) {
-      return this.dayOfWeek(lastMessage.createdAt);
+
+    if (time.daysAgo(lastMessage.createdAt) > 7) {
+      return time.dayOfWeek(lastMessage.createdAt);
     }
-    return moment(lastMessage.createAt).format('M/D/YY');
+
+    return time.format(lastMessage.createdAt, 'M/D/YY');
   }
 
   render() {
-    const { recipient, currentUser, lastMessage, handlePress } = this.props;
+    const { recipient, lastMessage, handlePress } = this.props;
     const recipientPhoto = recipient.photo ? { uri: recipient.photo.imageUrl } : undefined;
     return (
       <TouchableOpacity style={styles.chatContainer} onPress={handlePress}>
         <View style={styles.avatarContainer}>
-          <Avatar size={50} imageSource={recipientPhoto} />
+          <Avatar size={52} imageSource={recipientPhoto} />
         </View>
         <View style={{ width: '70%' }}>
           <View style={styles.previewDetailsContainer}>
@@ -71,9 +49,11 @@ export default class extends React.Component {
               </Text>
               <Text style={{ color: midGray }}> @{recipient.username}</Text>
             </Text>
-            <View>
-              <Text style={styles.timestamp}>{this.formattedDate}</Text>
-            </View>
+            {lastMessage && (
+              <View>
+                <Text style={styles.timestamp}>{this.formattedDate}</Text>
+              </View>
+            )}
           </View>
           {lastMessage && (
             <Text style={styles.preview}>
@@ -108,16 +88,16 @@ const styles = StyleSheet.create({
   previewDetailsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    marginBottom: '2%',
   },
   preview: {
     color: blue,
-    opacity: 0.75,
+    opacity: 0.9,
     fontSize: 14,
   },
   timestamp: {
     color: blue,
-    opacity: 0.7,
+    opacity: 0.8,
     fontSize: 12,
   },
 });

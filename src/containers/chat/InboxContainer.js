@@ -59,7 +59,6 @@ class InboxContainer extends Component {
               <ChatPreview
                 key={recipient}
                 recipient={this.props.userMeta[recipient]}
-                currentUser={this.props.userMeta[this.props.auth.userId]}
                 handlePress={() => this.handleChatPress(tradeChatId)}
                 lastMessage={messages.slice(-1)[0]}
               />
