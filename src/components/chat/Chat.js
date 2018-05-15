@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import ChatHeader from './ChatHeader';
+import ChatClient from '../common/ChatClient';
+import { lightWhite } from '../../styles';
 import { GiftedChat } from 'react-native-gifted-chat';
 
 export default class extends Component {
   static propTypes = {
     tradeChat: PropTypes.object.isRequired,
     recipient: PropTypes.object.isRequired,
+    currentUserId: PropTypes.number.isRequired,
     back: PropTypes.func.isRequired,
   };
 
@@ -44,11 +47,16 @@ export default class extends Component {
   };
 
   render() {
-    const { recipient, tradeChat } = this.props;
+    const { recipient, tradeChat, currentUserId } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: lightWhite }}>
         <ChatHeader recipient={recipient} back={this.props.back} />
-        <GiftedChat messages={this.state.messages} onSend={this.onSend} />
+        <ChatClient
+          messages={this.state.messages}
+          onSend={this.onSend}
+          renderBubble={this.renderBubble}
+          user={{ _id: currentUserId }}
+        />
       </View>
     );
   }

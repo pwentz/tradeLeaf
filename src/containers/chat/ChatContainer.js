@@ -21,6 +21,7 @@ class ChatContainer extends Component {
       <Chat
         tradeChat={tradeChat}
         recipient={this.props.userMeta[tradeChat.recipient]}
+        currentUserId={this.props.auth.userId}
         back={this.back}
       />
     );
