@@ -61,7 +61,6 @@ const App = StackNavigator({
         initialRouteName: 'Home',
         tabBarComponent: TabBarContainer,
         tabBarPosition: 'top',
-        // animationEnabled: true
       }
     ),
     navigationOptions: ({ navigation }) => ({

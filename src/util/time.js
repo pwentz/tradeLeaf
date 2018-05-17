@@ -25,4 +25,4 @@ export const daysAgo = (date) => {
 
 export const fromNow = (date) => moment(date).fromNow();
 
-export const format = (date, formatting) => momen(date).format(formatting);
+export const format = (date, formatting) => moment(date).format(formatting);

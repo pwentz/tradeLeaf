@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import ChatPreview from '../../components/chat/ChatPreview';
 import { handleIfApiError, displayableError } from '../../api/utils';
-import globalStyles, { midGray } from '../../styles';
+import globalStyles, { midGray, lightGray } from '../../styles';
 
 class InboxContainer extends Component {
   static propTypes = {
@@ -41,7 +41,7 @@ class InboxContainer extends Component {
   handleChatPress = (tradeChatId) => {
     const selectedChat = this.props.tradeChat.tradeChats[tradeChatId];
 
-    this.props.navigation.navigate('Chat', { tradeChat: selectedChat });
+    this.props.navigation.navigate('Chat', { tradeChat: { ...selectedChat, id: tradeChatId } });
   };
 
   render() {
@@ -50,10 +50,10 @@ class InboxContainer extends Component {
     }
 
     return (
-      <View style={globalStyles.overlay}>
+      <View style={[globalStyles.overlay, { backgroundColor: lightGray }]}>
         {!!this.state.error && <Text style={globalStyles.errorText}>{this.state.error}</Text>}
 
-        <View style={globalStyles.scrollContainer}>
+        <ScrollView contentContainerStyle={globalStyles.container}>
           {Object.entries(this.props.tradeChat.tradeChats).map(
             ([tradeChatId, { recipient, messages }]) => (
               <ChatPreview
@@ -64,7 +64,7 @@ class InboxContainer extends Component {
               />
             )
           )}
-        </View>
+        </ScrollView>
       </View>
     );
   }
