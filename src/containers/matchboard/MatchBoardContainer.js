@@ -33,6 +33,12 @@ class MatchBoardContainer extends Component {
     const { auth, dispatch, actions } = this.props;
 
     this.setState({ inProgress: true }, () => {
+      // OPEN CHAT SOCKET (ASYNC)
+      dispatch(
+        actions.createSocket(auth.userId, () => {
+          return;
+        })
+      );
       dispatch(actions.match.getMatches(auth.authToken))
         .then((matches) => {
           this.setState({

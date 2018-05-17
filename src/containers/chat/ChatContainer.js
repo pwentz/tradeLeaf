@@ -10,18 +10,44 @@ class ChatContainer extends Component {
     dispatch: PropTypes.func.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    const { tradeChat } = props.navigation.state.params;
+    this.tradeChat = tradeChat;
+    this.recipient = props.userMeta[tradeChat.recipient];
+
+    this.state = { sendInProgress: false, errorOnSend: false };
+  }
+
   back = () => {
     this.props.navigation.goBack(this.props.navigation.state.key);
   };
 
-  render() {
-    const { tradeChat } = this.props.navigation.state.params;
+  handleSend = (text) => {
+    const { dispatch, actions, auth } = this.props;
+    this.setState({ sendInProgress: true }, () =>
+      dispatch(
+        actions.chatSocket.send({
+          tradeChatId: this.tradeChat.id,
+          recipientId: this.recipient.id,
+          content: text,
+          token: auth.authToken,
+        })
+      )
+        .then(() => this.setState({ sendInProgress: false }))
+        .catch(() => this.setState({ sendInProgress: false, errorOnSend: true }))
+    );
+  };
 
+  render() {
     return (
       <Chat
-        tradeChat={tradeChat}
-        recipient={this.props.userMeta[tradeChat.recipient]}
+        tradeChat={this.tradeChat}
+        recipient={this.recipient}
         currentUserId={this.props.auth.userId}
+        onSend={this.handleSend}
+        sendInProgress={this.state.sendInProgress}
+        errorOnSend={this.state.errorOnSend}
         back={this.back}
       />
     );

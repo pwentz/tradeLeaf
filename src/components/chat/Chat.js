@@ -11,7 +11,10 @@ export default class extends Component {
     tradeChat: PropTypes.object.isRequired,
     recipient: PropTypes.object.isRequired,
     currentUserId: PropTypes.number.isRequired,
+    sendInProgress: PropTypes.boolean.isRequired,
+    errorOnSend: PropTypes.boolean.isRequired,
     back: PropTypes.func.isRequired,
+    onSend: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -19,6 +22,7 @@ export default class extends Component {
 
     this.state = {
       messages: props.tradeChat.messages.map(this.toGiftedChatMessage),
+      inputText: '',
     };
   }
 
@@ -41,21 +45,32 @@ export default class extends Component {
   });
 
   onSend = (messages = []) => {
-    this.setState((prevState) => ({
-      messages: GiftedChat.append(prevState.messages, messages),
-    }));
+    const { inputText } = this.state;
+    this.setState(
+      (prevState) => ({
+        messages: GiftedChat.append(prevState.messages, messages),
+      }),
+      () => this.props.onSend(inputText)
+    );
   };
 
   render() {
-    const { recipient, tradeChat, currentUserId } = this.props;
+    const { recipient, tradeChat, currentUserId, sendInProgress, errorOnSend } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: lightWhite }}>
         <ChatHeader recipient={recipient} back={this.props.back} />
+        {/* if sendInProgress is true, take last message and make it different.
+            Then, when send in progress becomes false...put a little check jawn (ONLY RIGHT)
+        */}
         <ChatClient
+          text={this.state.inputText}
+          onInputTextChanged={(inputText) => this.setState({ inputText })}
           messages={this.state.messages}
           onSend={this.onSend}
           renderBubble={this.renderBubble}
           user={{ _id: currentUserId }}
+          sendInProgress={sendInProgress}
+          errorOnSend={errorOnSend}
         />
       </View>
     );
