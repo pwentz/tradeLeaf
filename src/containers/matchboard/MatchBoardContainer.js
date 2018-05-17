@@ -33,7 +33,10 @@ class MatchBoardContainer extends Component {
     const { auth, dispatch, actions } = this.props;
 
     this.setState({ inProgress: true }, () => {
-      // OPEN CHAT SOCKET (ASYNC)
+      // TODO:
+      //  - pass onMessage function that:
+      //      - if msg contains "-- DISCONNECTED", then try to somehow update state of Chat/ChatContainer?
+      //      - renders a flash when message comes (maybe push in future)
       dispatch(
         actions.createSocket(auth.userId, () => {
           return;
