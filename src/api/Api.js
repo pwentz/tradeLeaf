@@ -6,10 +6,10 @@ export default class Api {
   constructor({ apiUrl, cloudinary, locationClient, localStorageClient, chatSocketClient }) {
     this.apiUrl = apiUrl;
     this.cloudinaryUploader = createUploader(cloudinary);
-    this.locationClient = locationClient
-    this.localStorageClient = localStorageClient
-    this.chatSocketClient = chatSocketClient
-  };
+    this.locationClient = locationClient;
+    this.localStorageClient = localStorageClient;
+    this.chatSocketClient = chatSocketClient;
+  }
 
   login(username, password) {
     return fetchRequest(
@@ -18,7 +18,7 @@ export default class Api {
       { method: 'POST', credentials: 'include' },
       { username, password }
     );
-  };
+  }
 
   registerUser(firstName, lastName, email, username, password) {
     return fetchRequest(
@@ -27,31 +27,27 @@ export default class Api {
       { method: 'POST', credentials: 'include' },
       { firstName, lastName, email, username, password }
     );
-  };
+  }
 
   persistAuthToken(userId, authToken) {
-    return this.localStorageClient.storeAuthToken(userId, authToken)
+    return this.localStorageClient.storeAuthToken(userId, authToken);
   }
 
   retrieveAuthToken() {
-    return this.localStorageClient.getAuthToken()
+    return this.localStorageClient.getAuthToken();
   }
 
   logout() {
-    return this.localStorageClient.destroyAuthToken()
+    return this.localStorageClient.destroyAuthToken();
   }
 
   getCurrentPosition() {
-    return this.locationClient.getCurrentPosition()
+    return this.locationClient.getCurrentPosition();
   }
 
   getUser(userId) {
-    return fetchRequest(
-      this.apiUrl,
-      `users/${userId}`,
-      { method: 'GET', credentials: 'include' }
-    );
-  };
+    return fetchRequest(this.apiUrl, `users/${userId}`, { method: 'GET', credentials: 'include' });
+  }
 
   updateCoords(userId, authToken, coordinates) {
     return fetchRequest(
@@ -61,7 +57,7 @@ export default class Api {
       { coordinates },
       authToken
     );
-  };
+  }
 
   updateUserWithPhoto(userId, authToken, photoId) {
     return fetchRequest(
@@ -70,8 +66,8 @@ export default class Api {
       { method: 'PATCH', credentials: 'include' },
       { photoId },
       authToken
-    )
-  };
+    );
+  }
 
   createPhoto(cloudinaryId, imageUrl) {
     return fetchRequest(
@@ -80,11 +76,11 @@ export default class Api {
       { method: 'POST', credentials: 'include' },
       { cloudinaryId, imageUrl }
     );
-  };
+  }
 
   uploadToCloudinary(imageResource) {
     return this.cloudinaryUploader.upload(imageResource);
-  };
+  }
 
   getMatches(authToken) {
     return fetchRequest(
@@ -94,23 +90,23 @@ export default class Api {
       null,
       authToken
     );
-  };
+  }
 
-  createTrade({acceptedOfferId, exchangeOfferId}) {
+  createTrade({ acceptedOfferId, exchangeOfferId }) {
     return fetchRequest(
       this.apiUrl,
       `trades`,
       { method: 'POST', credentials: 'include' },
       { acceptedOfferId, exchangeOfferId }
     );
-  };
+  }
 
-  findTrade({acceptedOfferId, exchangeOfferId}) {
+  findTrade({ acceptedOfferId, exchangeOfferId }) {
     return fetchRequest(
       this.apiUrl,
       `trades?acceptedOfferId=${acceptedOfferId}&exchangeOfferId=${exchangeOfferId}`,
       { method: 'GET', credentials: 'include' }
-    )
+    );
   }
 
   createTradeChat(tradeId) {
@@ -119,17 +115,17 @@ export default class Api {
       `trade-chat`,
       { method: 'POST', credentials: 'include' },
       { tradeId }
-    )
+    );
   }
 
-  createMessage({tradeChatId, senderId, content, authToken}) {
+  createMessage({ tradeChatId, content, token }) {
     return fetchRequest(
       this.apiUrl,
       `messages`,
       { method: 'POST', credentials: 'include' },
-      { tradeChatId, senderId, content },
-      authToken
-    )
+      { tradeChatId, content },
+      token
+    );
   }
 
   fetchTradeChats(userId, authToken) {
@@ -139,7 +135,7 @@ export default class Api {
       { method: 'GET', credentials: 'include' },
       null,
       authToken
-    )
+    );
   }
 
   createChatSocket(onOpen, onMessage) {
@@ -153,4 +149,4 @@ export default class Api {
   closeChatSocket() {
     this.chatSocket.close();
   }
-};
+}

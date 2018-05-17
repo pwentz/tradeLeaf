@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   recipientName: {
     fontSize: 24,
-    fontWeight: '200',
+    fontWeight: '300',
     color: lightWhite,
   },
   recipientUsername: {

@@ -26,7 +26,7 @@ export default class extends React.Component {
       return time.fromNow(lastMessage.createdAt);
     }
 
-    if (time.daysAgo(lastMessage.createdAt) > 7) {
+    if (time.daysAgo(lastMessage.createdAt) <= 7) {
       return time.dayOfWeek(lastMessage.createdAt);
     }
 
@@ -70,7 +70,8 @@ export default class extends React.Component {
 
 const styles = StyleSheet.create({
   chatContainer: {
-    height: '15%',
+    paddingTop: '3%',
+    paddingBottom: '3%',
     width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: midGray,
