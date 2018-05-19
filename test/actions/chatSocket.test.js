@@ -79,38 +79,33 @@ describe('chat socket actions', () => {
       it('wraps the onMessage callback in a separate action', () => {
         const userId = 11;
         const onMessage = () => {};
+        const mockMessageEvent = { __proto__: { __proto__: { data: 'hi' } } };
         mockDispatch.dispatch(actions.createSocket(userId, onMessage));
 
-        mockApi.onMessage();
+        mockApi.onMessage(mockMessageEvent);
 
         expect(mockDispatch.actions).to.deep.equal([
           { type: chatSocketActionTypes.CHAT_SOCKET_CREATE_SOCKET, userId },
-          { type: chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE },
+          { type: chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE, message: 'hi' },
         ]);
       });
     });
   });
 
   context('send', () => {
-    it('creates a message, then sends it to the chat server', (done) => {
+    it('creates a message, then sends it to the chat server', () => {
       const tradeChatId = 123;
       const recipientId = 12;
       const content = 'hello, world!';
       const token = 'abc123';
 
-      mockDispatch
-        .dispatch(actions.send({ tradeChatId, recipientId, content, token }))
-        .then(() => {
-          expect(mockDispatch.actions).to.deep.equal([
-            { type: messageActionTypes.MESSAGE_CREATE_MESSAGE, tradeChatId, content },
-            { type: messageActionTypes.MESSSAGE_CREATE_MESSAGE_SUCCESS, messageId: 3 },
-            { type: chatSocketActionTypes.CHAT_SOCKET_SEND_MESSAGE },
-          ]);
+      mockDispatch.dispatch(actions.send({ tradeChatId, recipientId, content, token }));
 
-          expect(mockApi.sentMessage).to.equal(`#{{ ${recipientId} }}#: ${content}`);
-          done();
-        })
-        .catch(done);
+      expect(mockDispatch.actions).to.deep.equal([
+        { type: chatSocketActionTypes.CHAT_SOCKET_SEND_MESSAGE },
+      ]);
+
+      expect(mockApi.sentMessage).to.equal(`#{{ ${recipientId} }}#: ${content}`);
     });
   });
 

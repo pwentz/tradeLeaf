@@ -3,6 +3,7 @@ import Avatar from '../common/Avatar';
 import PropTypes from 'prop-types';
 import { yellow, blue, midGray, lightWhite, windowWidth, windowHeight } from '../../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Octicon from 'react-native-vector-icons/Octicons';
 
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 
@@ -26,9 +27,16 @@ export default class extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.recipientName}>
-              {`${recipient.firstName} ${recipient.lastName}`}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.recipientName}>
+                {`${recipient.firstName} ${recipient.lastName}`}
+              </Text>
+              {recipient.isOnline && (
+                <View style={{ marginLeft: '2%' }}>
+                  <Octicon name="primitive-dot" size={14} color="green" />
+                </View>
+              )}
+            </View>
             <Text style={styles.recipientUsername}>@{recipient.username}</Text>
           </View>
         </View>
