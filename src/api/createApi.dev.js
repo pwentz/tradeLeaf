@@ -9,10 +9,10 @@ export function createApi() {
     apiUrl: 'http://localhost:8080/',
     cloudinary: {
       cloud: 'tradeleaf',
-      uploadPreset: 'mx9ed9ic'
+      uploadPreset: 'mx9ed9ic',
     },
     localStorageClient: LocalStorageClient,
     locationClient: LocationClient,
-    chatSocketClient: new ChatSocketClient('ws://localhost:9160/')
+    chatClient: new ChatSocketClient('ws://localhost:9160/'),
   });
-};
+}

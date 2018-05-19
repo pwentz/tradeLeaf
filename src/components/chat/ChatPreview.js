@@ -11,6 +11,7 @@ import globalStyles, {
   blue,
 } from '../../styles';
 import * as time from '../../util/time';
+import { cappedString } from '../../api/utils';
 
 export default class extends React.Component {
   static propTypes = {
@@ -41,7 +42,7 @@ export default class extends React.Component {
         <View style={styles.avatarContainer}>
           <Avatar size={52} imageSource={recipientPhoto} />
         </View>
-        <View style={{ width: '70%' }}>
+        <View style={{ width: '75%' }}>
           <View style={styles.previewDetailsContainer}>
             <Text>
               <Text style={{ fontWeight: 'bold', color: blue }}>
@@ -56,11 +57,7 @@ export default class extends React.Component {
             )}
           </View>
           {lastMessage && (
-            <Text style={styles.preview}>
-              {lastMessage.content.length > 75
-                ? `${lastMessage.content.slice(0, 75)}...`
-                : lastMessage.content}
-            </Text>
+            <Text style={styles.preview}>{cappedString(lastMessage.content, 85)}</Text>
           )}
         </View>
       </TouchableOpacity>
@@ -84,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '20%',
+    width: '15%',
   },
   previewDetailsContainer: {
     flexDirection: 'row',

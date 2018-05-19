@@ -23,6 +23,16 @@ export function createUserMiddleware(actions) {
           return;
 
         case chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE:
+          if (action.message.startsWith('-- ') && action.message.includes('DISCONNECTED')) {
+            const [recipientId, ..._] = action.message.slice(3).split(':');
+
+            dispatch(userActions.identifyUserAsOffline(parseInt(recipientId)));
+            return;
+          }
+
+          // send some sort of push notification or flash message
+          const [recipientId, msg] = action.message.split(': ');
+          dispatch(userActions.identifyUserAsOnline(parseInt(recipientId)));
           dispatch(tradeChatActions.fetchTradeChats(state.auth.userId, state.auth.authToken));
           return;
 

@@ -1,5 +1,4 @@
 import { createAction } from './createAction';
-import { createMessageActions } from './message';
 
 export const chatSocketActionTypes = {
   CHAT_SOCKET_CREATE_SOCKET: 'CHAT_SOCKET_CREATE_SOCKET',
@@ -8,13 +7,12 @@ export const chatSocketActionTypes = {
 };
 
 export function createChatSocketActions(api) {
-  const { createMessage } = createMessageActions(api);
-
   function createSocket(userId, onMessage) {
     return (dispatch) => {
       const onOpen = () => dispatch(sendToChatSocket(`#{{ ${userId} }}#`));
-      const onReceiveMessage = (msg) => {
-        dispatch(incomingMessage());
+      const onReceiveMessage = (msgEvent) => {
+        const msg = msgEvent.__proto__.__proto__.data;
+        dispatch(incomingMessage(msg));
         onMessage(msg);
       };
 
@@ -30,18 +28,15 @@ export function createChatSocketActions(api) {
     };
   }
 
-  function send({ tradeChatId, recipientId, content, token }) {
+  function send({ recipientId, content }) {
     return (dispatch) => {
-      return dispatch(createMessage({ tradeChatId, content, token })).then((messageId) => {
-        const message = `#{{ ${recipientId} }}#: ${content}`;
-        dispatch(sendToChatSocket(message));
-      });
+      dispatch(sendToChatSocket(`#{{ ${recipientId} }}#: ${content}`));
     };
   }
 
-  function incomingMessage() {
+  function incomingMessage(msg) {
     return (dispatch) => {
-      dispatch(createAction(chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE));
+      dispatch(createAction(chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE, { message: msg }));
     };
   }
 

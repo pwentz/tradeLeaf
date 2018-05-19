@@ -3,12 +3,12 @@ import { fetchRequest } from './utils';
 import { createUploader } from './cloudinary/cloudinary';
 
 export default class Api {
-  constructor({ apiUrl, cloudinary, locationClient, localStorageClient, chatSocketClient }) {
+  constructor({ apiUrl, cloudinary, locationClient, localStorageClient, chatClient }) {
     this.apiUrl = apiUrl;
     this.cloudinaryUploader = createUploader(cloudinary);
     this.locationClient = locationClient;
     this.localStorageClient = localStorageClient;
-    this.chatSocketClient = chatSocketClient;
+    this.chatClient = chatClient;
   }
 
   login(username, password) {
@@ -139,14 +139,14 @@ export default class Api {
   }
 
   createChatSocket(onOpen, onMessage) {
-    this.chatSocketClient.createSocket(onOpen, onMessage);
+    this.chatClient.createSocket(onOpen, onMessage);
   }
 
   sendToChatSocket(message) {
-    this.chatSocket.send(message);
+    this.chatClient.send(message);
   }
 
   closeChatSocket() {
-    this.chatSocket.close();
+    this.chatClient.close();
   }
 }

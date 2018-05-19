@@ -41,7 +41,7 @@ class InboxContainer extends Component {
   handleChatPress = (tradeChatId) => {
     const selectedChat = this.props.tradeChat.tradeChats[tradeChatId];
 
-    this.props.navigation.navigate('Chat', { tradeChat: { ...selectedChat, id: tradeChatId } });
+    this.props.navigation.navigate('Chat', { tradeChatId });
   };
 
   render() {
@@ -60,7 +60,7 @@ class InboxContainer extends Component {
                 key={recipient}
                 recipient={this.props.userMeta[recipient]}
                 handlePress={() => this.handleChatPress(tradeChatId)}
-                lastMessage={messages.slice(-1)[0]}
+                lastMessage={messages[0]}
               />
             )
           )}
