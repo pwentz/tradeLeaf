@@ -34,9 +34,9 @@ export function createChatSocketActions(api) {
     };
   }
 
-  function incomingMessage(msg) {
+  function incomingMessage(message) {
     return (dispatch) => {
-      dispatch(createAction(chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE, { message: msg }));
+      dispatch(createAction(chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE, { message }));
     };
   }
 

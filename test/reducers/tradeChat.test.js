@@ -28,7 +28,7 @@ describe('trade chat reducer', () => {
         tradeChats
       }));
 
-      expect(state.tradeChat.tradeChats).to.deep.equal(tradeChats);
+      expect(state.tradeChat.chats).to.deep.equal(tradeChats);
     });
 
     it('clobbers the existing trade chat data', () => {
@@ -55,7 +55,7 @@ describe('trade chat reducer', () => {
         tradeChats: newTradeChats
       }));
 
-      expect(state.tradeChat.tradeChats).to.deep.equal(newTradeChats);
+      expect(state.tradeChat.chats).to.deep.equal(newTradeChats);
     })
   });
 });

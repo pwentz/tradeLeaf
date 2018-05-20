@@ -39,7 +39,7 @@ class InboxContainer extends Component {
   }
 
   handleChatPress = (tradeChatId) => {
-    const selectedChat = this.props.tradeChat.tradeChats[tradeChatId];
+    const selectedChat = this.props.tradeChat.chats[tradeChatId];
 
     this.props.navigation.navigate('Chat', { tradeChatId });
   };
@@ -54,7 +54,7 @@ class InboxContainer extends Component {
         {!!this.state.error && <Text style={globalStyles.errorText}>{this.state.error}</Text>}
 
         <ScrollView contentContainerStyle={globalStyles.container}>
-          {Object.entries(this.props.tradeChat.tradeChats).map(
+          {Object.entries(this.props.tradeChat.chats).map(
             ([tradeChatId, { recipient, messages }]) => (
               <ChatPreview
                 key={recipient}

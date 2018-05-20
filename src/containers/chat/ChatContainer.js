@@ -16,7 +16,7 @@ class ChatContainer extends Component {
 
   constructor(props) {
     super(props);
-    const tradeChat = props.tradeChat.tradeChats[this.tradeChatId];
+    const tradeChat = props.tradeChat.chats[this.tradeChatId];
 
     this.state = {
       sendInProgress: false,
@@ -27,7 +27,7 @@ class ChatContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const tradeChat = nextProps.tradeChat.tradeChats[this.tradeChatId];
+    const tradeChat = nextProps.tradeChat.chats[this.tradeChatId];
 
     this.setState({
       tradeChat: { ...tradeChat, id: parseInt(this.tradeChatId) },

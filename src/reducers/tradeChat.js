@@ -1,13 +1,13 @@
 import { tradeChatActionTypes } from '../actions/tradeChat';
 
 const initialState = {
-  tradeChats: {}
-}
+  chats: {},
+};
 
 export default function tradeChat(state = initialState, action) {
-  switch(action.type) {
-    case(tradeChatActionTypes.TRADE_CHAT_FETCH_TRADE_CHATS_SUCCESS):
-      return Object.assign({}, state, { tradeChats: action.tradeChats })
+  switch (action.type) {
+    case tradeChatActionTypes.TRADE_CHAT_FETCH_TRADE_CHATS_SUCCESS:
+      return Object.assign({}, state, { chats: action.tradeChats });
     default:
       return state;
   }
