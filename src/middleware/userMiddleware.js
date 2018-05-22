@@ -22,6 +22,8 @@ export function createUserMiddleware(actions) {
           dispatch(tradeChatActions.fetchTradeChats(state.auth.userId, state.auth.authToken));
           return;
 
+        // TODO:
+        // - Get incoming user if they aren't in state.userMeta
         case chatSocketActionTypes.CHAT_SOCKET_INCOMING_MESSAGE:
           if (action.message.startsWith('-- ') && action.message.includes('DISCONNECTED')) {
             const [recipientId, ..._] = action.message.slice(3).split(':');

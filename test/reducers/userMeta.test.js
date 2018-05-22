@@ -1,6 +1,7 @@
 import { createAction } from '../../src/actions/createAction';
 import reducer from '../../src/reducers/index';
 import { userActionTypes } from '../../src/actions/user';
+import { matchActionTypes } from '../../src/actions/match';
 
 import { expect } from 'chai';
 
@@ -126,6 +127,26 @@ describe('userMeta reducer', () => {
 
       const user = state.userMeta[1];
       expect(user.isOnline).to.equal(false);
+    });
+  });
+
+  context('MATCHES_GET_MATCHES_SUCCESS', () => {
+    it('updates with users on matches', () => {
+      const matches = [
+        { user: { id: 1, email: 'jim@yahoo.com' } },
+        { user: { id: 2, email: 'bill@gmail.com' } },
+      ];
+
+      let state = reducer(undefined, {});
+
+      state = reducer(state, createAction(matchActionTypes.MATCH_GET_MATCHES_SUCCESS, { matches }));
+
+      const expected = {
+        1: { id: 1, email: 'jim@yahoo.com' },
+        2: { id: 2, email: 'bill@gmail.com' },
+      };
+
+      expect(state.userMeta).to.deep.equal(expected);
     });
   });
 });

@@ -12,6 +12,7 @@
   "dependencies": {
     "moment": "^2.22.1",
     "prop-types": "^15.6.0",
+    "ramda": "^0.25.0",
     "react": "16.0.0",
     "react-native": "0.50.3",
     "react-native-deck-swiper": "^1.4.6",
