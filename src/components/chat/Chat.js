@@ -23,6 +23,7 @@ export default class extends Component {
     this.state = {
       messages: props.tradeChat.messages.map(this.toGiftedChatMessage),
       inputText: '',
+      uploadedPhoto: undefined,
     };
   }
 
@@ -45,7 +46,6 @@ export default class extends Component {
         name: sender.username,
         avatar: sender.photo && sender.photo.imageUrl,
       },
-      image: sender.photo && sender.photo.imageUrl,
     };
   };
 

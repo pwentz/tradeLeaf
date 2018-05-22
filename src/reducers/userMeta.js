@@ -1,5 +1,6 @@
 import { userActionTypes } from '../actions/user';
 import { locationActionTypes } from '../actions/location';
+import { matchActionTypes } from '../actions/match';
 
 const initialState = {};
 
@@ -19,6 +20,13 @@ export default function auth(state = initialState, action) {
       return Object.assign({}, state, {
         [action.userId]: { ...(state[action.userId] || {}), isOnline: false },
       });
+
+    case matchActionTypes.MATCH_GET_MATCHES_SUCCESS:
+      return Object.assign(
+        {},
+        state,
+        action.matches.reduce((acc, match) => ({ ...acc, [match.user.id]: match.user }), {})
+      );
 
     default:
       return state;

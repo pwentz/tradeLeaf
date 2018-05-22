@@ -21,7 +21,7 @@ class ChatContainer extends Component {
     this.state = {
       sendInProgress: false,
       errorOnSend: false,
-      tradeChat: { ...tradeChat, id: parseInt(this.tradeChatId) },
+      tradeChat,
       recipient: props.userMeta[tradeChat.recipient],
     };
   }
@@ -30,13 +30,14 @@ class ChatContainer extends Component {
     const tradeChat = nextProps.tradeChat.chats[this.tradeChatId];
 
     this.setState({
-      tradeChat: { ...tradeChat, id: parseInt(this.tradeChatId) },
+      tradeChat,
       recipient: nextProps.userMeta[tradeChat.recipient],
     });
   }
 
   back = () => {
-    this.props.navigation.goBack(this.props.navigation.state.key);
+    const { navigation } = this.props;
+    navigation.goBack(navigation.state.key);
   };
 
   handleSend = (text) => {

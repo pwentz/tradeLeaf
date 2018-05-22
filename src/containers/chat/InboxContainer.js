@@ -5,6 +5,7 @@ import { View, Text, ScrollView } from 'react-native';
 import ChatPreview from '../../components/chat/ChatPreview';
 import { handleIfApiError, displayableError } from '../../api/utils';
 import globalStyles, { midGray, lightGray } from '../../styles';
+import { sortByRecency } from '../../util/list';
 
 class InboxContainer extends Component {
   static propTypes = {
@@ -20,13 +21,15 @@ class InboxContainer extends Component {
   }
 
   componentWillMount() {
-    const { auth, dispatch, actions } = this.props;
+    const { auth, dispatch, actions, userMeta } = this.props;
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.tradeChat.fetchTradeChats(auth.userId, auth.authToken))
-        .then((tradeChats) =>
+        .then((chats) =>
           Promise.all(
-            Object.values(tradeChats).map((tc) => dispatch(actions.user.getUser(tc.recipient)))
+            Object.values(chats)
+              .filter((chat) => !userMeta[chat])
+              .map((chat) => dispatch(actions.user.getUser(chat.recipient)))
           )
         )
         .then(() => this.setState({ inProgress: false }))
@@ -45,6 +48,8 @@ class InboxContainer extends Component {
   };
 
   render() {
+    const { chats } = this.props.tradeChat;
+
     if (this.state.inProgress) {
       return <Text>Loading...</Text>;
     }
@@ -54,16 +59,14 @@ class InboxContainer extends Component {
         {!!this.state.error && <Text style={globalStyles.errorText}>{this.state.error}</Text>}
 
         <ScrollView contentContainerStyle={globalStyles.container}>
-          {Object.entries(this.props.tradeChat.chats).map(
-            ([tradeChatId, { recipient, messages }]) => (
-              <ChatPreview
-                key={recipient}
-                recipient={this.props.userMeta[recipient]}
-                handlePress={() => this.handleChatPress(tradeChatId)}
-                lastMessage={messages[0]}
-              />
-            )
-          )}
+          {sortByRecency(Object.values(chats)).map(({ id, recipient, messages, ...rest }) => (
+            <ChatPreview
+              key={recipient}
+              recipient={this.props.userMeta[recipient]}
+              handlePress={() => this.handleChatPress(id)}
+              lastMessage={messages[0]}
+            />
+          ))}
         </ScrollView>
       </View>
     );
