@@ -47,24 +47,24 @@ export default class extends Component {
           <Avatar size={52} imageSource={offerPhoto} />
         </View>
 
-        <View style={styles.contentContainer}>
-          <View style={styles.detailsContainer}>
-            <Text style={[styles.offerDescription, styles.rowText]}>
-              {cappedString(offer.description, 24)}
-            </Text>
-            <Text style={[styles.rowText, styles.category]}>
-              {cappedString(offer.category, 40)}
-            </Text>
-            {!!offer.request && (
-              <Text style={[styles.requestDescription, styles.rowText]}>
-                <Text style={{ fontWeight: '700' }}>Looking for: </Text>
-                <Text>{offer.request.description}</Text>
+        <View style={{ width: '75%' }}>
+          <View style={styles.upperContentContainer}>
+            <View>
+              <Text style={[styles.offerDescription, styles.rowText]}>
+                {cappedString(offer.description, 24)}
               </Text>
-            )}
+              <Text style={[styles.rowText, styles.category]}>
+                {cappedString(offer.category, 40)}
+              </Text>
+            </View>
+            <TouchableOpacity style={styles.trashCanContainer} onPress={this.onTrashPress}>
+              <Icon size={28} color="maroon" name="trash" />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.trashCanContainer} onPress={this.onTrashPress}>
-            <Icon size={28} color="maroon" name="trash" />
-          </TouchableOpacity>
+          <Text style={[styles.requestDescription, styles.rowText]}>
+            <Text style={{ fontWeight: '700' }}>Looking for: </Text>
+            <Text>{offer.request.description}</Text>
+          </Text>
         </View>
       </View>
     );
@@ -72,12 +72,6 @@ export default class extends Component {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    width: '75%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
   rowText: {
     marginBottom: '2%',
   },
@@ -104,5 +98,10 @@ const styles = StyleSheet.create({
     color: blue,
     opacity: 0.75,
     fontSize: 12,
+  },
+  upperContentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: '2%',
   },
 });
