@@ -1,13 +1,9 @@
-import {
-  Platform,
-  StyleSheet,
-  Dimensions
-} from 'react-native'
+import { Platform, StyleSheet, Dimensions } from 'react-native';
 
 export const onAndroid = Platform.select({
   ios: false,
-  android: true
-})
+  android: true,
+});
 
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
@@ -26,15 +22,15 @@ const styles = StyleSheet.create({
     backgroundColor: midGray,
     height: 40,
     width: 180,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   liteInput: {
     marginTop: 15,
     height: 40,
-    width: (windowWidth * 0.75),
+    width: windowWidth * 0.75,
     borderBottomWidth: 1,
     borderBottomColor: midGray,
-    color: blue
+    color: blue,
   },
   actionButton: {
     marginTop: 15,
@@ -42,53 +38,70 @@ const styles = StyleSheet.create({
     height: 40,
     width: 140,
     backgroundColor: yellow,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   actionButtonWide: {
     borderRadius: 25,
     height: 40,
-    width: (windowWidth * 0.75),
+    width: windowWidth * 0.75,
     backgroundColor: yellow,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   actionButtonText: {
     color: darkWhite,
     textAlign: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   errorText: {
     fontSize: 15,
     color: darkWhite,
     textAlign: 'center',
     backgroundColor: '#e26262',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   overlay: {
     alignSelf: 'stretch',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: lightWhite
+    backgroundColor: lightWhite,
   },
   container: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   scrollContainer: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   secondaryButton: {
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: midGray
+    borderColor: midGray,
   },
   iconCircleContainer: {
     borderRadius: 80,
     overflow: 'hidden',
-    margin: 1
-  }
-})
+    margin: 1,
+  },
+  rowContainer: {
+    paddingTop: '3%',
+    paddingBottom: '3%',
+    width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: midGray,
+    backgroundColor: lightWhite,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  rowAvatarContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '15%',
+  },
+});
 
-export default styles
+export default styles;

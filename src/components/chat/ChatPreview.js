@@ -38,10 +38,11 @@ export default class extends React.Component {
     const { recipient, lastMessage, handlePress } = this.props;
     const recipientPhoto = recipient.photo ? { uri: recipient.photo.imageUrl } : undefined;
     return (
-      <TouchableOpacity style={styles.chatContainer} onPress={handlePress}>
-        <View style={styles.avatarContainer}>
+      <TouchableOpacity style={globalStyles.rowContainer} onPress={handlePress}>
+        <View style={globalStyles.rowAvatarContainer}>
           <Avatar size={52} imageSource={recipientPhoto} />
         </View>
+
         <View style={{ width: '75%' }}>
           <View style={styles.previewDetailsContainer}>
             <Text>
@@ -50,13 +51,13 @@ export default class extends React.Component {
               </Text>
               <Text style={{ color: midGray }}> @{recipient.username}</Text>
             </Text>
-            {lastMessage && (
+            {!!lastMessage && (
               <View>
                 <Text style={styles.timestamp}>{this.formattedDate}</Text>
               </View>
             )}
           </View>
-          {lastMessage && (
+          {!!lastMessage && (
             <Text style={styles.preview}>{cappedString(lastMessage.content, 85)}</Text>
           )}
         </View>
@@ -66,23 +67,6 @@ export default class extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  chatContainer: {
-    paddingTop: '3%',
-    paddingBottom: '3%',
-    width: '100%',
-    borderBottomWidth: 1,
-    borderBottomColor: midGray,
-    backgroundColor: lightWhite,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  avatarContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '15%',
-  },
   previewDetailsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
