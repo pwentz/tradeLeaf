@@ -31,7 +31,7 @@ export default class extends Component {
       'You will stop receiving matches for this offer. This action cannot be undone.',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Remove', onPress: onTrashPress(offer.id), style: 'destructive' },
+        { text: 'Remove', onPress: () => onTrashPress(offer.id), style: 'destructive' },
       ],
       { cancelable: true }
     );

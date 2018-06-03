@@ -58,6 +58,10 @@ class MatchBoardContainer extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ matchStack: nextProps.match.matches });
+  }
+
   handleSwipe = (matchIdx, currentUserExchangeOfferId) => {
     const { dispatch, actions, auth } = this.props;
     const acceptedOfferId = this.state.matchStack[matchIdx].offer.id;

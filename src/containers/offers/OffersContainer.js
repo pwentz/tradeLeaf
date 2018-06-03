@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-
-import globalStyles, { lightGray } from '../../styles';
 import { handleIfApiError, displayableError } from '../../api/utils';
-import { sortByRecency } from '../../util/list';
-import Offer from '../../components/offers/Offer';
+import OfferList from '../../components/offers/OfferList';
 
 class OffersContainer extends Component {
   get user() {
@@ -21,25 +17,31 @@ class OffersContainer extends Component {
     };
   }
 
-  handleDestroyOffer = (offerId) => {
-    return;
+  handleRemoveOffer = (offerId) => {
+    const { actions, dispatch, auth } = this.props;
+
+    this.setState({ inProgress: true }, () => {
+      dispatch(actions.user.removeOffer({ offerId, token: auth.authToken }))
+        .then(() => {
+          return dispatch(actions.user.getUser(auth.userId));
+        })
+        .then(() => this.setState({ inProgress: false }))
+        .catch((err) => {
+          handleIfApiError(err, (error) => {
+            this.setState({ inProgress: false, error });
+          });
+        });
+    });
   };
 
   render() {
-    if (this.state.inProgress) {
-      return <Text>Loading...</Text>;
-    }
-
     return (
-      <View style={[globalStyles.overlay, { backgroundColor: lightGray }]}>
-        {!!this.state.error && <Text style={globalStyles.errorText}>{this.state.error}</Text>}
-
-        <ScrollView contentContainerStyle={globalStyles.container}>
-          {sortByRecency(this.user.offers).map((offer) => (
-            <Offer key={offer.id} offer={offer} onTrashPress={this.handleDestroyOffer} />
-          ))}
-        </ScrollView>
-      </View>
+      <OfferList
+        offers={this.user.offers}
+        handleRemoveOffer={this.handleRemoveOffer}
+        inProgress={this.state.inProgress}
+        error={this.state.error && displayableError(this.state.error)}
+      />
     );
   }
 }
