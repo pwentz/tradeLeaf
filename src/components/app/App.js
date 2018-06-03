@@ -4,7 +4,7 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import LoginContainer from '../../containers/login/LoginContainer';
 import MatchBoardContainer from '../../containers/matchboard/MatchBoardContainer';
 import SearchContainer from '../../containers/search/SearchContainer';
-import NotificationContainer from '../../containers/notifications/NotificationContainer';
+import OffersContainer from '../../containers/offers/OffersContainer';
 import InboxContainer from '../../containers/chat/InboxContainer';
 import RegisterContainer from '../../containers/register/RegisterContainer';
 import AccountRequirementsContainer from '../../containers/register/AccountRequirementsContainer';
@@ -54,7 +54,7 @@ const App = StackNavigator({
       {
         Home: { screen: (props) => <MatchBoardContainer {...props} /> },
         Search: { screen: (props) => <SearchContainer {...props} /> },
-        Notifications: { screen: (props) => <NotificationContainer {...props} /> },
+        Offers: { screen: (props) => <OffersContainer {...props} /> },
         Inbox: { screen: (props) => <InboxContainer {...props} /> },
       },
       {

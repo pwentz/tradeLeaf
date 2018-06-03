@@ -149,4 +149,14 @@ export default class Api {
   closeChatSocket() {
     this.chatClient.close();
   }
+
+  removeOffer({ offerId, token }) {
+    return fetchRequest(
+      this.apiUrl,
+      `offers/${offerId}`,
+      { method: 'DELETE', credentials: 'include' },
+      null,
+      token
+    );
+  }
 }
