@@ -22,9 +22,7 @@ class OffersContainer extends Component {
 
     this.setState({ inProgress: true }, () => {
       dispatch(actions.user.removeOffer({ offerId, token: auth.authToken }))
-        .then(() => {
-          return dispatch(actions.user.getUser(auth.userId));
-        })
+        .then(() => dispatch(actions.user.getUser(auth.userId)))
         .then(() => this.setState({ inProgress: false }))
         .catch((err) => {
           handleIfApiError(err, (error) => {

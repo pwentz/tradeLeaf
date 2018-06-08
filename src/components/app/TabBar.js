@@ -33,7 +33,7 @@ export default class TabBar extends Component {
   render() {
     const routeIcons = {
       Home: 'home',
-      Search: 'plus',
+      Create: 'plus',
       Offers: 'list-unordered',
       Inbox: 'mail',
     };
