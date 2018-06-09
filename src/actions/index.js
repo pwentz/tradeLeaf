@@ -7,6 +7,7 @@ import { createTradeActions } from './trade';
 import { createTradeChatActions } from './tradeChat';
 import { createMessageActions } from './message';
 import { createChatSocketActions } from './chatSocket';
+import { createCategoryActions } from './category';
 
 export function createActions(api) {
   return {
@@ -18,6 +19,7 @@ export function createActions(api) {
     trade: createTradeActions(api),
     tradeChat: createTradeChatActions(api),
     message: createMessageActions(api),
-    chatSocket: createChatSocketActions(api)
-  }
+    chatSocket: createChatSocketActions(api),
+    category: createCategoryActions(api),
+  };
 }

@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Slider, Switch, Text, View, StyleSheet, TextInput } from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  Slider,
+  Switch,
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import globalStyles, { yellow, blue, midGray } from '../../styles';
 import PhotoUploader from '../photos/ProfilePhoto';
@@ -7,6 +16,7 @@ import PhotoUploader from '../photos/ProfilePhoto';
 export default class extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
     apiError: PropTypes.string,
     inProgress: PropTypes.bool,
   };
@@ -33,7 +43,7 @@ export default class extends Component {
         photo: null,
         description: '',
         radius: 100,
-        selectedCategory: null,
+        category: null,
       },
     };
   }
@@ -65,7 +75,42 @@ export default class extends Component {
     }));
   };
 
+  updateOfferCategory(categoryId) {
+    this.setState((prev) => ({
+      offer: { ...prev.offer, category: categoryId },
+    }));
+  }
+
+  renderCategories() {
+    const { offer } = this.state;
+    // set height based on element count so all can be rendered
+    const scrollViewHeight = this.props.categories.length / 3.5 * 100;
+    return (
+      <View style={[globalStyles.overlay, { backgroundColor: 'white' }]}>
+        <ScrollView
+          contentContainerStyle={[globalStyles.container, { width: `${scrollViewHeight}%` }]}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          {this.props.categories.map((category) => {
+            const isSelectedCategory = offer.category === category.id;
+            return (
+              <TouchableOpacity
+                key={category.id}
+                style={[styles.category, { backgroundColor: isSelectedCategory ? yellow : blue }]}
+                onPress={() => this.updateOfferCategory(category.id)}
+              >
+                <Text style={{ color: isSelectedCategory ? blue : 'white' }}>{category.name}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
+    );
+  }
+
   renderOfferForm() {
+    const { offer } = this.state;
     return (
       <View style={styles.offerFormContainer}>
         <View style={styles.photoUploaderContainer}>
@@ -86,6 +131,7 @@ export default class extends Component {
             onChangeText={this.updateOfferDescription}
           />
         </View>
+        {this.renderCategories()}
         <View style={styles.sliderContainer}>
           <Text style={{ textAlign: 'center' }}>Radius: {this.presentableRadius}</Text>
           <Slider
@@ -151,4 +197,15 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   offerDescriptionContainer: {},
+  categoryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  category: {
+    padding: '1.5%',
+    borderRadius: 25,
+    overflow: 'hidden',
+    height: '35%',
+  },
 });

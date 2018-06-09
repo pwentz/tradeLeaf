@@ -159,4 +159,8 @@ export default class Api {
       token
     );
   }
+
+  getCategories() {
+    return fetchRequest(this.apiUrl, `categories`, { method: 'GET', credentials: 'include' });
+  }
 }
