@@ -81,10 +81,30 @@ export default class extends Component {
     }));
   }
 
+  renderCategory(category, onPress) {
+    const { offer } = this.state;
+    const isSelectedCategory = offer.category === category.id;
+
+    const textStyles = isSelectedCategory
+      ? { color: blue, paddingTop: '2.5%' }
+      : { color: 'white' };
+
+    return (
+      <TouchableOpacity
+        key={category.id}
+        style={[styles.category, { backgroundColor: isSelectedCategory ? yellow : blue }]}
+        onPress={onPress}
+      >
+        <Text style={textStyles}>{category.name}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   renderCategories() {
     const { offer } = this.state;
     // set height based on element count so all can be rendered
-    const scrollViewHeight = this.props.categories.length / 3.5 * 100;
+    const scrollViewHeight = offer.category ? 100 : this.props.categories.length / 3.5 * 100;
+
     return (
       <View style={[globalStyles.overlay, { backgroundColor: 'white' }]}>
         <ScrollView
@@ -93,16 +113,13 @@ export default class extends Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.props.categories.map((category) => {
-            const isSelectedCategory = offer.category === category.id;
-            return (
-              <TouchableOpacity
-                key={category.id}
-                style={[styles.category, { backgroundColor: isSelectedCategory ? yellow : blue }]}
-                onPress={() => this.updateOfferCategory(category.id)}
-              >
-                <Text style={{ color: isSelectedCategory ? blue : 'white' }}>{category.name}</Text>
-              </TouchableOpacity>
-            );
+            if (offer.category) {
+              if (offer.category === category.id) {
+                return this.renderCategory(category, () => this.updateOfferCategory(null));
+              }
+              return;
+            }
+            return this.renderCategory(category, () => this.updateOfferCategory(category.id));
           })}
         </ScrollView>
       </View>
@@ -197,11 +214,6 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   offerDescriptionContainer: {},
-  categoryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
   category: {
     padding: '1.5%',
     borderRadius: 25,
