@@ -108,10 +108,13 @@ export default class extends Component {
     const scrollViewHeight = offer.category ? 100 : this.props.categories.length / 3.5 * 100;
 
     return (
-      <View style={[globalStyles.overlay, { backgroundColor: 'white' }]}>
-        <Text style={styles.categoryHeader}>Select Category:</Text>
+      <View style={[globalStyles.overlay, { backgroundColor: 'white', marginTop: '5%' }]}>
+        <Text style={styles.header}>Category:</Text>
         <ScrollView
-          contentContainerStyle={[globalStyles.container, { width: `${scrollViewHeight}%` }]}
+          contentContainerStyle={[
+            globalStyles.container,
+            { width: `${scrollViewHeight}%`, height: '50%' },
+          ]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
@@ -155,7 +158,7 @@ export default class extends Component {
         </View>
         {this.renderCategories()}
         <View style={styles.sliderContainer}>
-          <Text style={{ textAlign: 'center' }}>Radius: {this.presentableRadius}</Text>
+          <Text style={styles.header}>Radius: {this.presentableRadius}</Text>
           <Slider
             minimumValue={1}
             maximumValue={100}
@@ -216,19 +219,22 @@ const styles = StyleSheet.create({
     height: '85%',
     flexDirection: 'column',
     alignItems: 'center',
+    // justifyContent: 'space-between',
   },
   requestFormContainer: {
     height: '80%',
   },
   sliderContainer: {
     width: '80%',
+    marginBottom: '5%',
   },
   category: {
     padding: '1.5%',
     borderRadius: 25,
     overflow: 'hidden',
   },
-  categoryHeader: {
+  header: {
     textAlign: 'center',
+    fontSize: 16,
   },
 });
