@@ -30,49 +30,56 @@ function addListener(props) {
   return props;
 }
 
-const App = StackNavigator({
-  Login: {
-    screen: (props) => <LoginContainer {...addListener(props)} />,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
+const App = StackNavigator(
+  {
+    Login: {
+      screen: (props) => <LoginContainer {...addListener(props)} />,
+      navigationOptions: ({ navigation }) => ({
+        header: null,
+      }),
+    },
+    Register: {
+      screen: (props) => <RegisterContainer {...addListener(props)} />,
+      navigationOptions: ({ navigation }) => ({
+        header: null,
+      }),
+    },
+    AccountRequirements: {
+      screen: (props) => <AccountRequirementsContainer {...addListener(props)} />,
+      navigationOptions: ({ navigation }) => ({
+        header: null,
+      }),
+    },
+    MatchBoard: {
+      screen: TabNavigator(
+        {
+          Home: { screen: (props) => <MatchBoardContainer {...props} /> },
+          Create: { screen: (props) => <CreateContainer {...props} /> },
+          Offers: { screen: (props) => <OffersContainer {...props} /> },
+          Inbox: { screen: (props) => <InboxContainer {...props} /> },
+        },
+        {
+          initialRouteName: 'Home',
+          tabBarComponent: TabBarContainer,
+          tabBarPosition: 'top',
+        }
+      ),
+      navigationOptions: ({ navigation }) => ({
+        header: null,
+      }),
+    },
+    Chat: {
+      screen: (props) => <ChatContainer {...props} />,
+      navigationOptions: ({ navigation }) => ({
+        header: null,
+      }),
+    },
   },
-  Register: {
-    screen: (props) => <RegisterContainer {...addListener(props)} />,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
-  },
-  AccountRequirements: {
-    screen: (props) => <AccountRequirementsContainer {...addListener(props)} />,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
-  },
-  MatchBoard: {
-    screen: TabNavigator(
-      {
-        Home: { screen: (props) => <MatchBoardContainer {...props} /> },
-        Create: { screen: (props) => <CreateContainer {...props} /> },
-        Offers: { screen: (props) => <OffersContainer {...props} /> },
-        Inbox: { screen: (props) => <InboxContainer {...props} /> },
-      },
-      {
-        initialRouteName: 'Home',
-        tabBarComponent: TabBarContainer,
-        tabBarPosition: 'top',
-      }
-    ),
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
-  },
-  Chat: {
-    screen: (props) => <ChatContainer {...props} />,
-    navigationOptions: ({ navigation }) => ({
-      header: null,
-    }),
-  },
-});
+  {
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  }
+);
 
 export default App;
