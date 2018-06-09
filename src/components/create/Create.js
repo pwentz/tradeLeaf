@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Slider, Switch, Text, View, StyleSheet } from 'react-native';
+import { Slider, Switch, Text, View, StyleSheet, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import globalStyles, { yellow, blue, midGray } from '../../styles';
 import PhotoUploader from '../photos/ProfilePhoto';
@@ -31,7 +31,9 @@ export default class extends Component {
       onRequestForm: false,
       offer: {
         photo: null,
+        description: '',
         radius: 100,
+        selectedCategory: null,
       },
     };
   }
@@ -57,6 +59,12 @@ export default class extends Component {
     }));
   };
 
+  updateOfferDescription = (description) => {
+    this.setState((prev) => ({
+      offer: { ...prev.offer, description },
+    }));
+  };
+
   renderOfferForm() {
     return (
       <View style={styles.offerFormContainer}>
@@ -66,16 +74,24 @@ export default class extends Component {
             upload={this.onPhotoUpload}
             uploadedPhoto={this.state.offer.photo}
             apiError={this.props.apiError}
-            isPhotoUploaded={!!this.state.offer.photo}
             avatarSize={120}
           />
         </View>
+        <View style={styles.offerDescriptionContainer}>
+          <Text style={{ textAlign: 'center' }}>Description</Text>
+          <TextInput
+            style={globalStyles.input}
+            autoCapitalize="none"
+            value={this.state.offer.description}
+            onChangeText={this.updateOfferDescription}
+          />
+        </View>
         <View style={styles.sliderContainer}>
-          <Text>Radius: {this.presentableRadius}</Text>
+          <Text style={{ textAlign: 'center' }}>Radius: {this.presentableRadius}</Text>
           <Slider
             minimumValue={1}
             maximumValue={100}
-            value={100}
+            value={this.state.offer.radius}
             minimumTrackTintColor={blue}
             maximumTrackTintColor={midGray}
             onValueChange={this.updateOfferRadius}
@@ -134,4 +150,5 @@ const styles = StyleSheet.create({
   sliderContainer: {
     width: '80%',
   },
+  offerDescriptionContainer: {},
 });
