@@ -81,13 +81,15 @@ export default class extends Component {
     }));
   }
 
+  handleFocus = (inputIdx) => {
+    return;
+  };
+
   renderCategory(category, onPress) {
     const { offer } = this.state;
     const isSelectedCategory = offer.category === category.id;
 
-    const textStyles = isSelectedCategory
-      ? { color: blue, paddingTop: '2.5%' }
-      : { color: 'white' };
+    const textStyles = isSelectedCategory ? { color: blue, fontSize: 18 } : { color: 'white' };
 
     return (
       <TouchableOpacity
@@ -107,6 +109,7 @@ export default class extends Component {
 
     return (
       <View style={[globalStyles.overlay, { backgroundColor: 'white' }]}>
+        <Text style={styles.categoryHeader}>Select Category:</Text>
         <ScrollView
           contentContainerStyle={[globalStyles.container, { width: `${scrollViewHeight}%` }]}
           horizontal={true}
@@ -130,6 +133,17 @@ export default class extends Component {
     const { offer } = this.state;
     return (
       <View style={styles.offerFormContainer}>
+        <View>
+          <TextInput
+            style={globalStyles.liteInput}
+            autoCapitalize="none"
+            value={this.state.offer.description}
+            onChangeText={this.updateOfferDescription}
+            placeholder="Description"
+            multiline={true}
+            maxLength={80}
+          />
+        </View>
         <View style={styles.photoUploaderContainer}>
           <PhotoUploader
             inProgress={this.props.inProgress}
@@ -137,15 +151,6 @@ export default class extends Component {
             uploadedPhoto={this.state.offer.photo}
             apiError={this.props.apiError}
             avatarSize={120}
-          />
-        </View>
-        <View style={styles.offerDescriptionContainer}>
-          <Text style={{ textAlign: 'center' }}>Description</Text>
-          <TextInput
-            style={globalStyles.input}
-            autoCapitalize="none"
-            value={this.state.offer.description}
-            onChangeText={this.updateOfferDescription}
           />
         </View>
         {this.renderCategories()}
@@ -165,7 +170,13 @@ export default class extends Component {
   }
 
   renderRequestForm() {
-    return <View style={styles.requestFormContainer} />;
+    return (
+      <View style={styles.requestFormContainer}>
+        <TouchableOpacity style={globalStyles.actionButtonWide}>
+          <Text style={globalStyles.actionButtonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   render() {
@@ -194,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: '20%',
+    height: '15%',
   },
   photoUploaderContainer: {
     flexDirection: 'row',
@@ -202,9 +213,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   offerFormContainer: {
-    height: '80%',
+    height: '85%',
     flexDirection: 'column',
-    justifyContent: 'space-around',
     alignItems: 'center',
   },
   requestFormContainer: {
@@ -213,11 +223,12 @@ const styles = StyleSheet.create({
   sliderContainer: {
     width: '80%',
   },
-  offerDescriptionContainer: {},
   category: {
     padding: '1.5%',
     borderRadius: 25,
     overflow: 'hidden',
-    height: '35%',
+  },
+  categoryHeader: {
+    textAlign: 'center',
   },
 });
