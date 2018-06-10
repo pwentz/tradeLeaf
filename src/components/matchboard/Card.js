@@ -1,15 +1,9 @@
-import React, { Component} from 'react';
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Octicons';
 import LightboxImage from '../common/LightboxImage';
 
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image
-} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import { secureImageSource } from '../../api/utils';
 
@@ -19,8 +13,8 @@ import globalStyles, {
   yellow,
   blue,
   windowWidth,
-  windowHeight
-} from '../../styles/index'
+  windowHeight,
+} from '../../styles/index';
 
 import Avatar from '../common/Avatar';
 
@@ -34,60 +28,51 @@ export default class Card extends Component {
     distance: PropTypes.number.isRequired,
     onLightboxOpen: PropTypes.func,
     onLightboxClose: PropTypes.func,
-    apiError: PropTypes.string
-  }
+    apiError: PropTypes.string,
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      imageBlur: 10
-    }
+      imageBlur: 10,
+    };
   }
 
   render() {
-    const { user, offer, onAccept, onDecline, distance, apiError, inProgress,
-            onLightboxOpen, onLightboxClose } = this.props;
-    const userPhoto = user.photo ? { uri: user.photo.imageUrl } : undefined
-    const milesAway = distance <= 0 ? '∞' : String(distance)
+    const {
+      user,
+      offer,
+      onAccept,
+      onDecline,
+      distance,
+      apiError,
+      inProgress,
+      onLightboxOpen,
+      onLightboxClose,
+    } = this.props;
+    const userPhoto = user.photo ? { uri: user.photo.imageUrl } : undefined;
+    const milesAway = distance <= 0 ? '∞' : String(distance);
 
     return (
       <View style={globalStyles.container}>
-        {!!apiError &&
-          <Text style={globalStyles.errorText}>
-            {apiError}
-          </Text>
-        }
+        {!!apiError && <Text style={globalStyles.errorText}>{apiError}</Text>}
 
-        <View style={{height: 20}}></View>
+        <View style={{ height: 20 }} />
         <View style={styles.cardContainer}>
-
           <View style={styles.userContainer}>
-            <Avatar
-              size={90}
-              imageSource={userPhoto}
-            />
+            <Avatar size={90} imageSource={userPhoto} />
 
             <View style={styles.userDataContainer}>
-              <Text>
-                {'@' + user.username}
-              </Text>
-              <Text>
-                Simple Logo
-              </Text>
-              <Text>
-                {milesAway} miles away
-              </Text>
+              <Text>{'@' + user.username}</Text>
+              <Text>Simple Logo</Text>
+              <Text>{milesAway} miles away</Text>
             </View>
           </View>
 
           <View style={styles.tradeContainer}>
             <View style={styles.offerDetails}>
-              <Text>
-                offer:
-              </Text>
-              <Text>
-                {offer.description}
-              </Text>
+              <Text>offer:</Text>
+              <Text>{offer.description}</Text>
 
               <View style={styles.offerImageContainer}>
                 <LightboxImage
@@ -96,100 +81,55 @@ export default class Card extends Component {
                   swipeToDismiss={false}
                 >
                   <Image
-                    source={secureImageSource({uri: offer.photo.imageUrl})}
+                    source={secureImageSource({ uri: offer.photo.imageUrl })}
                     style={styles.offerImage}
                     blurRadius={this.state.imageBlur}
-                    onLoadEnd={() => this.setState({imageBlur: 0})}
+                    onLoadEnd={() => this.setState({ imageBlur: 0 })}
                   />
                 </LightboxImage>
               </View>
-
             </View>
             <View style={styles.needContainer}>
-              <Text>
-                need:
-              </Text>
-              <Text>
-                {offer.request.description}
-              </Text>
+              <Text>need:</Text>
+              <Text>{offer.request.description}</Text>
             </View>
           </View>
 
           <View style={styles.cardActionContainer}>
+            <TouchableOpacity onPress={onDecline}>
+              <Icon name="x" size={38} color={blue} />
+            </TouchableOpacity>
 
-            <View style={styles.mailIconContainer}>
-              <TouchableOpacity>
-                <Icon
-                  name='mail'
-                  size={38}
-                  color={midGray}
-                >
-                </Icon>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              style={styles.mainButton}
-              onPress={onAccept}
-            ></TouchableOpacity>
-
-            <View style={styles.xIconContainer}>
-              <TouchableOpacity onPress={onDecline}>
-                <Icon
-                  name='x'
-                  size={38}
-                  color={blue}
-                >
-                </Icon>
-              </TouchableOpacity>
-            </View>
-
+            <TouchableOpacity onPress={onAccept}>
+              <Icon name="check" size={38} color={yellow} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   cardContainer: {
-    height: (windowHeight * 0.7),
-    width: (windowWidth * 0.85),
+    height: windowHeight * 0.7,
+    width: windowWidth * 0.85,
     backgroundColor: darkWhite,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: midGray,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   cardActionContainer: {
     height: '14.3%',
-    width: '100%',
+    width: '85%',
     borderTopWidth: 1,
     borderTopColor: midGray,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  mainButton: {
-    height: 42,
-    width: 42,
-    borderRadius: 100,
-    borderWidth: 4,
-    borderColor: yellow
-  },
-  xIconContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    marginRight: 20
-  },
-  mailIconContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginLeft: 20
+    justifyContent: 'space-between',
   },
   tradeContainer: {
     width: '75%',
@@ -198,7 +138,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   needContainer: {
     width: '100%',
@@ -209,35 +149,35 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   userContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '82%'
+    width: '82%',
   },
   userDataContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    flex: 0.85
+    flex: 0.85,
   },
   offerDetails: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    height: '66%'
+    height: '66%',
   },
   offerImageContainer: {
     width: '100%',
     height: '45%',
     overflow: 'hidden',
-    marginBottom: 5
+    marginBottom: 5,
   },
   offerImage: {
     width: '100%',
     aspectRatio: 2,
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });

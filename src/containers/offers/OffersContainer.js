@@ -21,10 +21,8 @@ class OffersContainer extends Component {
     const { actions, dispatch, auth } = this.props;
 
     this.setState({ inProgress: true }, () => {
-      dispatch(actions.user.removeOffer({ offerId, token: auth.authToken }))
-        .then(() => {
-          return dispatch(actions.user.getUser(auth.userId));
-        })
+      dispatch(actions.offer.removeOffer({ offerId, token: auth.authToken }))
+        .then(() => dispatch(actions.user.getUser(auth.userId)))
         .then(() => this.setState({ inProgress: false }))
         .catch((err) => {
           handleIfApiError(err, (error) => {

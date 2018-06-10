@@ -42,13 +42,15 @@ export default class extends Component {
         {!!error && <Text style={globalStyles.errorText}>{error}</Text>}
 
         <ScrollView contentContainerStyle={globalStyles.container}>
-          {sortByRecency(this.state.offers).map((offer) => (
-            <Offer
-              key={offer.id}
-              offer={offer}
-              onTrashPress={() => this.handleRemoveOffer(offer.id)}
-            />
-          ))}
+          {sortByRecency(this.state.offers)
+            .reverse()
+            .map((offer) => (
+              <Offer
+                key={offer.id}
+                offer={offer}
+                onTrashPress={() => this.handleRemoveOffer(offer.id)}
+              />
+            ))}
         </ScrollView>
       </View>
     );

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Text, View, Alert } from 'react-native';
+import { Text, View, Alert, ActivityIndicator } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-deck-swiper';
-import { lightGray } from '../../styles/index';
-
+import globalStyles, { lightGray, blue } from '../../styles/index';
 import { handleIfApiError, displayableError } from '../../api/utils';
-
 import Card from '../../components/matchboard/Card';
 
 class MatchBoardContainer extends Component {
@@ -208,8 +206,17 @@ class MatchBoardContainer extends Component {
   };
 
   render() {
-    const { inProgress } = this.state;
-    return inProgress ? <Text>Loading...</Text> : this.renderMatchStack();
+    if (this.state.inProgress) {
+      return (
+        <View style={{ height: '100%', opacity: 0.5 }}>
+          <View style={globalStyles.loadingOverlay}>
+            <ActivityIndicator size="large" color={blue} />
+          </View>
+        </View>
+      );
+    }
+
+    return this.renderMatchStack();
   }
 }
 
