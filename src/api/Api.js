@@ -163,4 +163,24 @@ export default class Api {
   getCategories() {
     return fetchRequest(this.apiUrl, `categories`, { method: 'GET', credentials: 'include' });
   }
+
+  createOffer({ categoryId, photoId, description, radius, token }) {
+    return fetchRequest(
+      this.apiUrl,
+      'offers',
+      { method: 'POST', credentials: 'include' },
+      { categoryId, photoId, description, radius },
+      token
+    );
+  }
+
+  createRequest({ offerId, categoryId, description, token }) {
+    return fetchRequest(
+      this.apiUrl,
+      'requests',
+      { method: 'POST', credentials: 'include' },
+      { offerId, categoryId, description },
+      token
+    );
+  }
 }

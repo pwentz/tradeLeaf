@@ -19,10 +19,6 @@ class MockApi {
   getUser(userId) {
     return Promise.resolve(sampleUser);
   }
-
-  removeOffer({ offerId, token }) {
-    return Promise.resolve();
-  }
 }
 
 const mockDispatch = new MockDispatch();
@@ -44,24 +40,6 @@ describe('user actions', () => {
           ]);
 
           expect(res).to.deep.equal(sampleUser);
-          done();
-        })
-        .catch(done);
-    });
-  });
-
-  describe('REMOVE_OFFER', () => {
-    it('sends request to delete offer', (done) => {
-      const token = 'abc-123';
-      const offerId = 1;
-      mockDispatch
-        .dispatch(actions.removeOffer({ offerId, token }))
-        .then(() => {
-          expect(mockDispatch.actions).to.deep.equal([
-            { type: userActionTypes.REMOVE_OFFER, offerId: 1 },
-            { type: userActionTypes.REMOVE_OFFER_SUCCESS },
-          ]);
-
           done();
         })
         .catch(done);

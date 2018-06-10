@@ -6,9 +6,6 @@ export const userActionTypes = {
   GET_USER_FAILURE: 'GET_USER_FAILURE',
   IDENTIFY_USER_AS_ONLINE: 'IDENTIFY_USER_AS_ONLINE',
   IDENTIFY_USER_AS_OFFLINE: 'IDENTIFY_USER_AS_OFFLINE',
-  REMOVE_OFFER: 'REMOVE_OFFER',
-  REMOVE_OFFER_SUCCESS: 'REMOVE_OFFER_SUCCESS',
-  REMOVE_OFFER_FAILURE: 'REMOVE_OFFER_FAILURE',
 };
 
 export function createUserActions(api) {
@@ -40,25 +37,9 @@ export function createUserActions(api) {
     };
   }
 
-  function removeOffer({ offerId, token }) {
-    return (dispatch) => {
-      dispatch(createAction(userActionTypes.REMOVE_OFFER, { offerId }));
-      return api
-        .removeOffer({ offerId, token })
-        .then(() => {
-          dispatch(createAction(userActionTypes.REMOVE_OFFER_SUCCESS));
-        })
-        .catch((err) => {
-          dispatch(createAction(userActionTypes.REMOVE_OFFER_FAILURE, { err }));
-          throw err;
-        });
-    };
-  }
-
   return {
     getUser,
     identifyUserAsOnline,
     identifyUserAsOffline,
-    removeOffer,
   };
 }
