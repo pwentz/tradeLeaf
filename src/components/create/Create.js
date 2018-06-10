@@ -8,6 +8,7 @@ import {
   View,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import globalStyles, { yellow, blue, midGray } from '../../styles';
@@ -234,8 +235,18 @@ export default class extends Component {
   }
 
   render() {
+    const { inProgress, apiError } = this.props;
+    const containerStyles = inProgress ? [styles.container, { opacity: 0.5 }] : styles.container;
     return (
-      <View style={styles.container}>
+      <View style={containerStyles}>
+        {!!apiError && <Text style={globalStyles.errorText}>{apiError}</Text>}
+
+        {inProgress && (
+          <View style={globalStyles.loadingOverlay}>
+            <ActivityIndicator size="large" color={blue} />
+          </View>
+        )}
+
         <View style={styles.switchContainer}>
           <Text style={styles.header}>Offer</Text>
           <Switch

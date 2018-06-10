@@ -63,7 +63,7 @@ class CreateContainer extends Component {
           )
           .catch((err) => {
             handleIfApiError(err, (error) => {
-              this.setState({ error });
+              this.setState({ inProgress: false, error });
               reject(error);
             });
           })

@@ -102,6 +102,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '15%',
   },
+  loadingOverlay: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 99,
+  },
 });
 
 export default styles;
