@@ -45,6 +45,10 @@ export default class extends Component {
         radius: 100,
         category: null,
       },
+      request: {
+        description: '',
+        category: null,
+      },
     };
   }
 
@@ -75,21 +79,29 @@ export default class extends Component {
     }));
   };
 
-  updateOfferCategory(categoryId) {
+  updateOfferCategory = (categoryId) => {
     this.setState((prev) => ({
       offer: { ...prev.offer, category: categoryId },
     }));
-  }
-
-  handleFocus = (inputIdx) => {
-    return;
   };
 
-  renderCategory(category, onPress) {
-    const { offer } = this.state;
-    const isSelectedCategory = offer.category === category.id;
+  updateRequestDescription = (description) => {
+    this.setState((prev) => ({
+      request: {
+        ...prev.request,
+        description,
+      },
+    }));
+  };
 
-    const textStyles = isSelectedCategory ? { color: blue, fontSize: 18 } : { color: 'white' };
+  updateRequestCategory = (categoryId) => {
+    this.setState((prev) => ({
+      request: { ...prev.request, category: categoryId },
+    }));
+  };
+
+  _renderCategory(category, selectedCategory, onPress) {
+    const isSelectedCategory = selectedCategory === category.id;
 
     return (
       <TouchableOpacity
@@ -97,15 +109,16 @@ export default class extends Component {
         style={[styles.category, { backgroundColor: isSelectedCategory ? yellow : blue }]}
         onPress={onPress}
       >
-        <Text style={textStyles}>{category.name}</Text>
+        <Text style={isSelectedCategory ? styles.selectedCategoryText : { color: 'white' }}>
+          {category.name}
+        </Text>
       </TouchableOpacity>
     );
   }
 
-  renderCategories() {
-    const { offer } = this.state;
+  renderCategories(updateCategory, selectedCategory) {
     // set height based on element count so all can be rendered
-    const scrollViewHeight = offer.category ? 100 : this.props.categories.length / 3.5 * 100;
+    const scrollViewHeight = selectedCategory ? 100 : this.props.categories.length / 3.5 * 100;
 
     return (
       <View style={[globalStyles.overlay, { backgroundColor: 'white', marginTop: '5%' }]}>
@@ -119,13 +132,15 @@ export default class extends Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.props.categories.map((category) => {
-            if (offer.category) {
-              if (offer.category === category.id) {
-                return this.renderCategory(category, () => this.updateOfferCategory(null));
+            if (selectedCategory) {
+              if (selectedCategory === category.id) {
+                return this._renderCategory(category, selectedCategory, () => updateCategory(null));
               }
               return;
             }
-            return this.renderCategory(category, () => this.updateOfferCategory(category.id));
+            return this._renderCategory(category, selectedCategory, () =>
+              updateCategory(category.id)
+            );
           })}
         </ScrollView>
       </View>
@@ -142,7 +157,7 @@ export default class extends Component {
             autoCapitalize="none"
             value={this.state.offer.description}
             onChangeText={this.updateOfferDescription}
-            placeholder="Description"
+            placeholder="describe your thing"
             multiline={true}
             maxLength={80}
           />
@@ -156,9 +171,13 @@ export default class extends Component {
             avatarSize={120}
           />
         </View>
-        {this.renderCategories()}
+        {this.renderCategories(this.updateOfferCategory, this.state.offer.category)}
         <View style={styles.sliderContainer}>
-          <Text style={styles.header}>Radius: {this.presentableRadius}</Text>
+          <Text style={styles.header}>
+            {Math.floor(this.state.offer.radius) === 100
+              ? 'I can mail this'
+              : `I can travel ${this.presentableRadius} to trade this`}
+          </Text>
           <Slider
             minimumValue={1}
             maximumValue={100}
@@ -175,8 +194,20 @@ export default class extends Component {
   renderRequestForm() {
     return (
       <View style={styles.requestFormContainer}>
+        <View>
+          <TextInput
+            style={globalStyles.liteInput}
+            autoCapitalize="none"
+            value={this.state.request.description}
+            onChangeText={this.updateRequestDescription}
+            placeholder="describe what you want"
+            multiline={true}
+            maxLength={80}
+          />
+        </View>
+        {this.renderCategories(this.updateRequestCategory, this.state.request.category)}
         <TouchableOpacity style={globalStyles.actionButtonWide}>
-          <Text style={globalStyles.actionButtonText}>Submit</Text>
+          <Text style={[globalStyles.actionButtonText, styles.submitButton]}>Submit</Text>
         </TouchableOpacity>
       </View>
     );
@@ -184,9 +215,9 @@ export default class extends Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: 'white' }}>
+      <View style={styles.container}>
         <View style={styles.switchContainer}>
-          <Text>Offer</Text>
+          <Text style={styles.header}>Offer</Text>
           <Switch
             value={this.state.onRequestForm}
             onValueChange={this.switchScreens}
@@ -194,7 +225,7 @@ export default class extends Component {
             tintColor={blue}
             thumbTintColor={yellow}
           />
-          <Text>Request</Text>
+          <Text style={styles.header}>Request</Text>
         </View>
 
         {this.state.onRequestForm ? this.renderRequestForm() : this.renderOfferForm()}
@@ -204,11 +235,17 @@ export default class extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    backgroundColor: 'white',
+  },
   switchContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     height: '15%',
+    marginRight: '20%',
+    marginLeft: '20%',
   },
   photoUploaderContainer: {
     flexDirection: 'row',
@@ -219,10 +256,11 @@ const styles = StyleSheet.create({
     height: '85%',
     flexDirection: 'column',
     alignItems: 'center',
-    // justifyContent: 'space-between',
   },
   requestFormContainer: {
-    height: '80%',
+    height: '60%',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   sliderContainer: {
     width: '80%',
@@ -236,5 +274,13 @@ const styles = StyleSheet.create({
   header: {
     textAlign: 'center',
     fontSize: 16,
+  },
+  selectedCategoryText: {
+    color: blue,
+    fontSize: 18,
+    padding: '1%',
+  },
+  submitButton: {
+    marginBottom: '10%',
   },
 });
