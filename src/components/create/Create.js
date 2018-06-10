@@ -35,9 +35,14 @@ export default class extends Component {
     return `${radius} miles`;
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
+  get canSubmit() {
+    const { offer, request } = this.state;
+
+    return offer.photo && offer.category && request.category;
+  }
+
+  get initialState() {
+    return {
       onRequestForm: false,
       offer: {
         photo: null,
@@ -50,6 +55,11 @@ export default class extends Component {
         category: null,
       },
     };
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
   }
 
   switchScreens = () => {
@@ -98,6 +108,12 @@ export default class extends Component {
     this.setState((prev) => ({
       request: { ...prev.request, category: categoryId },
     }));
+  };
+
+  onSubmit = () => {
+    const { offer, request } = this.state;
+
+    this.props.onSubmit(offer, request).then(() => this.setState(this.initialState));
   };
 
   _renderCategory(category, selectedCategory, onPress) {
@@ -206,7 +222,11 @@ export default class extends Component {
           />
         </View>
         {this.renderCategories(this.updateRequestCategory, this.state.request.category)}
-        <TouchableOpacity style={globalStyles.actionButtonWide}>
+        <TouchableOpacity
+          style={globalStyles.actionButtonWide}
+          disabled={!this.canSubmit}
+          onPress={this.onSubmit}
+        >
           <Text style={[globalStyles.actionButtonText, styles.submitButton]}>Submit</Text>
         </TouchableOpacity>
       </View>

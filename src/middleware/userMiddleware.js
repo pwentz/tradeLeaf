@@ -4,6 +4,7 @@ import { authActionTypes } from '../actions/auth';
 import { locationActionTypes } from '../actions/location';
 import { userActionTypes } from '../actions/user';
 import { offerActionTypes } from '../actions/offer';
+import { requestActionTypes } from '../actions/request';
 
 export function createUserMiddleware(actions) {
   const userActions = actions.user;
@@ -46,6 +47,10 @@ export function createUserMiddleware(actions) {
           return;
 
         case offerActionTypes.OFFER_REMOVE_OFFER_SUCCESS:
+          dispatch(matchActions.getMatches(state.auth.authToken));
+          return;
+
+        case requestActionTypes.REQUEST_CREATE_REQUEST_SUCCESS:
           dispatch(matchActions.getMatches(state.auth.authToken));
           return;
 

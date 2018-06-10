@@ -27,8 +27,48 @@ class CreateContainer extends Component {
     });
   }
 
-  handleSubmit = () => {
-    return;
+  handleSubmit = (offer, request) => {
+    const { actions, dispatch, auth, navigation } = this.props;
+
+    return new Promise((resolve, reject) => {
+      this.setState({ inProgress: true }, () =>
+        dispatch(actions.photo.uploadAndCreatePhoto({ uri: offer.photo.imageUrl }))
+          .then((photoId) =>
+            dispatch(
+              actions.offer.createOffer({
+                photoId,
+                categoryId: offer.category,
+                description: offer.description,
+                radius: offer.radius,
+                token: auth.authToken,
+              })
+            )
+          )
+          .then((offerId) =>
+            dispatch(
+              actions.request.createRequest({
+                offerId,
+                categoryId: request.category,
+                description: request.description,
+                token: auth.authToken,
+              })
+            )
+          )
+          .then(() => dispatch(actions.user.getUser(auth.userId)))
+          .then(() =>
+            this.setState({ inProgress: false }, () => {
+              navigation.navigate('Offers');
+              resolve();
+            })
+          )
+          .catch((err) => {
+            handleIfApiError(err, (error) => {
+              this.setState({ error });
+              reject(error);
+            });
+          })
+      );
+    });
   };
 
   render() {
